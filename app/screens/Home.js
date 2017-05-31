@@ -10,10 +10,8 @@ import {
 
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { SearchBar } from 'react-native-elements'
+import { SearchBar } from 'react-native-elements';
 
-
-import SearchResult from '../screens/SearchResult';
 
 class HomeScreen extends React.Component {
   constructor(props) {
@@ -30,25 +28,7 @@ class HomeScreen extends React.Component {
   };
 
   setSearchText(query){
-    if (!query){
-      return
-    }
-    that = this;
-    fetch("https://souka.io/vocab/entry/?word="+query, {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-    }).then((response) => response.json())
-      .then((data) => {
-        console.log(that, data);
-        if (data.length != 0){
-          this.setState({searchResult: data});
-        }
-      })
-      .catch((error) => {
-        console.warn(error);
-      });
+    console.log('search: ', query)
   };
   searchStart(){
     this.setState({searching: true})
@@ -71,15 +51,7 @@ class HomeScreen extends React.Component {
             onFocus={() => this.searchStart()}
             onBlur={() => this.searchEnd()}
   	      />
-          {this.state.searching &&
-            <SearchResult entries={this.state.searchResult} onPress={this.resetHome}/>
-          }
-          {!this.state.searching &&
-            <Button
-              onPress={() => this.props.navigation.navigate('Profile')}
-              title="Go to profile"
-            />
-          }
+
         </View>
     );
   }

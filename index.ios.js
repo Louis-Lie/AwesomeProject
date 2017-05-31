@@ -17,14 +17,14 @@ import {
   TabNavigator,
 } from 'react-navigation';
 
-import HomeStack from './app/screens/Home';
+import HomeScreen from './app/screens/Home';
 import ReadScreen from './app/screens/Read';
 import ForumScreen from './app/screens/Forum';
 import ProfileScreen from './app/screens/Profile';
 
 const App = TabNavigator({
   Home: {
-    screen: HomeStack,
+    screen: HomeScreen,
   },
   Read: {
     screen: ReadScreen,
