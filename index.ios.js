@@ -12,42 +12,29 @@ import {
   View
 } from 'react-native';
 
-export default class AwesomeProject extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
-    );
-  }
-}
+import {
+  StackNavigator,
+  TabNavigator,
+} from 'react-navigation';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+import HomeStack from './app/screens/Home';
+import ReadScreen from './app/screens/Read';
+import ForumScreen from './app/screens/Forum';
+import ProfileScreen from './app/screens/Profile';
+
+const App = TabNavigator({
+  Home: {
+    screen: HomeStack,
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  Read: {
+    screen: ReadScreen,
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  Forum: {
+    screen: ForumScreen,
   },
+  Profile: {
+    screen: ProfileScreen,
+  }
 });
 
-AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
+AppRegistry.registerComponent('AwesomeProject', () => App);
