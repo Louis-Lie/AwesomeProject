@@ -13,18 +13,17 @@ import {
 } from 'react-native';
 
 import {
-  StackNavigator,
   TabNavigator,
 } from 'react-navigation';
 
-import HomeScreen from './app/screens/Home';
+import HomeStack from './app/screens/Home';
 import ReadScreen from './app/screens/Read';
 import ForumScreen from './app/screens/Forum';
 import ProfileScreen from './app/screens/Profile';
 
 const App = TabNavigator({
   Home: {
-    screen: HomeScreen,
+    screen: HomeStack,
   },
   Read: {
     screen: ReadScreen,

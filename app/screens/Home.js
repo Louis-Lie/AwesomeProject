@@ -8,6 +8,10 @@ import {
   Keyboard,
 } from 'react-native';
 
+import {
+  StackNavigator,
+} from 'react-navigation';
+
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { SearchBar } from 'react-native-elements';
@@ -20,11 +24,7 @@ class HomeScreen extends React.Component {
   };
 
   static navigationOptions = {
-    tabBarLabel: '单词',
-    // Note: By default the icon is only shown on iOS. Search the showIcon option below.
-    tabBarIcon: ({ tintColor }) => (
-      <Icon name="clone" size={24} color={tintColor} />
-    ),
+    title: '单词'
   };
 
   setSearchText(query){
@@ -39,6 +39,7 @@ class HomeScreen extends React.Component {
   }
 
   render() {
+    const { navigate } = this.props.navigation;
     return (
         <View>
           <SearchBar
@@ -56,5 +57,8 @@ class HomeScreen extends React.Component {
     );
   }
 }
+const HomeStack = StackNavigator({
+  Home: { screen: HomeScreen },
+});
 
-export default HomeScreen;
+export default HomeStack;
