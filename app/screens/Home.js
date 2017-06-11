@@ -24,7 +24,10 @@ class HomeScreen extends React.Component {
   };
 
   static navigationOptions = {
-    title: '单词'
+    title: '单词',
+    headerStyle: {
+        height: 50,
+    }
   };
 
   setSearchText(query){
