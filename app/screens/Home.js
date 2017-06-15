@@ -26,7 +26,11 @@ class HomeScreen extends React.Component {
   };
 
   static navigationOptions = {
-    title: '单词',
+    title: "单词",
+    tabBarLabel: '单词',
+    tabBarIcon: ({ tintColor }) => (
+      <Icon name="clone" size={24} color={tintColor} />
+    ),
     headerStyle: {
         height: 54,
     }
@@ -46,9 +50,7 @@ class HomeScreen extends React.Component {
     })
     .then((response) => response.json())
     .then((data) => {
-      if (data.length != 0){
-        this.setState({searchResult: data});
-      }
+      this.setState({searchResult: data});
     })
     .catch((error) => {
       console.warn(error);
@@ -77,7 +79,7 @@ class HomeScreen extends React.Component {
             onFocus={() => this.searchStart()}
             onBlur={() => this.searchEnd()}
   	      />
-          <SearchResult dataSource={this.state.searchResult} />          
+          <SearchResult dataSource={this.state.searchResult} />
         </View>
     );
   }
