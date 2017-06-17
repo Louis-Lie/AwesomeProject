@@ -8,7 +8,7 @@ import { List, ListItem } from 'react-native-elements'
 
 
 class SearchResult extends React.Component {
-  renderRow (item) {
+  renderRow(item) {
     let title;
     if (item.word){
       title = `${item.kana} 【${item.word}】`;
@@ -26,7 +26,7 @@ class SearchResult extends React.Component {
     )
   }
 
-  render () {
+  render() {
     return (
       <List>
         {

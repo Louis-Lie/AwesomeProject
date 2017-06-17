@@ -17,6 +17,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {  List, ListItem, SearchBar } from 'react-native-elements';
 
 import SearchResult from '../components/searchResult'
+import Course from '../components/Course'
 
 
 class HomeScreen extends React.Component {
@@ -79,7 +80,8 @@ class HomeScreen extends React.Component {
             onFocus={() => this.searchStart()}
             onBlur={() => this.searchEnd()}
   	      />
-          <SearchResult dataSource={this.state.searchResult} />
+          <SearchResult dataSource={this.state.searchResult} style={styles.searchResult}/>
+          <Course />
         </View>
     );
   }
@@ -88,4 +90,10 @@ const HomeStack = StackNavigator({
   Home: { screen: HomeScreen },
 });
 
+const styles = StyleSheet.create({
+  searchResult: {
+    marginTop:-20,
+    height: 0
+  }
+});
 export default HomeStack;

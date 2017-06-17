@@ -20,6 +20,8 @@ import HomeStack from './app/screens/Home';
 import ReadScreen from './app/screens/Read';
 import ForumScreen from './app/screens/Forum';
 import ProfileScreen from './app/screens/Profile';
+import ReactNativeLogin from './app/components/App';
+
 
 const App = TabNavigator({
   Home: {
@@ -36,4 +38,4 @@ const App = TabNavigator({
   }
 });
 
-AppRegistry.registerComponent('AwesomeProject', () => App);
+AppRegistry.registerComponent('AwesomeProject', () => ReactNativeLogin);
