@@ -12,7 +12,6 @@ import {
   StackNavigator,
 } from 'react-navigation';
 
-
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {  List, ListItem, SearchBar } from 'react-native-elements';
 
