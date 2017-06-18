@@ -25,7 +25,9 @@ class Course extends React.Component {
     })
     .then((response) => response.json())
     .then((data) => {
-      this.setState({user_course: data});
+      console.log('get courses: ', data)
+      this.setState({user_course: data['results'][0]});
+      console.log('set user course', this.state.user_course);
     })
     .catch((error) => {
       console.warn(error);
@@ -33,19 +35,23 @@ class Course extends React.Component {
   }
 
   render(){
-
+    let user_course = this.state.user_course;
+    let course = user_course.course;
     return (
       <Card
-        title='HELLO WORLD'
-        image={require('../images/pic2.png')}>
+        title={course && course.name || "Hello World"}
+      >
         <Text style={{marginBottom: 10}}>
-          The idea with React Native Elements is more about component structure than actual design.
+          {course && course.desc}
+        </Text>
+        <Text>
+          今日任务: {user_course.quota}， 已完成：{user_course.num_today_finished}
         </Text>
         <Button
           icon={{name: 'code'}}
           backgroundColor='#03A9F4'
           buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-          title='VIEW NOW' />
+          title='开始学习' />
       </Card>
     )
   }
