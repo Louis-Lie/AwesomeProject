@@ -49,7 +49,7 @@ class Course extends React.Component {
         </Text>
         <Button
           icon={{name: 'code'}}
-          backgroundColor='#03A9F4'
+          backgroundColor='#95E1D3'
           buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
           title='开始学习' />
       </Card>

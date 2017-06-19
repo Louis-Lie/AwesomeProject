@@ -27,6 +27,10 @@ const App = TabNavigator({
   Profile: {
     screen: ProfileScreen,
   }
+},{
+  tabBarOptions: {
+    activeTintColor: '#6BCFDF',
+  }
 });
 
 class RouterComponent extends Component {

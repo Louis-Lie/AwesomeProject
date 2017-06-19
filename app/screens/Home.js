@@ -68,7 +68,7 @@ class HomeScreen extends React.Component {
     const { navigate } = this.props.navigation;
 
     return (
-        <View>
+        <View style={styles.container}>
           <SearchBar
             round
             lightTheme
@@ -79,7 +79,7 @@ class HomeScreen extends React.Component {
             onFocus={() => this.searchStart()}
             onBlur={() => this.searchEnd()}
   	      />
-          <SearchResult dataSource={this.state.searchResult} style={styles.searchResult}/>
+          <SearchResult dataSource={this.state.searchResult}/>
           <Course />
         </View>
     );
@@ -90,9 +90,9 @@ const HomeStack = StackNavigator({
 });
 
 const styles = StyleSheet.create({
-  searchResult: {
-    marginTop:-20,
-    height: 0
+  container: {
+    backgroundColor: "#6BCFDF",
+    flex: 1
   }
 });
 export default HomeStack;
