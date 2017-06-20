@@ -91,7 +91,7 @@ const HomeStack = StackNavigator({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#6BCFDF",
+    backgroundColor: "#F2F1ED",
     flex: 1
   }
 });

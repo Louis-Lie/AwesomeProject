@@ -28,7 +28,7 @@ class SearchResult extends React.Component {
 
   render() {
     return (
-      <List>
+      <List style={styles.container}>
         {
           this.props.dataSource.map((item) => (
             this.renderRow(item)
@@ -38,5 +38,11 @@ class SearchResult extends React.Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    // override default style
+  }
+});
 
 export default SearchResult;
