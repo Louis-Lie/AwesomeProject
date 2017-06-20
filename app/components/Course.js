@@ -5,10 +5,12 @@ import {
   StyleSheet,
   Text,
   View,
+  Image,
   Keyboard,
 } from 'react-native';
 
 import { Card, ListItem, Button } from 'react-native-elements'
+import * as Progress from 'react-native-progress';
 
 class Course extends React.Component {
   constructor(props) {
@@ -37,22 +39,43 @@ class Course extends React.Component {
   render(){
     let user_course = this.state.user_course;
     let course = user_course.course;
+    let cover_url = course && course.cover || '';
     return (
+<View>
       <Card
         title={course && course.name || "Hello World"}
+
       >
-        <Text style={{marginBottom: 10}}>
-          {course && course.desc}
-        </Text>
-        <Text>
-          今日任务: {user_course.quota}， 已完成：{user_course.num_today_finished}
-        </Text>
+        <View
+          style={{ flexDirection:'row', flexWrap:'wrap', marginBottom: 20 }}
+        >
+          <Image
+            style={{width: 100, height: 100, marginRight: 15}}
+            source={{uri: cover_url }}
+          />
+          <View>
+            <Text style={{marginBottom: 5}}>
+              开始日期：{user_course && user_course.created_date}
+            </Text>
+            <Text>
+              学习进度：{user_course && user_course.progress || 0}%
+            </Text>
+            <Text style={{marginTop: 15, marginBottom:5}}>
+              今日任务：{user_course.num_today_finished}/{user_course.quota}
+            </Text>
+            <Progress.Bar progress={0.3} color="#6BCFDF" style={{alignSelf: 'stretch'}}/>
+          </View>
+        </View>
+
         <Button
+        style={{marginTop: 25}}
           icon={{name: 'code'}}
-          backgroundColor='#95E1D3'
+          backgroundColor='#6BCFDF' //'#5CB85C'
           buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
           title='开始学习' />
       </Card>
+
+        </View>
     )
   }
 }
