@@ -36,6 +36,11 @@ class Course extends React.Component {
     });
   }
 
+  formatText(progress){
+    console.log('progress', progress)
+    return `今日任务： ${progress}`
+  }
+
   render(){
     let user_course = this.state.user_course;
     let course = user_course.course;
@@ -44,38 +49,39 @@ class Course extends React.Component {
 <View>
       <Card
         title={course && course.name || "Hello World"}
-
       >
-        <View
-          style={{ flexDirection:'row', flexWrap:'wrap', marginBottom: 20 }}
-        >
-          <Image
-            style={{width: 100, height: 100, marginRight: 15}}
-            source={{uri: cover_url }}
-          />
-          <View>
-            <Text style={{marginBottom: 5}}>
-              开始日期：{user_course && user_course.created_date}
+        <View style={{alignItems:'center'}}>
+          <View
+            style={{
+              marginBottom: 10,
+              flexWrap: 'wrap',
+              alignItems: 'flex-start',
+              flexDirection:'row'}}
+          >
+            <Text
+              style={{ fontSize: 18, color:"#48D6C7"}}
+            >今日任务： {user_course && user_course.num_today_finished}/{user_course && user_course.quota}
             </Text>
-            <Text>
-              学习进度：{user_course && user_course.progress || 0}%
-            </Text>
-            <Text style={{marginTop: 15, marginBottom:5}}>
-              今日任务：{user_course.num_today_finished}/{user_course.quota}
-            </Text>
-            <Progress.Bar progress={0.3} color="#6BCFDF" style={{alignSelf: 'stretch'}}/>
           </View>
+
+          <Progress.Circle
+            size={160}
+            color="#6BCFDF"
+            progress={0.3}
+            animated={false}
+            showsText={true}
+            textStyle={{fontSize: 20, color: "#0275D8"}}
+          />
         </View>
 
         <Button
-        style={{marginTop: 25}}
+          style={{marginTop: 25}}
           icon={{name: 'code'}}
-          backgroundColor='#6BCFDF' //'#5CB85C'
+          backgroundColor='#6BCFDF' //'#6BCFDF' //'#5CB85C'
           buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
           title='开始学习' />
       </Card>
-
-        </View>
+      </View>
     )
   }
 }
