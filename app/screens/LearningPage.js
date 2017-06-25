@@ -15,6 +15,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import FlipCard from 'react-native-flip-card'
 
 import { colors } from '../styles/common';
+import playSound from '../utils/soundPlayer'
 
 let { height, width } = Dimensions.get("window");
 
@@ -37,12 +38,15 @@ var styles = StyleSheet.create({
   face:{
     flex: 1,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   back:{
     flex: 1,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+  },
+  cardText:{
+    fontSize: 28
   }
 });
 
@@ -194,12 +198,18 @@ class LearningPage extends Component {
           >
             {/* Face Side */}
             <View style={styles.face}>
-              <Text>{entry && entry.word}</Text>
+              <Text style={styles.cardText}>{entry && entry.word}</Text>
+              <TouchableHighlight
+                style={{ padding: 12}}
+                underlayColor='white'
+                onPress={ () => { playSound(`https://souka.io/${entry.audio_url}.mp3`)}} >
+                <Icon name='volume-up' size={18} />
+              </TouchableHighlight>
             </View>
 
             {/* Back Side */}
             <View style={styles.back}>
-              <Text>{entry && entry.kana}</Text>
+              <Text style={styles.cardText}>{entry && entry.kana}</Text>
             </View>
           </FlipCard>
         </View>
