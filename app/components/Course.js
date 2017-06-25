@@ -47,7 +47,7 @@ class Course extends React.Component {
     } else {
       button = <Button
         style={{marginTop: 25}}
-        icon={{name: 'code'}}
+        
         backgroundColor= { colors.primaryColor }
         buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
         onPress={() => {this.props.start_learning(course)}}
