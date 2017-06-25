@@ -200,10 +200,10 @@ class LearningPage extends Component {
             <View style={styles.face}>
               <Text style={styles.cardText}>{entry && entry.word}</Text>
               <TouchableHighlight
-                style={{ padding: 12}}
+                style={{ padding: 12, position: 'absolute', bottom: 5, right: 5}}
                 underlayColor='white'
                 onPress={ () => { playSound(`https://souka.io/${entry.audio_url}.mp3`)}} >
-                <Icon name='volume-up' size={18} />
+                <Icon name='volume-up' size={24} />
               </TouchableHighlight>
             </View>
 

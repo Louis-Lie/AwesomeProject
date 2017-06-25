@@ -7,9 +7,8 @@ export default function(soundFile) {
     const sound = new Sound(soundFile, '', (error) => {
       if(error){
         console.log('Failed to load the sound', soundFile, error);
-        return;
+      } else {
+        sound.play();
       }
-      console.log('duration in seconds: ' + sound.getDuration() + 'number of channels: ' + sound.getNumberOfChannels());
-      sound.play()
     });
 }
