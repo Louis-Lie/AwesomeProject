@@ -18,7 +18,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {  List, ListItem, SearchBar } from 'react-native-elements';
 
 import { colors } from "../styles/common.js";
-import SearchResult from '../components/searchResult'
+import SearchResult from '../components/SearchResult'
 import Course from '../components/Course'
 import LearningPage from './LearningPage'
 
