@@ -31,7 +31,7 @@ class AuthLogin extends Component {
   render () {
     // If we have completed loading the cookie choose to show Login WebView or the LoggedIn component, else just show an empty View.
     return (
-      <View style={[styles.container]}>
+      <View style={styles.container}>
         <WebView
           ref={'webview'}
           automaticallyAdjustContentInsets={false}

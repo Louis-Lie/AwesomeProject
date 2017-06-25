@@ -17,6 +17,7 @@ import {  List, ListItem, SearchBar } from 'react-native-elements';
 
 import SearchResult from '../components/searchResult'
 import Course from '../components/Course'
+import LearningPage from './LearningPage'
 
 
 class HomeScreen extends React.Component {
@@ -30,10 +31,7 @@ class HomeScreen extends React.Component {
     tabBarLabel: '单词',
     tabBarIcon: ({ tintColor }) => (
       <Icon name="clone" size={24} color={tintColor} />
-    ),
-    headerStyle: {
-        height: 54,
-    }
+    )
   };
 
   setSearchText(query){
@@ -56,12 +54,19 @@ class HomeScreen extends React.Component {
       console.warn(error);
     });
   }
+
   searchStart(){
     this.setState({searching: true})
   }
+
   searchEnd(){
     Keyboard.dismiss;
     this.setState({searching: false})
+  }
+
+  start_learning(course){
+    console.log('start learning course: ', course)
+    this.props.navigation.navigate('LearningPage')
   }
 
   render() {
@@ -80,13 +85,14 @@ class HomeScreen extends React.Component {
             onBlur={() => this.searchEnd()}
   	      />
           <SearchResult dataSource={this.state.searchResult}/>
-          <Course />
+          <Course start_learning={this.start_learning.bind(this)}/>
         </View>
     );
   }
 }
 const HomeStack = StackNavigator({
   Home: { screen: HomeScreen },
+  LearningPage: {screen: LearningPage}
 });
 
 const styles = StyleSheet.create({
@@ -95,4 +101,5 @@ const styles = StyleSheet.create({
     flex: 1
   }
 });
+
 export default HomeStack;
