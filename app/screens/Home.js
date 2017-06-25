@@ -6,15 +6,18 @@ import {
   View,
   Button,
   Keyboard,
+  StatusBar
 } from 'react-native';
 
 import {
   StackNavigator,
 } from 'react-navigation';
 
+import { Actions, ActionConst } from 'react-native-router-flux'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {  List, ListItem, SearchBar } from 'react-native-elements';
 
+import { colors } from "../styles/common.js";
 import SearchResult from '../components/searchResult'
 import Course from '../components/Course'
 import LearningPage from './LearningPage'
@@ -31,7 +34,13 @@ class HomeScreen extends React.Component {
     tabBarLabel: '单词',
     tabBarIcon: ({ tintColor }) => (
       <Icon name="clone" size={24} color={tintColor} />
-    )
+    ),
+    headerStyle: {
+      backgroundColor: colors.primaryColor,
+    },
+    headerTitleStyle: {
+      color: 'white',
+    }
   };
 
   setSearchText(query){
@@ -66,7 +75,8 @@ class HomeScreen extends React.Component {
 
   start_learning(course){
     console.log('start learning course: ', course)
-    this.props.navigation.navigate('LearningPage')
+    this.props.navigation.navigate('LearningPage', {'course': course})
+    //Actions.learning({course: course, direction:'vertical'})
   }
 
   render() {
@@ -74,6 +84,9 @@ class HomeScreen extends React.Component {
 
     return (
         <View style={styles.container}>
+         <StatusBar
+            barStyle="light-content"
+          />
           <SearchBar
             round
             lightTheme
@@ -90,14 +103,21 @@ class HomeScreen extends React.Component {
     );
   }
 }
+
 const HomeStack = StackNavigator({
-  Home: { screen: HomeScreen },
-  LearningPage: {screen: LearningPage}
-});
+    Home: { screen: HomeScreen },
+    LearningPage: {screen: LearningPage}
+  },
+  {
+    mode: 'modal'
+  }
+);
+
+
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#F2F1ED",
+    backgroundColor: colors.backgroundColor,
     flex: 1
   }
 });

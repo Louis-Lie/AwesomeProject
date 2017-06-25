@@ -6,7 +6,8 @@ import {
 } from 'react-navigation';
 import CookieManager from 'react-native-cookies';
 
-import AuthLogin from './screens/AuthLogin'
+import { colors } from './styles/common';
+import AuthLogin from './screens/AuthLogin';
 import HomeStack from './screens/Home';
 import ReadScreen from './screens/Read';
 import ForumScreen from './screens/Forum';
@@ -30,7 +31,7 @@ const App = TabNavigator({
   }
 },{
   tabBarOptions: {
-    activeTintColor: '#6BCFDF',
+    activeTintColor: colors.tintColor,
   }
 });
 
@@ -64,11 +65,19 @@ class RouterComponent extends Component {
   render(){
     if (this.state.loadedCookie) {
       return (
-        <Router>
-          <Scene key="login" component={AuthLogin} title="登录" initial={!this.state.loggedIn}/>
-          <Scene key="main" component={App} hideNavBar={true} initial={this.state.loggedIn}/>
-          <Scene key="learning" component={LearningPage} title="学习" />
-        </Router>
+          <Router>
+            <Scene key="login" component={AuthLogin} title="登录" initial={!this.state.loggedIn} />
+            <Scene key="main" component={App} hideNavBar={true} initial={this.state.loggedIn}/>
+            {/* <Scene key="main" tabs={true} initial={this.state.loggedIn}>
+              <Scene key="home">
+                <Scene key="vocabulary" component={HomeStack} />
+                <Scene key="learning" component={LearningPage} />
+              </Scene>
+              <Scene key="read" component={ReadScreen} />
+              <Scene key="forum" component={ForumScreen} />
+              <Scene key="profile" component={ProfileScreen} />
+            </Scene>*/}
+          </Router>
         )
     }
     else {
