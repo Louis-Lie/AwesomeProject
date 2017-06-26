@@ -15,7 +15,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import FlipCard from 'react-native-flip-card'
 
 import { colors } from '../styles/common';
-import playSound from '../utils/soundPlayer'
+import playSound from '../utils/soundPlayer';
+import fetcher from '../utils/fetcher';
 
 let { height, width } = Dimensions.get("window");
 
@@ -27,18 +28,18 @@ var styles = StyleSheet.create({
     justifyContent: "center"
   },
   flipCard: {
-    width: width*0.618,
-    height: height*0.618,
+    width: width*0.7,
+    height: 100,
     backgroundColor: 'white',
     borderWidth:1,
     borderColor: '#e1e8ee',
     padding: 15,
-    margin: 15,
+    margin: 25
   },
   face:{
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   back:{
     flex: 1,
@@ -148,21 +149,10 @@ class LearningPage extends Component {
     let miss_ids = ids.filter(i => !entry_ids.includes(i));
     if (miss_ids.length){
       let url = "https://souka.io/vocab/entry/?ids=" + miss_ids.join(',');
-      fetch(url, {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-      })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('fetch entries: ', data);
+      fetcher.get(url, (data) => {
         store.save('entries', stored_entries.concat(data));
         this.setState({current_tasks: entries.concat(data)});
       })
-      .catch((error) => {
-        console.warn(error);
-      });
     } else {
       this.setState({current_tasks: entries});
     }
@@ -190,8 +180,8 @@ class LearningPage extends Component {
           style={styles.flipCard}
           friction={6}
           perspective={1000}
-          flipHorizontal={true}
-          flipVertical={false}
+          flipHorizontal={false}
+          flipVertical={true}
           flip={false}
           clickable={true}
           onFlipped={(isFlipped)=>{console.log('isFlipped', isFlipped)}}
@@ -210,6 +200,12 @@ class LearningPage extends Component {
             {/* Back Side */}
             <View style={styles.back}>
               <Text style={styles.cardText}>{entry && entry.kana}</Text>
+              <TouchableHighlight
+                style={{ padding: 12, position: 'absolute', bottom: 5, right: 5}}
+                underlayColor='white'
+                onPress={ () => { playSound(`https://souka.io/${entry.audio_url}.mp3`)}} >
+                <Icon name='volume-up' size={24} />
+              </TouchableHighlight>
             </View>
           </FlipCard>
         </View>

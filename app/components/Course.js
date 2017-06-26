@@ -7,11 +7,12 @@ import {
   View,
   Image,
 } from 'react-native';
-import { Actions, ActionConst } from 'react-native-router-flux'
+import { Actions, ActionConst } from 'react-native-router-flux';
+import * as Progress from 'react-native-progress';
 
 import { colors } from "../styles/common.js";
-import { Card, ListItem, Button } from 'react-native-elements'
-import * as Progress from 'react-native-progress';
+import { Card, ListItem, Button } from 'react-native-elements';
+import fetcher from '../utils/fetcher';
 
 class Course extends React.Component {
   constructor(props) {
@@ -21,19 +22,9 @@ class Course extends React.Component {
       isLoading: true
     };
 
-    fetch("https://souka.io/course/user_courses/?finished=false", {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log('get courses: ', data)
+    let url = 'https://souka.io/course/user_courses/?finished=false';
+    fetcher.get(url, (data) => {
       this.setState({user_course: data['results'][0], isLoading: false});
-    })
-    .catch((error) => {
-      console.warn(error);
     });
   }
 
@@ -47,7 +38,7 @@ class Course extends React.Component {
     } else {
       button = <Button
         style={{marginTop: 25}}
-        
+
         backgroundColor= { colors.primaryColor }
         buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
         onPress={() => {this.props.start_learning(course)}}
