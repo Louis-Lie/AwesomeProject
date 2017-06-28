@@ -14,8 +14,8 @@ import { Actions, ActionConst } from 'react-native-router-flux'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FlipCard from 'react-native-flip-card'
 
+import Volume from '../components/volume';
 import { colors } from '../styles/common';
-import playSound from '../utils/soundPlayer';
 import fetcher from '../utils/fetcher';
 
 let { height, width } = Dimensions.get("window");
@@ -27,14 +27,32 @@ var styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
+  progressBar: {
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    top:0,
+    width: width,
+    backgroundColor: '#f3e3b0'
+  },
+  progressText:{
+    color: 'white'
+  },
+  progress:{
+    position:'absolute',
+    left:0,
+    height: 16,
+    backgroundColor: '#FFCA61'
+  },
   flipCard: {
-    width: width*0.7,
+    width: width*0.8,
     height: 100,
     backgroundColor: 'white',
     borderWidth:1,
     borderColor: '#e1e8ee',
     padding: 15,
-    margin: 25
+    marginTop: 60,
+    marginBottom: 60
   },
   face:{
     flex: 1,
@@ -46,8 +64,56 @@ var styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  cardText:{
-    fontSize: 28
+  frontText:{
+    fontSize: 48,
+    color:"#546576"
+  },
+  backText:{
+    fontSize: 48,
+    color:"#546576",
+    marginBottom:5
+  },
+  word:{
+    fontSize: 24,
+    color: "#546576",
+    marginBottom:5,
+
+  },
+  roman:{
+    color: "#aaa",
+    marginBottom:5,
+  },
+  examplesHeader:{
+    color: "#ccc",
+    fontSize:13,
+    marginBottom:2
+  },
+  exampleContent:{
+    color:"#546576",
+    marginBottom:3
+  },
+  exampleTran:{
+    color: "#777"
+  },
+  volumeIcon: {
+    padding: 12,
+    position: 'absolute',
+    bottom: 5,
+    right: 5
+  },
+  header: {
+    width: width*0.8,
+    backgroundColor: 'white',
+    position: 'absolute',
+    top: 0,
+    height: 20
+  },
+  footer: {
+    width:width*0.8,
+    height: 30,
+    backgroundColor: 'white',
+    position: 'absolute',
+    bottom: 1
   }
 });
 
@@ -93,48 +159,34 @@ class LearningPage extends Component {
 
   componentWillMount(){
     let task_url = `https://souka.io/course/courses/${this.state.course.id}/task/`;
-    fetch(task_url, {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log('get tasks: ', data)
+    fetcher.get(task_url, (data) => {
       this.setState({task: data, isLoading: false});
       this.prepareTask();
     })
-    .catch((error) => {
-      console.warn(error);
-    });
   }
 
   prepareTask(){
     let task = this.state.task;
     let task_ids = null;
     if (task['0'].length) {
-      this.setState({
-        learningType: 'memory',
-      })
-      task_ids = task['0']
+      learningType = 'memory';
+      task_ids = task['0'];
     } else if (task['1'].length) {
-      this.setState({
-        learningType: 'dictation',
-      })
-      task_ids = task['1']
+      learningType = 'dictation';
+      task_ids = task['1'];
     } else {
-      this.setState({
-        learningType: 'review',
-      })
+      learningType = 'review';
       task_ids =task['2']
     }
 
+    this.setState({
+      learningType: learningType,
+    });
     let title = {
       memory: '预习',
       dictation: '听写',
       review: '复习'
-    }[this.state.learningType];
+    }[learningType];
     this.props.navigation.setParams({title: title})
     store.get('entries').then( entries => {
       let stored_entries = entries || [];
@@ -169,46 +221,71 @@ class LearningPage extends Component {
     }
 
 
+    let header = footer = null;
+    if (this.state.current_index > 0){
+      header = <View style={styles.heaer}></View>
+    }
+    if (this.state.current_index < (this.state.current_tasks.length - 1)){
+      footer = <View style={styles.footer}></View>
+    }
+
     let entry = this.state.current_tasks && this.state.current_tasks[this.state.current_index] || null;
+    let audio_url = entry && `https://souka.io/${entry.audio_url}.mp3`;
+    let progress = this.state.current_index*100/this.state.current_tasks.length;
+    let progress_percent = progress+"%";
+    let frontText = entry? entry.word || entry.kana:'';
+    let backText = entry && entry.kana;
+    let word = entry && entry.word || null;
+    let roman = entry && entry.roman;
+    let firstDefinition = entry && entry.firstDefinition;
+    let examples = entry && entry.examples.map((e, index) =>
+        <View style={styles.example} key={e.id}>
+          <Text style={styles.exampleContent}>{index+1}. {e.content}</Text>
+          <Text style={styles.exampleTran}>    {e.translation}</Text>
+        </View>
+    )
+    let examplesView = examples && <View>
+    <Text style={styles.examplesHeader}>例句：</Text>
+    {examples}
+    </View>
     return (
       <View style={styles.container}>
-        <View>
+        <View style={styles.progressBar}>
         {/* progress bar */}
+        <View style={[styles.progress, {width:progress_percent}]}></View>
+          <Text style={styles.progressText}>
+            {this.state.current_index}/{this.state.current_tasks.length}
+          </Text>
         </View>
+        {header}
         <View>
           <FlipCard
-          style={styles.flipCard}
-          friction={6}
-          perspective={1000}
-          flipHorizontal={false}
-          flipVertical={true}
-          flip={false}
-          clickable={true}
-          onFlipped={(isFlipped)=>{console.log('isFlipped', isFlipped)}}
+            style={styles.flipCard}
+            friction={12}
+            perspective={1000}
+            flipHorizontal={true}
+            flipVertical={false}
+            flip={false}
+            clickable={true}
+            onFlipped={(isFlipped)=>{console.log('isFlipped', isFlipped)}}
           >
             {/* Face Side */}
             <View style={styles.face}>
-              <Text style={styles.cardText}>{entry && entry.word}</Text>
-              <TouchableHighlight
-                style={{ padding: 12, position: 'absolute', bottom: 5, right: 5}}
-                underlayColor='white'
-                onPress={ () => { playSound(`https://souka.io/${entry.audio_url}.mp3`)}} >
-                <Icon name='volume-up' size={24} />
-              </TouchableHighlight>
+              <Text style={styles.frontText}>{frontText}</Text>
+              <Volume audio_url={audio_url} style={styles.volumeIcon} />
             </View>
 
             {/* Back Side */}
             <View style={styles.back}>
-              <Text style={styles.cardText}>{entry && entry.kana}</Text>
-              <TouchableHighlight
-                style={{ padding: 12, position: 'absolute', bottom: 5, right: 5}}
-                underlayColor='white'
-                onPress={ () => { playSound(`https://souka.io/${entry.audio_url}.mp3`)}} >
-                <Icon name='volume-up' size={24} />
-              </TouchableHighlight>
+              <Text style={styles.backText}>{backText}</Text>
+              <Text style={styles.word}>{word}</Text>
+              <Text style={styles.roman}>{roman}</Text>
+              <Text style={styles.firstDefinition}>{firstDefinition}</Text>
+              {examplesView}
             </View>
           </FlipCard>
         </View>
+        {footer}
       </View>
     );
   }
