@@ -33,18 +33,32 @@ const styles = StyleSheet.create({
     height: 16,
     backgroundColor: '#FFCA61'
   },
+  header: {
+    width: width*0.8,
+    backgroundColor: 'white',
+    position: 'absolute',
+    top: 0,
+    height: 40
+  },
+  footer: {
+    width:width*0.8,
+    height: 35,
+    backgroundColor: 'white',
+    position: 'absolute',
+    bottom: 1
+  },
+  flipCardView:{
+    height: height*0.618
+  },
   flipCard: {
     width: width*0.8,
-    height: 100,
     backgroundColor: 'white',
     borderWidth:1,
     borderColor: '#e1e8ee',
     padding: 15,
-    marginTop: 60,
-    marginBottom: 60
   },
   face:{
-    flex: 1,
+    flex:1,
     alignItems: "center",
     justifyContent: "center"
   },
@@ -82,27 +96,14 @@ const styles = StyleSheet.create({
     marginBottom:3
   },
   exampleTran:{
-    color: "#777"
+    color: "#777",
+    marginBottom:6
   },
   volumeIcon: {
     padding: 12,
     position: 'absolute',
     bottom: 5,
     right: 5
-  },
-  header: {
-    width: width*0.8,
-    backgroundColor: 'white',
-    position: 'absolute',
-    top: 0,
-    height: 30
-  },
-  footer: {
-    width:width*0.8,
-    height: 30,
-    backgroundColor: 'white',
-    position: 'absolute',
-    bottom: 1
   }
 });
 

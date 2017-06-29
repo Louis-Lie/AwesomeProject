@@ -181,7 +181,7 @@ class LearningPage extends Component {
           </Text>
         </View>
         {header}
-        <View>
+        <View style={styles.flipCardView}>
           <FlipCard
             style={styles.flipCard}
             friction={12}

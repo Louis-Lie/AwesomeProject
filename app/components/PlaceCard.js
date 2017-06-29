@@ -10,6 +10,7 @@ class PlaceCard extends Component {
       <TouchableHighlight style={this.props.style}
         underlayColor='white'
         onPress={ this.props.onPress } >
+        {/* A TouchableHighlight must have a child*/}
         <View />
       </TouchableHighlight>
     )
