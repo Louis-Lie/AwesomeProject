@@ -12,16 +12,15 @@ import { NavigationActions } from 'react-navigation'
 import { Card, ListItem, Button } from 'react-native-elements'
 import { Actions, ActionConst } from 'react-native-router-flux'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import FlipCard from 'react-native-flip-card'
+import * as Animatable from 'react-native-animatable';
 
-import Volume from '../components/Volume';
+import Entry from '../components/Entry';
+import ProgressBar from '../components/ProgressBar';
 import PlaceCard from '../components/PlaceCard';
-import { colors } from '../styles/common';
-import styles from '../styles/learningPage';
 import fetcher from '../utils/fetcher';
+import { colors, window } from '../styles/common';
 
-
-class LearningPage extends Component {
+class LearningScreen extends Component {
   constructor(props) {
     super(props);
     let course = this.props.navigation.state.params.course;
@@ -63,7 +62,7 @@ class LearningPage extends Component {
   componentWillMount(){
     let task_url = `https://souka.io/course/courses/${this.state.course.id}/task/`;
     fetcher.get(task_url, (data) => {
-      this.setState({task: data, isLoading: false});
+      this.setState({task: data});
       this.prepareTask();
     })
   }
@@ -106,10 +105,10 @@ class LearningPage extends Component {
       let url = "https://souka.io/vocab/entry/?ids=" + miss_ids.join(',');
       fetcher.get(url, (data) => {
         store.save('entries', stored_entries.concat(data));
-        this.setState({current_tasks: entries.concat(data)});
+        this.setState({current_tasks: entries.concat(data), isLoading: false});
       })
     } else {
-      this.setState({current_tasks: entries});
+      this.setState({current_tasks: entries, isLoading: false});
     }
   }
 
@@ -126,7 +125,6 @@ class LearningPage extends Component {
     console.log('nextTask');
     current_index = this.state.current_index+1;
     this.setState({current_index: current_index});
-    console.log(this.state);
     if (current_index == this.state.current_tasks.length){
       consol.log('finished');
     }
@@ -138,11 +136,12 @@ class LearningPage extends Component {
       return (
         <View style={styles.container}>
           <ActivityIndicator />
-          </View>
-        );
+        </View>
+      );
     }
 
 
+    let entry = this.state.current_tasks && this.state.current_tasks[this.state.current_index] || null;
     let header = footer = null;
     if (this.state.current_index > 0){
       header = <PlaceCard style={styles.header} onPress={this.prevTask.bind(this)} />;
@@ -151,67 +150,41 @@ class LearningPage extends Component {
       footer = <PlaceCard style={styles.footer} onPress={this.nextTask.bind(this)} />;
     }
 
-    let entry = this.state.current_tasks && this.state.current_tasks[this.state.current_index] || null;
-    let audio_url = entry && `https://souka.io/${entry.audio_url}.mp3`;
-    let progress = this.state.current_index*100/this.state.current_tasks.length;
-    let progress_percent = progress+"%";
-    let frontText = entry? entry.word || entry.kana:'';
-    let backText = entry && entry.kana;
-    let word = entry && entry.word || null;
-    let roman = entry && entry.roman;
-    let firstDefinition = entry && entry.firstDefinition;
-    let examples = entry && entry.examples.map((e, index) =>
-        <View style={styles.example} key={e.id}>
-          <Text style={styles.exampleContent}>{index+1}. {e.content}</Text>
-          <Text style={styles.exampleTran}>    {e.translation}</Text>
-        </View>
-    )
-    let examplesView = examples && <View>
-      <Text style={styles.examplesHeader}>例句：</Text>
-      {examples}
-    </View>
-
     return (
       <View style={styles.container}>
-        <View style={styles.progressBar}>
-        {/* progress bar */}
-          <View style={[styles.progress, {width:progress_percent}]}></View>
-          <Text style={styles.progressText}>
-            {this.state.current_index}/{this.state.current_tasks.length}
-          </Text>
-        </View>
+        <ProgressBar
+          index={this.state.current_index}
+          length={this.state.current_tasks.length}
+        />
         {header}
-        <View style={styles.flipCardView}>
-          <FlipCard
-            style={styles.flipCard}
-            friction={12}
-            perspective={1000}
-            flipHorizontal={true}
-            flipVertical={false}
-            flip={false}
-            clickable={true}
-            onFlipped={(isFlipped)=>{console.log('isFlipped', isFlipped)}}
-          >
-            {/* Face Side */}
-            <View style={styles.face}>
-              <Text style={styles.frontText}>{frontText}</Text>
-              <Volume audio_url={audio_url} style={styles.volumeIcon} />
-            </View>
-
-            {/* Back Side */}
-            <View style={styles.back}>
-              <Text style={styles.backText}>{backText}</Text>
-              <Text style={styles.roman}>{roman}</Text>
-              <Text style={styles.word}>{word}</Text>
-              <Text style={styles.firstDefinition}>{firstDefinition}</Text>
-              {examplesView}
-            </View>
-          </FlipCard>
-        </View>
+        <Entry entry={entry} />
         {footer}
       </View>
     );
   }
 }
 
-export default LearningPage;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.backgroundColor,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  header: {
+    width: window.width*0.8,
+    backgroundColor: 'white',
+    position: 'absolute',
+    top: 0,
+    height: 40
+  },
+  footer: {
+    width: window.width*0.8,
+    height: 35,
+    backgroundColor: 'white',
+    position: 'absolute',
+    bottom: 1
+  }
+});
+
+export default LearningScreen;

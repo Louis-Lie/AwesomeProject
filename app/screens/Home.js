@@ -20,7 +20,7 @@ import {  List, ListItem, SearchBar } from 'react-native-elements';
 import { colors } from "../styles/common.js";
 import SearchResult from '../components/SearchResult'
 import Course from '../components/Course'
-import LearningPage from './LearningPage'
+import LearningScreen from './Learning'
 
 
 class HomeScreen extends React.Component {
@@ -75,7 +75,7 @@ class HomeScreen extends React.Component {
 
   start_learning(course){
     console.log('start learning course: ', course)
-    this.props.navigation.navigate('LearningPage', {'course': course})
+    this.props.navigation.navigate('Learning', {'course': course})
     //Actions.learning({course: course, direction:'vertical'})
   }
 
@@ -106,7 +106,7 @@ class HomeScreen extends React.Component {
 
 const HomeStack = StackNavigator({
     Home: { screen: HomeScreen },
-    LearningPage: {screen: LearningPage}
+    Learning: {screen: LearningScreen}
   },
   {
     mode: 'modal'

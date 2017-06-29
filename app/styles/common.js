@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
 let iconSize = 24;
 
@@ -7,8 +7,8 @@ let colors = {
   backgroundColor: '#F2F1ED',
   tintColor: '#6BCFDF',
 }
-export { colors };
-
+let window = Dimensions.get("window");
+export { colors, window };
 export default StyleSheet.create({
  icon: {
    height: iconSize,

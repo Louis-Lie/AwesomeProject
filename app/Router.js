@@ -12,7 +12,6 @@ import HomeStack from './screens/Home';
 import ReadScreen from './screens/Read';
 import ForumScreen from './screens/Forum';
 import ProfileScreen from './screens/Profile';
-import LearningPage from './screens/LearningPage';
 
 const HOME_URL = "https://souka.io/";
 
@@ -68,15 +67,6 @@ class RouterComponent extends Component {
           <Router>
             <Scene key="login" component={AuthLogin} title="登录" initial={!this.state.loggedIn} />
             <Scene key="main" component={App} hideNavBar={true} initial={this.state.loggedIn}/>
-            {/* <Scene key="main" tabs={true} initial={this.state.loggedIn}>
-              <Scene key="home">
-                <Scene key="vocabulary" component={HomeStack} />
-                <Scene key="learning" component={LearningPage} />
-              </Scene>
-              <Scene key="read" component={ReadScreen} />
-              <Scene key="forum" component={ForumScreen} />
-              <Scene key="profile" component={ProfileScreen} />
-            </Scene>*/}
           </Router>
         )
     }
