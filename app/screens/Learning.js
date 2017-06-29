@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Text,
   TouchableHighlight,
+  TouchableWithoutFeedback,
   View
 } from 'react-native';
 import store from 'react-native-simple-store';
@@ -19,6 +20,9 @@ import ProgressBar from '../components/ProgressBar';
 import PlaceCard from '../components/PlaceCard';
 import fetcher from '../utils/fetcher';
 import { colors, window } from '../styles/common';
+
+let AnimatedEntry = Animatable.createAnimatableComponent(Entry);
+let AnimatedPlaceCard = Animatable.createAnimatableComponent(PlaceCard);
 
 class LearningScreen extends Component {
   constructor(props) {
@@ -117,16 +121,23 @@ class LearningScreen extends Component {
     if (this.state.current_index == 0){
       return;
     }
-    current_index = this.state.current_index-1;
-    this.setState({current_index: current_index});
+    let index = this.state.current_index-1;
+    this.refs.entry.fadeOutDown(200).then((endState) => {
+      this.setState({current_index: index});
+      this.refs.entry.fadeIn(0);
+    });
   }
 
   nextTask() {
-    console.log('nextTask');
-    current_index = this.state.current_index+1;
-    this.setState({current_index: current_index});
-    if (current_index == this.state.current_tasks.length){
+    console.log('nextTask', this.refs.entryCard);
+    let index = this.state.current_index + 1;
+    if (index == this.state.current_tasks.length){
       consol.log('finished');
+    } else {
+      this.refs.entry.fadeOutUp(300).then((endState) => {
+        this.setState({current_index: index});
+        this.refs.entry.fadeIn(0);
+      });
     }
   }
 
@@ -139,16 +150,18 @@ class LearningScreen extends Component {
         </View>
       );
     }
-
-
-    let entry = this.state.current_tasks && this.state.current_tasks[this.state.current_index] || null;
+    let tasks = this.state.current_tasks;
+    let index = this.state.current_index;
+    let entry = tasks && tasks[index] || null;
+    let LastEntry = NextEntry = null;
     let header = footer = null;
-    if (this.state.current_index > 0){
-      header = <PlaceCard style={styles.header} onPress={this.prevTask.bind(this)} />;
+    if (index > 0){
+      header = <AnimatedPlaceCard style={styles.header} onPress={this.prevTask.bind(this)} ref="header"/>;
     }
-    if (this.state.current_index < (this.state.current_tasks.length - 1)){
-      footer = <PlaceCard style={styles.footer} onPress={this.nextTask.bind(this)} />;
+    if (index < (tasks.length - 1)){
+      footer = <AnimatedPlaceCard style={styles.footer} onPress={this.nextTask.bind(this)} ref="footer"/>;
     }
+
 
     return (
       <View style={styles.container}>
@@ -157,7 +170,7 @@ class LearningScreen extends Component {
           length={this.state.current_tasks.length}
         />
         {header}
-        <Entry entry={entry} />
+        <AnimatedEntry useNativeDriver={true} entry={entry} ref="entry"/>
         {footer}
       </View>
     );

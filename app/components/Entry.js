@@ -22,19 +22,21 @@ class Entry extends React.Component {
     let word = entry.word;
     let roman =  entry.roman;
     let firstDefinition = entry.firstDefinition;
-    let examples = entry.examples.map((e, index) =>
+    let examples = entry.examples.slice(0,3).map((e, index) =>
         <View style={styles.example} key={e.id}>
           <Text style={styles.exampleContent}>{index+1}. {e.content}</Text>
           <Text style={styles.exampleTran}>    {e.translation}</Text>
         </View>
     )
-    let examplesView = <View>
+    let examplesView = examples.length && <View>
       <Text style={styles.examplesHeader}>例句：</Text>
       {examples}
-    </View>
+    </View> || null;
 
+    let style = this.props.style || styles.flipCardView;
+    console.log(this.props.style, style);
     return (
-        <View style={styles.flipCardView}>
+        <View style={[styles.flipCardView, this.props.style]}>
           <FlipCard
             style={styles.flipCard}
             friction={20}
