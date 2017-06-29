@@ -8,6 +8,7 @@ export default function(soundFile) {
       if(error){
         console.log('Failed to load the sound', soundFile, error);
       } else {
+        console.log('play sound file: ', soundFile);
         sound.play();
       }
     });

@@ -14,108 +14,12 @@ import { Actions, ActionConst } from 'react-native-router-flux'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FlipCard from 'react-native-flip-card'
 
-import Volume from '../components/volume';
+import Volume from '../components/Volume';
+import PlaceCard from '../components/PlaceCard';
 import { colors } from '../styles/common';
+import styles from '../styles/learningPage';
 import fetcher from '../utils/fetcher';
 
-let { height, width } = Dimensions.get("window");
-
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.backgroundColor,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  progressBar: {
-    alignItems: "center",
-    justifyContent: "center",
-    position: "absolute",
-    top:0,
-    width: width,
-    backgroundColor: '#f3e3b0'
-  },
-  progressText:{
-    color: 'white'
-  },
-  progress:{
-    position:'absolute',
-    left:0,
-    height: 16,
-    backgroundColor: '#FFCA61'
-  },
-  flipCard: {
-    width: width*0.8,
-    height: 100,
-    backgroundColor: 'white',
-    borderWidth:1,
-    borderColor: '#e1e8ee',
-    padding: 15,
-    marginTop: 60,
-    marginBottom: 60
-  },
-  face:{
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  back:{
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  frontText:{
-    fontSize: 48,
-    color:"#546576"
-  },
-  backText:{
-    fontSize: 48,
-    color:"#546576",
-    marginBottom:5
-  },
-  word:{
-    fontSize: 24,
-    color: "#546576",
-    marginBottom:5,
-
-  },
-  roman:{
-    color: "#aaa",
-    marginBottom:5,
-  },
-  examplesHeader:{
-    color: "#ccc",
-    fontSize:13,
-    marginBottom:2
-  },
-  exampleContent:{
-    color:"#546576",
-    marginBottom:3
-  },
-  exampleTran:{
-    color: "#777"
-  },
-  volumeIcon: {
-    padding: 12,
-    position: 'absolute',
-    bottom: 5,
-    right: 5
-  },
-  header: {
-    width: width*0.8,
-    backgroundColor: 'white',
-    position: 'absolute',
-    top: 0,
-    height: 20
-  },
-  footer: {
-    width:width*0.8,
-    height: 30,
-    backgroundColor: 'white',
-    position: 'absolute',
-    bottom: 1
-  }
-});
 
 class LearningPage extends Component {
   constructor(props) {
@@ -133,7 +37,6 @@ class LearningPage extends Component {
       current_index:0
     }
   }
-
 
   static navigationOptions = ({ navigation, screenProps }) => ({
     title: navigation.state.params.title,
@@ -210,6 +113,25 @@ class LearningPage extends Component {
     }
   }
 
+  prevTask() {
+    console.log('prevTask');
+    if (this.state.current_index == 0){
+      return;
+    }
+    current_index = this.state.current_index-1;
+    this.setState({current_index: current_index});
+  }
+
+  nextTask() {
+    console.log('nextTask');
+    current_index = this.state.current_index+1;
+    this.setState({current_index: current_index});
+    console.log(this.state);
+    if (current_index == this.state.current_tasks.length){
+      consol.log('finished');
+    }
+  }
+
   render() {
     // If we have completed loading the cookie choose to show Login WebView or the LoggedIn component, else just show an empty View.
     if (this.state.isLoading) {
@@ -223,10 +145,10 @@ class LearningPage extends Component {
 
     let header = footer = null;
     if (this.state.current_index > 0){
-      header = <View style={styles.heaer}></View>
+      header = <PlaceCard style={styles.header} onPress={this.prevTask.bind(this)} />;
     }
     if (this.state.current_index < (this.state.current_tasks.length - 1)){
-      footer = <View style={styles.footer}></View>
+      footer = <PlaceCard style={styles.footer} onPress={this.nextTask.bind(this)} />;
     }
 
     let entry = this.state.current_tasks && this.state.current_tasks[this.state.current_index] || null;
@@ -245,14 +167,15 @@ class LearningPage extends Component {
         </View>
     )
     let examplesView = examples && <View>
-    <Text style={styles.examplesHeader}>例句：</Text>
-    {examples}
+      <Text style={styles.examplesHeader}>例句：</Text>
+      {examples}
     </View>
+
     return (
       <View style={styles.container}>
         <View style={styles.progressBar}>
         {/* progress bar */}
-        <View style={[styles.progress, {width:progress_percent}]}></View>
+          <View style={[styles.progress, {width:progress_percent}]}></View>
           <Text style={styles.progressText}>
             {this.state.current_index}/{this.state.current_tasks.length}
           </Text>
@@ -278,8 +201,8 @@ class LearningPage extends Component {
             {/* Back Side */}
             <View style={styles.back}>
               <Text style={styles.backText}>{backText}</Text>
-              <Text style={styles.word}>{word}</Text>
               <Text style={styles.roman}>{roman}</Text>
+              <Text style={styles.word}>{word}</Text>
               <Text style={styles.firstDefinition}>{firstDefinition}</Text>
               {examplesView}
             </View>
