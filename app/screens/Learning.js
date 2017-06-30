@@ -15,8 +15,8 @@ import { Actions, ActionConst } from 'react-native-router-flux'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Animatable from 'react-native-animatable';
 import Swiper from 'react-native-swiper';
-import SwipeCards from 'react-native-swipe-cards';
 
+import SwipeCards from '../components/SwipeCards';
 import Entry from '../components/Entry';
 import ProgressBar from '../components/ProgressBar';
 import PlaceCard from '../components/PlaceCard';
@@ -155,19 +155,6 @@ class LearningScreen extends Component {
     let tasks = this.state.current_tasks;
     let index = this.state.current_index;
     let entry = tasks && tasks[index] || null;
-    let LastEntry = NextEntry = null;
-    let header = footer = null;
-    if (index > 0){
-      let last_entry = tasks[index-1];
-      LastEntry = <Entry entry={last_entry} />
-      header = <AnimatedPlaceCard style={styles.header} onPress={this.prevTask.bind(this)} ref="header"/>;
-    }
-    if (index < (tasks.length - 2)){
-      let next_entry = tasks[index+1];
-      NextEntry = <Entry entry={next_entry} />;
-      footer = <AnimatedPlaceCard style={styles.footer} onPress={this.nextTask.bind(this)} ref="footer"/>;
-    }
-    console.log(LastEntry, NextEntry);
 
     return (
       <View style={styles.container}>
@@ -182,10 +169,13 @@ class LearningScreen extends Component {
         <SwipeCards
           style={{flex: 1}}
           cards={tasks}
-          renderCard={(cardData) => <Entry entry={cardData} />}
+          renderCard={(cardData) => <Entry entry={cardData} ref="card"/>}
           renderNoMoreCards={() => <NoMoreCards />}
-          handleYup={this.handleYup}
-          handleNope={this.handleNope}
+          handleYup={() => this.handleYup}
+          handleNope={() => this.handleNope}
+          cardRemoved={() => this.cardRemoved}
+          showYup={false}
+          showNope={false}
         />
       </View>
     );
@@ -197,6 +187,19 @@ class LearningScreen extends Component {
 
   handleNope (card) {
     console.log("nope")
+  }
+
+  cardRemoved (index) {
+    console.log(`The index is ${index}`);
+    console.log(this.state.current_tasks)
+    let CARD_REFRESH_LIMIT = 3
+
+    if (this.state.current_tasks.length - index <= CARD_REFRESH_LIMIT + 1) {
+      console.log(`There are only ${this.state.cards.length - index - 1} cards left.`);
+        this.setState({
+          cards: this.state.current_tasks
+        })
+    }
   }
 }
 

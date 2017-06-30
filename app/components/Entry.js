@@ -14,6 +14,10 @@ import Volume from '../components/Volume';
 
 
 class Entry extends React.Component {
+  componentDidMount(){
+    this.refs.volume.play();
+  }
+
   render() {
     let entry = this.props.entry;
     let audio_url = `https://souka.io/${entry.audio_url}.mp3`;
@@ -47,7 +51,7 @@ class Entry extends React.Component {
             {/* Face Side */}
             <View style={styles.face}>
               <Text style={styles.frontText}>{frontText}</Text>
-              <Volume audio_url={audio_url} style={styles.volumeIcon} />
+              <Volume audio_url={audio_url} style={styles.volumeIcon} ref="volume"/>
             </View>
 
             {/* Back Side */}
