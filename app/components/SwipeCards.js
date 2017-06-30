@@ -28,43 +28,43 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   yup: {
-    borderColor: 'green',
-    borderWidth: 2,
+    borderColor: 'red',
+    borderWidth: 1,
     position: 'absolute',
-    padding: 20,
+    padding: 10,
     bottom: 20,
-    borderRadius: 5,
+    borderRadius: 2,
     right: 0,
   },
   yupText: {
-    fontSize: 16,
-    color: 'green',
+    fontSize: 12,
+    color: 'red',
   },
   maybe: {
     borderColor: 'blue',
-    borderWidth: 2,
+    borderWidth: 1,
     position: 'absolute',
-    padding: 20,
+    padding: 10,
     bottom: 20,
-    borderRadius: 5,
+    borderRadius: 2,
     right: 20,
   },
   maybeText: {
-    fontSize: 16,
+    fontSize: 12,
     color: 'blue',
   },
   nope: {
-    borderColor: 'red',
-    borderWidth: 2,
+    borderColor: 'green',
+    borderWidth: 1,
     position: 'absolute',
     bottom: 20,
-    padding: 20,
-    borderRadius: 5,
+    padding: 10,
+    borderRadius: 2,
     left: 0,
   },
   nopeText: {
-    fontSize: 16,
-    color: 'red',
+    fontSize: 12,
+    color: 'green',
   }
 });
 
@@ -126,7 +126,7 @@ export default class SwipeCards extends Component {
     nopeText: "Nope!",
     maybeText: "Maybe!",
     yupText: "Yup!",
-    onClickHandler: () => {alert('click');console.log(this);},
+    onClickHandler: () => {},
     onDragStart: () => {},
     onDragRelease: () => {},
     cardRemoved: (ix) => null,
@@ -160,7 +160,7 @@ export default class SwipeCards extends Component {
         this.props.onDragStart()
         this.lastX = gestureState.moveX;
         this.lastY = gestureState.moveY;
-        return true;
+        return false;
       },
       onMoveShouldSetPanResponderCapture: (e, gestureState) => {
         if (Math.abs(gestureState.dx) < Math.abs(gestureState.dy)) return false;
@@ -225,14 +225,14 @@ export default class SwipeCards extends Component {
           this.props.cardRemoved(currentIndex[this.guid]);
 
           if (this.props.smoothTransition) {
-            this._advanceState();
+            this._advanceState(hasMovedRight, hasMovedLeft, hasMovedUp);
           } else {
             this.cardAnimation = Animated.decay(this.state.pan, {
               velocity: { x: velocity, y: vy },
               deceleration: 0.98
             });
             this.cardAnimation.start(status => {
-              if (status.finished) this._advanceState();
+              if (status.finished) this._advanceState(hasMovedRight, hasMovedLeft, hasMovedUp);
               else this._resetState();
 
               this.cardAnimation = null;
@@ -251,7 +251,7 @@ export default class SwipeCards extends Component {
     this.cardAnimation = Animated.timing(this.state.pan, {
       toValue: { x: -500, y: 0 },
     }).start(status => {
-      if (status.finished) this._advanceState();
+      if (status.finished) this._advanceState(false, true, false);
       else this._resetState();
 
       this.cardAnimation = null;
@@ -264,7 +264,7 @@ export default class SwipeCards extends Component {
     this.cardAnimation = Animated.timing(this.state.pan, {
       toValue: { x: 0, y: 500 },
     }).start(status => {
-      if (status.finished) this._advanceState();
+      if (status.finished) this._advanceState(false, false, true);
       else this._resetState();
 
       this.cardAnimation = null;
@@ -277,7 +277,7 @@ export default class SwipeCards extends Component {
     this.cardAnimation = Animated.timing(this.state.pan, {
       toValue: { x: 500, y: 0 },
     }).start(status => {
-      if (status.finished) this._advanceState();
+      if (status.finished) this._advanceState(true, false, false);
       else this._resetState();
 
       this.cardAnimation = null;
@@ -357,11 +357,16 @@ export default class SwipeCards extends Component {
     this._animateEntrance();
   }
 
-  _advanceState() {
+  _advanceState(right=false, left=false, up=false) {
+    console.log('advancd state');
     this.state.pan.setValue({ x: 0, y: 0 });
     this.state.enter.setValue(0);
     this._animateEntrance();
-    this._goToNextCard();
+    if (right){
+      this._goToPrevCard();
+    } else {
+      this._goToNextCard();
+    }
   }
 
   /**

@@ -14,10 +14,6 @@ import Volume from '../components/Volume';
 
 
 class Entry extends React.Component {
-  componentDidMount(){
-    this.refs.volume.play();
-  }
-
   render() {
     let entry = this.props.entry;
     let audio_url = `https://souka.io/${entry.audio_url}.mp3`;

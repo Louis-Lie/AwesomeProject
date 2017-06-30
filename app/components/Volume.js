@@ -7,14 +7,24 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import playSound from '../utils/soundPlayer';
 
 class Volume extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {played: false};
+  }
+
   play(){
-    if (this.props.audio_url){
       playSound(this.props.audio_url);
-    }
   }
 
   componentDidMount(){
+    console.log('did mount');
     this.play();
+  }
+
+  componentDidUpdate(prevProps, prevState){
+    if (prevProps.audio_url != this.props.audio_url){
+      this.play();
+    }
   }
 
   render(){

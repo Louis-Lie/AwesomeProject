@@ -124,22 +124,16 @@ class LearningScreen extends Component {
       return;
     }
     let index = this.state.current_index-1;
-    this.refs.entry.fadeOutDown(200).then((endState) => {
-      this.setState({current_index: index});
-      this.refs.entry.fadeIn(0);
-    });
+    this.setState({current_index: index});
   }
 
   nextTask() {
-    console.log('nextTask', this.refs.entryCard);
+    console.log('nextTask');
     let index = this.state.current_index + 1;
     if (index == this.state.current_tasks.length){
       consol.log('finished');
     } else {
-      this.refs.entry.fadeOutUp(300).then((endState) => {
-        this.setState({current_index: index});
-        this.refs.entry.fadeIn(0);
-      });
+      this.setState({current_index: index});
     }
   }
 
@@ -154,7 +148,6 @@ class LearningScreen extends Component {
     }
     let tasks = this.state.current_tasks;
     let index = this.state.current_index;
-    let entry = tasks && tasks[index] || null;
 
     return (
       <View style={styles.container}>
@@ -162,20 +155,15 @@ class LearningScreen extends Component {
           index={this.state.current_index}
           length={this.state.current_tasks.length}
         />
-        {/*}
-        {header}
-        <AnimatedEntry useNativeDriver={true} entry={entry} ref="entry"/>
-        {footer}*/}
+
         <SwipeCards
           style={{flex: 1}}
           cards={tasks}
-          renderCard={(cardData) => <Entry entry={cardData} ref="card"/>}
-          renderNoMoreCards={() => <NoMoreCards />}
-          handleYup={() => this.handleYup}
-          handleNope={() => this.handleNope}
-          cardRemoved={() => this.cardRemoved}
-          showYup={false}
-          showNope={false}
+          renderCard={(cardData) => <Entry entry={cardData} />}
+          handleYup={(card) => this.handleYup(card)}
+          handleNope={(card) => this.handleNope(card)}
+          yupText="上一个"
+          nopeText="下一个"
         />
       </View>
     );
@@ -183,23 +171,12 @@ class LearningScreen extends Component {
 
   handleYup (card) {
     console.log("yup")
+    this.prevTask()
   }
 
   handleNope (card) {
     console.log("nope")
-  }
-
-  cardRemoved (index) {
-    console.log(`The index is ${index}`);
-    console.log(this.state.current_tasks)
-    let CARD_REFRESH_LIMIT = 3
-
-    if (this.state.current_tasks.length - index <= CARD_REFRESH_LIMIT + 1) {
-      console.log(`There are only ${this.state.cards.length - index - 1} cards left.`);
-        this.setState({
-          cards: this.state.current_tasks
-        })
-    }
+    this.nextTask();
   }
 }
 
