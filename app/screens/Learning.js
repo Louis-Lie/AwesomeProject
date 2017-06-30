@@ -14,6 +14,8 @@ import { Card, ListItem, Button } from 'react-native-elements'
 import { Actions, ActionConst } from 'react-native-router-flux'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Animatable from 'react-native-animatable';
+import Swiper from 'react-native-swiper';
+import SwipeCards from 'react-native-swipe-cards';
 
 import Entry from '../components/Entry';
 import ProgressBar from '../components/ProgressBar';
@@ -156,12 +158,16 @@ class LearningScreen extends Component {
     let LastEntry = NextEntry = null;
     let header = footer = null;
     if (index > 0){
+      let last_entry = tasks[index-1];
+      LastEntry = <Entry entry={last_entry} />
       header = <AnimatedPlaceCard style={styles.header} onPress={this.prevTask.bind(this)} ref="header"/>;
     }
-    if (index < (tasks.length - 1)){
+    if (index < (tasks.length - 2)){
+      let next_entry = tasks[index+1];
+      NextEntry = <Entry entry={next_entry} />;
       footer = <AnimatedPlaceCard style={styles.footer} onPress={this.nextTask.bind(this)} ref="footer"/>;
     }
-
+    console.log(LastEntry, NextEntry);
 
     return (
       <View style={styles.container}>
@@ -169,11 +175,28 @@ class LearningScreen extends Component {
           index={this.state.current_index}
           length={this.state.current_tasks.length}
         />
+        {/*}
         {header}
         <AnimatedEntry useNativeDriver={true} entry={entry} ref="entry"/>
-        {footer}
+        {footer}*/}
+        <SwipeCards
+          style={{flex: 1}}
+          cards={tasks}
+          renderCard={(cardData) => <Entry entry={cardData} />}
+          renderNoMoreCards={() => <NoMoreCards />}
+          handleYup={this.handleYup}
+          handleNope={this.handleNope}
+        />
       </View>
     );
+  }
+
+  handleYup (card) {
+    console.log("yup")
+  }
+
+  handleNope (card) {
+    console.log("nope")
   }
 }
 
@@ -183,6 +206,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backgroundColor,
     alignItems: "center",
     justifyContent: "center"
+  },
+  swiper: {
+
   },
   header: {
     width: window.width*0.8,

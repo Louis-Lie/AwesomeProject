@@ -33,10 +33,7 @@ class Entry extends React.Component {
       {examples}
     </View> || null;
 
-    let style = this.props.style || styles.flipCardView;
-    console.log(this.props.style, style);
     return (
-        <View style={[styles.flipCardView, this.props.style]}>
           <FlipCard
             style={styles.flipCard}
             friction={20}
@@ -62,16 +59,14 @@ class Entry extends React.Component {
               {examplesView}
             </View>
           </FlipCard>
-        </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  flipCardView:{
-    height: window.height*0.618
-  },
   flipCard: {
+    flex:0,
+    height: window.height*0.618,
     width: window.width*0.8,
     backgroundColor: 'white',
     borderWidth:1,
