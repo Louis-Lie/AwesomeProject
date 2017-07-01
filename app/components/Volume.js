@@ -13,10 +13,7 @@ class Volume extends Component {
   }
 
   play() {
-    console.log("this in play", this, this.props);
-    if (this.props.audioUrl) {
-      playSound(this.props.audioUrl);
-    }
+    playSound(this.props.audioUrl);
   }
 
   render() {

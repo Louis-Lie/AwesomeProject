@@ -37,7 +37,6 @@ class Entry extends Component {
   }
 
   render() {
-    console.log("render entry");
     const entry = this.props.entry;
     const audioUrl = `https://souka.io/${entry.audio_url}.mp3`;
     const frontText = entry.word || entry.kana;

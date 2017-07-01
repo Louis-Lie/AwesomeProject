@@ -1,48 +1,46 @@
-import React,  { Component } from 'react';
+import React from "react";
 import {
   StyleSheet,
   Text,
   View,
-} from 'react-native';
+} from "react-native";
 
-import { colors, window } from '../styles/common';
+import { window } from "../styles/common";
 
 
-class ProgressBar extends React.Component {
-  render() {
-    let index = this.props.index;
-    let length = this.props.length;
-    let width = index*100 / length + '%';
+const ProgressBar = () => {
+  const index = this.props.index;
+  const length = this.props.length;
+  const width = `${(index * 100) / length}%`;
 
-    return (
-      <View style={styles.progressBar}>
-        <View style={[styles.progress, {width:width}]}></View>
-        <Text style={styles.progressText}>
-          {index}/{length}
-        </Text>
-      </View>
-    )
-  }
-}
+  return (
+    <View style={styles.progressBar}>
+      <View style={[styles.progress, { width }]} />
+      <Text style={styles.progressText}>
+        {index}/{length}
+      </Text>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   progressBar: {
-    zIndex:1000,
+    zIndex: 1000,
     alignItems: "center",
     justifyContent: "center",
     position: "absolute",
-    top:0,
+    top: 0,
     width: window.width,
-    backgroundColor: '#f3e3b0'
+    backgroundColor: "#f3e3b0"
   },
-  progressText:{
-    color: 'white'
+  progressText: {
+    color: "white"
   },
-  progress:{
-    position:'absolute',
-    left:0,
+  progress: {
+    position: "absolute",
+    left: 0,
     height: 16,
-    backgroundColor: '#FFCA61'
+    backgroundColor: "#FFCA61"
   },
 });
 
