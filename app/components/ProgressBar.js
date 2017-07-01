@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import {
   StyleSheet,
   Text,
@@ -8,20 +8,22 @@ import {
 import { window } from "../styles/common";
 
 
-const ProgressBar = () => {
-  const index = this.props.index;
-  const length = this.props.length;
-  const width = `${(index * 100) / length}%`;
+class ProgressBar extends Component {
+  render() {
+    const index = this.props.index;
+    const length = this.props.length;
+    const width = `${(index * 100) / length}%`;
 
-  return (
-    <View style={styles.progressBar}>
-      <View style={[styles.progress, { width }]} />
-      <Text style={styles.progressText}>
-        {index}/{length}
-      </Text>
-    </View>
-  );
-};
+    return (
+      <View style={styles.progressBar}>
+        <View style={[styles.progress, { width }]} />
+        <Text style={styles.progressText}>
+          {index}/{length}
+        </Text>
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   progressBar: {

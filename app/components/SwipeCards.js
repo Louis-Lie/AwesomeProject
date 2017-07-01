@@ -72,7 +72,7 @@ let guid = 0;
 export default class SwipeCards extends Component {
 
   static propTypes = {
-    cards: React.PropTypes.arrayOf,
+    cards: React.PropTypes.array,
     cardKey: React.PropTypes.string,
     hasMaybeAction: React.PropTypes.bool,
     loop: React.PropTypes.bool,
