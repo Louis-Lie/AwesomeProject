@@ -2,13 +2,15 @@ const Sound = require("react-native-sound");
 
 Sound.setCategory("Playback");
 
-const sounds = ["chord_nice", "chord_prompt", ].map(s =>
-  new Sound(`../sounds/${s}.mp3`, Sound.MAIN_BUNDLE, (error) => {
+const sounds = {};
+
+["chord_nice", "chord_prompt"].forEach((s) => {
+  sounds[s] = new Sound(`../sounds/${s}.mp3`, Sound.MAIN_BUNDLE, (error) => {
     if (error) {
       console.log("failed to load the sound", error);
     }
-  }),
-);
+  });
+});
 
 export {
   sounds,

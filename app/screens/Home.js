@@ -1,37 +1,29 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
-  AppRegistry,
   StyleSheet,
-  Text,
   View,
-  Button,
   Keyboard,
   StatusBar
-} from 'react-native';
+} from "react-native";
 
 import {
   StackNavigator,
-} from 'react-navigation';
+} from "react-navigation";
 
-import { Actions, ActionConst } from 'react-native-router-flux'
-import Icon from 'react-native-vector-icons/FontAwesome';
-import {  List, ListItem, SearchBar } from 'react-native-elements';
+import Icon from "react-native-vector-icons/FontAwesome";
+import { SearchBar } from "react-native-elements";
 
-import { colors } from "../styles/common.js";
-import SearchResult from '../components/SearchResult'
-import Course from '../components/Course'
-import LearningScreen from './Learning'
+import { colors } from "../styles/common";
+import fetcher from "../utils/fetcher";
+import SearchResult from "../components/SearchResult";
+import Course from "../components/Course";
+import LearningScreen from "./Learning";
 
 
-class HomeScreen extends React.Component {
-  constructor(props) {
-      super(props);
-      this.state = {searching: false, searchResult:[]};
-  };
-
+class HomeScreen extends Component {
   static navigationOptions = {
     title: "单词",
-    tabBarLabel: '单词',
+    tabBarLabel: "单词",
     tabBarIcon: ({ tintColor }) => (
       <Icon name="clone" size={24} color={tintColor} />
     ),
@@ -39,81 +31,76 @@ class HomeScreen extends React.Component {
       backgroundColor: colors.primaryColor,
     },
     headerTitleStyle: {
-      color: 'white',
+      color: "white",
     }
   };
 
-  setSearchText(query){
-    console.log('search: ', query)
-    if (!query){
-      this.setState({searchResult:[]});
+  constructor(props) {
+    super(props);
+    this.state = { searching: false, searchResult: [] };
+
+    this.startLearning = this.startLearning.bind(this);
+    this.setSearchText = this.setSearchText.bind(this);
+    this.searchStart = this.searchStart.bind(this);
+    this.searchEnd = this.searchEnd.bind(this);
+  }
+
+
+  setSearchText(query) {
+    console.log("search: ", query);
+    if (!query) {
+      this.setState({ searchResult: [] });
       return;
     }
-    fetch("https://souka.io/vocab/entry/?word="+query, {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-    .then((response) => response.json())
-    .then((data) => {
-      this.setState({searchResult: data});
-    })
-    .catch((error) => {
-      console.warn(error);
+    fetcher.get(`https://souka.io/vocab/entry/?word=${query}`, (data) => {
+      this.setState({ searchResult: data });
     });
   }
 
-  searchStart(){
-    this.setState({searching: true})
+  searchStart() {
+    this.setState({ searching: true });
   }
 
-  searchEnd(){
+  searchEnd() {
     Keyboard.dismiss;
-    this.setState({searching: false})
+    this.setState({ searching: false });
   }
 
-  start_learning(course){
-    console.log('start learning course: ', course)
-    this.props.navigation.navigate('Learning', {'course': course})
-    //Actions.learning({course: course, direction:'vertical'})
+  startLearning(course) {
+    console.log("start learning course: ", this);
+    this.props.navigation.navigate("Learning", { course });
   }
 
   render() {
-    const { navigate } = this.props.navigation;
-
     return (
-        <View style={styles.container}>
-         <StatusBar
-            barStyle="light-content"
-          />
-          <SearchBar
-            round
-            lightTheme
-  	        ref='searchBar'
-  	        placeholder='搜索日语单词'
-  	        onChangeText={this.setSearchText.bind(this)}
-            clearButtonMode='while-editing'
-            onFocus={() => this.searchStart()}
-            onBlur={() => this.searchEnd()}
-  	      />
-          <SearchResult dataSource={this.state.searchResult}/>
-          <Course start_learning={this.start_learning.bind(this)}/>
-        </View>
+      <View style={styles.container}>
+        <StatusBar
+          barStyle="light-content"
+        />
+        <SearchBar
+          round
+          lightTheme
+          placeholder="搜索日语单词"
+          onChangeText={this.setSearchText}
+          clearButtonMode="while-editing"
+          onFocus={this.searchStart}
+          onBlur={this.searchEnd}
+        />
+        <SearchResult dataSource={this.state.searchResult} />
+        <Course startLearning={this.startLearning} />
+      </View>
     );
   }
 }
 
 const HomeStack = StackNavigator({
-    Home: { screen: HomeScreen },
-    Learning: {screen: LearningScreen}
-  },
+  Home: { screen: HomeScreen },
+  Learning: { screen: LearningScreen }
+},
   {
-    mode: 'modal'
+    mode: "modal"
   }
 );
-
-
 
 const styles = StyleSheet.create({
   container: {
