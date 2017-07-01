@@ -1,15 +1,26 @@
-const Sound = require('react-native-sound');
+const Sound = require("react-native-sound");
 
-Sound.setCategory('Playback');
+Sound.setCategory("Playback");
 
-export default function(soundFile) {
-    // Load the sound file  from the app bundle
-    const sound = new Sound(soundFile, '', (error) => {
-      if(error){
-        console.log('Failed to load the sound', soundFile, error);
-      } else {
-        console.log('play sound file: ', soundFile);
-        sound.play();
-      }
-    });
+const sounds = ["chord_nice", "chord_prompt", ].map(s =>
+  new Sound(`../sounds/${s}.mp3`, Sound.MAIN_BUNDLE, (error) => {
+    if (error) {
+      console.log("failed to load the sound", error);
+    }
+  }),
+);
+
+export {
+  sounds,
+};
+export default function (soundFile) {
+// Load the sound file  from the app bundle
+  const sound = new Sound(soundFile, "", (error) => {
+    if (error) {
+      console.log("Failed to load the sound", soundFile, error);
+    } else {
+      console.log("play sound file: ", soundFile);
+      sound.play();
+    }
+  });
 }

@@ -13,18 +13,15 @@ import { NavigationActions } from 'react-navigation'
 import { Card, ListItem, Button } from 'react-native-elements'
 import { Actions, ActionConst } from 'react-native-router-flux'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import * as Animatable from 'react-native-animatable';
-import Swiper from 'react-native-swiper';
 
 import SwipeCards from '../components/SwipeCards';
 import Entry from '../components/Entry';
 import ProgressBar from '../components/ProgressBar';
 import PlaceCard from '../components/PlaceCard';
-import fetcher from '../utils/fetcher';
 import { colors, window } from '../styles/common';
+import { sounds } from '../utils/soundPlayer'
+import fetcher from '../utils/fetcher';
 
-let AnimatedEntry = Animatable.createAnimatableComponent(Entry);
-let AnimatedPlaceCard = Animatable.createAnimatableComponent(PlaceCard);
 
 class LearningScreen extends Component {
   constructor(props) {
