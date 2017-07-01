@@ -12,7 +12,6 @@ import SwipeCards from "../components/SwipeCards";
 import Entry from "../components/Entry";
 import ProgressBar from "../components/ProgressBar";
 import { colors, window, } from "../styles/common";
-import { sounds, } from "../utils/soundPlayer";
 import fetcher from "../utils/fetcher";
 
 
@@ -135,12 +134,13 @@ class LearningScreen extends Component {
 
   handleYup(card) {
     console.log("yup", card);
-    sounds.chord_nice.play();
+    // sounds.chord_prompt.play();
     this.prevTask();
   }
 
   handleNope(card) {
     console.log("nope", card);
+    // sounds.chord_nice.play();
     this.nextTask();
   }
 

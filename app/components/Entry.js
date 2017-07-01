@@ -1,123 +1,149 @@
-import React,  { Component } from 'react';
+import React, { Component } from "react";
 import {
   StyleSheet,
   Text,
-  TouchableHighlight,
   View,
-} from 'react-native';
+} from "react-native";
 
-import Icon from 'react-native-vector-icons/FontAwesome';
-import FlipCard from 'react-native-flip-card'
+import FlipCard from "react-native-flip-card";
 
-import { colors, window } from '../styles/common';
-import Volume from '../components/Volume';
+import { window } from "../styles/common";
+import playSound, { sounds } from "../utils/soundPlayer";
+import Volume from "../components/Volume";
 
 
-class Entry extends React.Component {
+class Entry extends Component {
+  static onFlipStart(isFlipped) {
+    if (!isFlipped) {
+      sounds.chord_nice.play();
+    }
+  }
+
+  componentDidMount() {
+    this.playAudio();
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return (this.props.entry.id !== nextProps.entry.id);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    this.playAudio();
+  }
+
+  playAudio() {
+    const audioUrl = `https://souka.io/${this.props.entry.audio_url}.mp3`;
+    playSound(audioUrl);
+  }
+
   render() {
-    let entry = this.props.entry;
-    let audio_url = `https://souka.io/${entry.audio_url}.mp3`;
-    let frontText =  entry.word || entry.kana;
-    let backText = entry.kana;
-    let word = entry.word;
-    let roman =  entry.roman;
-    let firstDefinition = entry.firstDefinition;
-    let examples = entry.examples.slice(0,3).map((e, index) =>
-        <View style={styles.example} key={e.id}>
-          <Text style={styles.exampleContent}>{index+1}. {e.content}</Text>
-          <Text style={styles.exampleTran}>    {e.translation}</Text>
-        </View>
-    )
-    let examplesView = examples.length && <View>
+    console.log("render entry");
+    const entry = this.props.entry;
+    const audioUrl = `https://souka.io/${entry.audio_url}.mp3`;
+    const frontText = entry.word || entry.kana;
+    const backText = entry.kana;
+    const roman = entry.roman;
+    const firstDefinition = entry.first_definition;
+    const examples = entry.examples.slice(0, 3).map((e, index) =>
+      (<View style={styles.example} key={e.id}>
+        <Text style={styles.exampleContent}>{index + 1}. {e.content}</Text>
+        <Text style={styles.exampleTran}>{`    ${e.translation}`}</Text>
+      </View>)
+    );
+    const examplesView = (examples.length && <View>
       <Text style={styles.examplesHeader}>例句：</Text>
       {examples}
-    </View> || null;
+    </View>) || null;
 
     return (
-          <FlipCard
-            style={styles.flipCard}
-            friction={20}
-            perspective={1000}
-            flipHorizontal={true}
-            flipVertical={false}
-            flip={false}
-            clickable={true}
-            onFlipped={(isFlipped)=>{console.log('isFlipped', isFlipped)}}
-          >
-            {/* Face Side */}
-            <View style={styles.face}>
-              <Text style={styles.frontText}>{frontText}</Text>
-              <Volume audio_url={audio_url} style={styles.volumeIcon} ref="volume"/>
-            </View>
+      <FlipCard
+        style={styles.flipCard}
+        friction={20}
+        perspective={1000}
+        flipHorizontal
+        flipVertical={false}
+        flip={false}
+        clickable
+        onFlipStart={this.constructor.onFlipStart}
+      >
+        {/* Face Side */}
+        <View style={styles.face}>
+          <Text style={styles.frontText}>{frontText}</Text>
+          <Volume audioUrl={audioUrl} style={styles.volumeIcon} />
+        </View>
 
-            {/* Back Side */}
-            <View style={styles.back}>
-              <Text style={styles.backText}>{backText}</Text>
-              <Text style={styles.roman}>{roman}</Text>
-              <Text style={styles.word}>{word}</Text>
-              <Text style={styles.firstDefinition}>{firstDefinition}</Text>
-              {examplesView}
-            </View>
-          </FlipCard>
+        {/* Back Side */}
+        <View style={styles.back}>
+          <Text style={styles.backText}>{backText}</Text>
+          <Text style={styles.roman}>{roman}</Text>
+          <Text style={styles.firstDefinition}>{firstDefinition}</Text>
+          {examplesView}
+        </View>
+      </FlipCard>
     );
   }
 }
 
 const styles = StyleSheet.create({
   flipCard: {
-    flex:0,
-    height: window.height*0.618,
-    width: window.width*0.8,
-    backgroundColor: 'white',
-    borderWidth:1,
-    borderColor: '#e1e8ee',
+    flex: 0,
+    height: window.height * 0.618,
+    width: window.width * 0.8,
+    backgroundColor: "white",
+    borderWidth: 1,
+    borderColor: "#e1e8ee",
     padding: 15,
   },
-  face:{
-    flex:1,
+  face: {
+    flex: 1,
     alignItems: "center",
     justifyContent: "center"
   },
-  back:{
+  back: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
   },
-  frontText:{
+  frontText: {
     fontSize: 48,
-    color:"#546576"
+    color: "#546576"
   },
-  backText:{
+  backText: {
     fontSize: 48,
-    color:"#546576",
-    marginBottom:5
+    color: "#546576",
+    marginBottom: 5
   },
-  word:{
-    fontSize: 24,
+  word: {
+    fontSize: 20,
     color: "#87939f",
-    marginBottom:5,
-
+    marginBottom: 5,
   },
-  roman:{
+  roman: {
+    fontSize: 18,
     color: "#87939f",
-    marginBottom:5,
+    marginBottom: 5,
   },
-  examplesHeader:{
+  firstDefinition: {
+    fontSize: 18,
+    color: "#87939f",
+    marginBottom: 15
+  },
+  examplesHeader: {
     color: "#999",
-    fontSize:13,
-    marginBottom:3
+    fontSize: 13,
+    marginBottom: 5
   },
-  exampleContent:{
-    color:"#546576",
-    marginBottom:3
+  exampleContent: {
+    color: "#546576",
+    marginBottom: 5
   },
-  exampleTran:{
+  exampleTran: {
     color: "#777",
-    marginBottom:6
+    marginBottom: 10
   },
   volumeIcon: {
     padding: 12,
-    position: 'absolute',
+    position: "absolute",
     bottom: 5,
     right: 5
   }
