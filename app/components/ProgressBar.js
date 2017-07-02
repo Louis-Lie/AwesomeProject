@@ -25,6 +25,9 @@ class ProgressBar extends Component {
   }
 }
 
+const backgroundColor = "#f3e3b0";
+const foregroundColor = "#FFCA61";
+
 const styles = StyleSheet.create({
   progressBar: {
     zIndex: 1000,

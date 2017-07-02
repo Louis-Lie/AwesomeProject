@@ -133,11 +133,13 @@ const styles = StyleSheet.create({
     marginBottom: 5
   },
   exampleContent: {
+    fontSize: 14,
     color: "#546576",
     marginBottom: 5
   },
   exampleTran: {
     color: "#777",
+    fontSize: 14,
     marginBottom: 10
   },
   volumeIcon: {

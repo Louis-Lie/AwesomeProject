@@ -30,11 +30,11 @@ class LearningScreen extends Component {
     },
     headerLeft: (
       <TouchableHighlight
-        style={{ padding: 12, }}
+        style={{ padding: 10, }}
         underlayColor={colors.primaryColor}
         onPress={() => { navigation.goBack(); }}
       >
-        <Icon name="close" size={18} color="white" />
+        <Icon name="close" size={20} color="white" />
       </TouchableHighlight>
      ),
   })
