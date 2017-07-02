@@ -36,7 +36,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#f3e3b0"
   },
   progressText: {
-    color: "white"
+    color: "white",
+    backgroundColor: "transparent"
   },
   progress: {
     position: "absolute",

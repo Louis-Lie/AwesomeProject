@@ -13,7 +13,7 @@ function request(method, url, body, callback) {
     payload = body;
     fn = callback;
   }
-
+  console.log(method, url, payload, fn);
   fetch(url, {
     method,
     headers: {

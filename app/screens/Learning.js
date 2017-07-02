@@ -131,16 +131,13 @@ class LearningScreen extends Component {
     }
   }
 
-
   handleYup(card) {
     console.log("yup", card);
-    // sounds.chord_prompt.play();
     this.prevTask();
   }
 
   handleNope(card) {
     console.log("nope", card);
-    // sounds.chord_nice.play();
     this.nextTask();
   }
 
@@ -165,8 +162,8 @@ class LearningScreen extends Component {
           style={{ flex: 1, }}
           cards={tasks}
           renderCard={cardData => <Entry entry={cardData} />}
-          handleYup={card => this.handleYup(card)}
-          handleNope={card => this.handleNope(card)}
+          handleYup={this.handleYup}
+          handleNope={this.handleNope}
           yupText="上一个"
           nopeText="下一个"
         />
@@ -182,24 +179,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backgroundColor,
     alignItems: "center",
     justifyContent: "center",
-  },
-  swiper: {
-
-  },
-  header: {
-    width: window.width * 0.8,
-    backgroundColor: "white",
-    position: "absolute",
-    top: 0,
-    height: 40,
-  },
-  footer: {
-    width: window.width * 0.8,
-    height: 35,
-    backgroundColor: "white",
-    position: "absolute",
-    bottom: 1,
-  },
+  }
 });
 
 export default LearningScreen;
