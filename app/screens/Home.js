@@ -52,8 +52,9 @@ class HomeScreen extends Component {
       this.setState({ searchResult: [] });
       return;
     }
-    fetcher.get(`https://souka.io/vocab/entry/?word=${query}`, (data) => {
-      this.setState({ searchResult: data });
+    fetcher.get(`/vocab/entry/?word=${query}`).then((res) => {
+      const searchResult = res.data;
+      this.setState({ searchResult });
     });
   }
 

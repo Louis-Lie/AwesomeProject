@@ -8,6 +8,7 @@ import {
 import store from "react-native-simple-store";
 import Icon from "react-native-vector-icons/FontAwesome";
 
+
 import SwipeCards from "../components/SwipeCards";
 import Entry from "../components/Entry";
 import ProgressBar from "../components/ProgressBar";
@@ -60,9 +61,10 @@ class LearningScreen extends Component {
   }
 
   componentWillMount() {
-    const taskUrl = `https://souka.io/course/courses/${this.state.course.id}/task/`;
-    fetcher.get(taskUrl, (data) => {
-      this.setState({ task: data, });
+    const taskUrl = `/course/courses/${this.state.course.id}/task/`;
+    fetcher.get(taskUrl).then((res) => {
+      const task = res.data;
+      this.setState({ task });
       this.prepareTask();
     });
   }
@@ -103,10 +105,11 @@ class LearningScreen extends Component {
     const entryIds = entries.map(e => e.id);
     const missIds = ids.filter(i => !entryIds.includes(i));
     if (missIds.length) {
-      const url = `https://souka.io/vocab/entry/?ids=${missIds.join(",")}`;
-      fetcher.get(url, (data) => {
+      const url = `/vocab/entry/?ids=${missIds.join(",")}`;
+      fetcher.get(url).then((res) => {
+        const data = res.data;
         store.save("entries", storedEntries.concat(data));
-        this.setState({ current_tasks: entries.concat(data), isLoading: false, });
+        this.setState({ current_tasks: entries.concat(data), isLoading: false });
       });
     } else {
       this.setState({ current_tasks: entries, isLoading: false, });

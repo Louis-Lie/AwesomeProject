@@ -6,13 +6,6 @@ import { Actions, ActionConst } from "react-native-router-flux";
 const LOGIN_URL = "https://souka.io/accounts/login/";
 const HOME_URL = "https://souka.io/";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#F5FCFF",
-  }
-});
-
 class AuthLogin extends Component {
   constructor(props) {
     super(props);
@@ -44,5 +37,12 @@ class AuthLogin extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#F5FCFF",
+  }
+});
 
 export default AuthLogin;

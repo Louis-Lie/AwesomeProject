@@ -22,14 +22,15 @@ class Course extends Component {
       isLoading: true
     };
 
-    const url = "https://souka.io/course/user_courses/?active=1";
-    fetcher.get(url, (data) => {
+    fetcher.get("/course/user_courses/?active=1").then((res) => {
+      const data = res.data;
       if (data.results.length) {
         this.setState({ userCourse: data.results[0] });
         const course = this.state.userCourse.course;
-        const taskUrl = `https://souka.io/course/courses/${course.id}/task/`;
-        fetcher.get(taskUrl, (data) => {
-          this.setState({ task: data, isLoading: false });
+        const taskUrl = `/course/courses/${course.id}/task/`;
+        fetcher.get(taskUrl).then((res2) => {
+          const data2 = res2.data;
+          this.setState({ task: data2, isLoading: false });
         });
       } else {
         // TODO: render no user course
