@@ -25,7 +25,9 @@ function request(method, url, body, callback) {
   .then(response => response.json())
   .then((data) => {
     console.log("fetch data: ", data);
-    fn(data);
+    if (fn) {
+      fn(data);
+    }
   })
   .catch((error) => {
     console.warn(error);

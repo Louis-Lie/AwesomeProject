@@ -11,7 +11,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import SwipeCards from "../components/SwipeCards";
 import Entry from "../components/Entry";
 import ProgressBar from "../components/ProgressBar";
-import { colors, window, } from "../styles/common";
+import { colors, } from "../styles/common";
 import fetcher from "../utils/fetcher";
 
 
@@ -56,6 +56,7 @@ class LearningScreen extends Component {
 
     this.handleYup = this.handleYup.bind(this);
     this.handleNope = this.handleNope.bind(this);
+    this.handleMaybe = this.handleMaybe.bind(this);
   }
 
   componentWillMount() {
@@ -127,6 +128,9 @@ class LearningScreen extends Component {
     if (index === this.state.current_tasks.length) {
       console.log("finished");
     } else {
+      const taskUrl = `https://souka.io/course/courses/${this.state.course.id}/task/`;
+      const entry = this.state.current_tasks[this.state.current_index];
+      fetcher.put(taskUrl, { 1: [entry.id] });
       this.setState({ current_index: index, });
     }
   }
@@ -139,6 +143,13 @@ class LearningScreen extends Component {
   handleNope(card) {
     console.log("nope", card);
     this.nextTask();
+  }
+
+  handleMaybe(card) {
+    console.log(this, this.state);
+    this.setState({
+      current_index: this.state.current_tasks.length - 2
+    });
   }
 
   render() {
@@ -162,8 +173,11 @@ class LearningScreen extends Component {
           style={{ flex: 1, }}
           cards={tasks}
           renderCard={cardData => <Entry entry={cardData} />}
+          renderNoMoreCards={() => <NoMoreCards />}
           handleYup={this.handleYup}
           handleNope={this.handleNope}
+          handleMaybe={this.handleMaybe}
+          hasMaybeAction
           yupText="上一个"
           nopeText="下一个"
         />

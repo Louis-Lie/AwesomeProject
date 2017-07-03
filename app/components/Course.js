@@ -37,8 +37,6 @@ class Course extends Component {
     });
 
     this.startLearning = this.startLearning.bind(this);
-    this.formatPreview = this.formatPreview.bind(this);
-    this.formatDictation = this.formatDictation.bind(this);
   }
 
   startLearning() {
@@ -55,13 +53,15 @@ class Course extends Component {
     const Preview = null;
     let numLearned = 0;
     let taskTitle = "";
-    if (task["0"].length) {
-      numLearned = numToday - task["0"].length;
-      taskTitle = "今日任务";
-    } else if (task["1"].length) {
-      // TODO add a header display finished
-      numLearned = numToday - task["1"].length;
-      taskTitle = "听写";
+    if (task) {
+      if (task["0"].length) {
+        numLearned = numToday - task["0"].length;
+        taskTitle = "今日任务：";
+      } else if (task["1"].length) {
+        // TODO add a header display finished
+        numLearned = numToday - task["1"].length;
+        taskTitle = "听写：";
+      }
     }
     // const coverUrl = (course && course.cover) || "";
     let button = null;
@@ -83,7 +83,7 @@ class Course extends Component {
         >
           <View style={styles.center}>
             <Text style={styles.taskTitle}>
-              {taskTitle}: {numLearned} / {numToday}
+              {taskTitle} {numLearned} / {numToday}
             </Text>
             <Progress.Circle
               style={styles.circle}
