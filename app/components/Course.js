@@ -7,7 +7,7 @@ import {
   StyleSheet,
   View
 } from "react-native";
-import { Button, Card, Rating } from "react-native-elements";
+import { Button, Card } from "react-native-elements";
 import * as Progress from "react-native-progress";
 
 import { colors } from "../styles/common";
@@ -41,34 +41,41 @@ class Course extends Component {
     this.formatDictation = this.formatDictation.bind(this);
   }
 
-  formatPreview(progress) {
-    return progress;
-  }
-
-  formatDictation(progress) {
-    return progress;
-  }
   startLearning() {
     this.props.startLearning(this.state.userCourse.course);
   }
 
+
   render() {
     const userCourse = this.state.userCourse;
     const course = userCourse && userCourse.course;
-    const coverUrl = (course && course.cover) || "";
+
+    const task = this.state.task;
+    const numToday = (task && task["0"].length + task["1"].length + task["2"].length) || 0;
+    const Preview = null;
+    let numLearned = 0;
+    let taskTitle = "";
+    if (task["0"].length) {
+      numLearned = numToday - task["0"].length;
+      taskTitle = "今日任务";
+    } else if (task["1"].length) {
+      // TODO add a header display finished
+      numLearned = numToday - task["1"].length;
+      taskTitle = "听写";
+    }
+    // const coverUrl = (course && course.cover) || "";
     let button = null;
     if (this.state.isLoading) {
-      button = <View style={{ marginTop: 20 }}><ActivityIndicator /></View>;
+      button = <View><ActivityIndicator /></View>;
     } else {
       button = (<Button
-        style={{ marginTop: 25 }}
-
         backgroundColor={colors.primaryColor}
         buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
         onPress={this.startLearning}
         title="开始学习"
       />);
     }
+
     return (
       <View>
         <Card
@@ -76,52 +83,18 @@ class Course extends Component {
         >
           <View style={styles.center}>
             <Text style={styles.taskTitle}>
-              今日任务
+              {taskTitle}: {numLearned} / {numToday}
             </Text>
-            <View style={styles.inlineTask}>
-              <View style={{ flex: 1, alignItems: "center" }}>
-                <Progress.Circle
-                  size={80}
-                  color={colors.tintColor}
-                  progress={0.3}
-                  animated={false}
-                  showsText
-                  textStyle={{ fontSize: 20, color: "#537780" }}
-                />
-              </View>
-              <View style={[styles.center, { flex: 1 }]}>
-                <Text style={styles.taskNum}>
-                  {userCourse && userCourse.num_today_finished}/{userCourse && userCourse.quota}
-                </Text>
-                <Text style={styles.taskText}>
-                  预习
-                </Text>
-              </View>
-
-
-            </View>
-
-            <View style={styles.inlineTask}>
-              <View style={{ flex: 1, alignItems: "center" }}>
-                <Progress.Circle
-                  size={80}
-                  color={colors.tintColor}
-                  progress={0}
-                  animated={false}
-                  showsText
-                  textStyle={{ fontSize: 20, color: "#537780" }}
-                />
-              </View>
-              <View style={[styles.center, { flex: 1 }]}>
-                <Text style={styles.taskNum}>
-                  {userCourse && userCourse.num_today_finished}/{userCourse && userCourse.quota}
-                </Text>
-                <Text style={styles.taskText}>
-                  听写
-              </Text>
-              </View>
-
-            </View>
+            <Progress.Circle
+              style={styles.circle}
+              size={120}
+              color={colors.tintColor}
+              thickness={6}
+              progress={1}
+              animated={false}
+              showsText
+              textStyle={{ fontSize: 20, color: "#537780" }}
+            />
           </View>
           {button}
         </Card>
@@ -139,14 +112,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginBottom: 20,
   },
-
-  taskText: {
-    fontSize: 16,
-    color: "#ccc",
+  taskTitle: {
+    color: "#757A79",
+    fontSize: 18
   },
-  taskNum: {
-    fontSize: 32,
-    color: "#757A79"
+  circle: {
+    marginTop: 20,
+    marginBottom: 25
   }
 });
 export default Course;
