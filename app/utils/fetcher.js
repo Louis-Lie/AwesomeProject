@@ -1,3 +1,5 @@
+import CookieManager from "react-native-cookies";
+
 const axios = require("axios");
 
 
@@ -5,11 +7,10 @@ const instance = axios.create({
   baseURL: "https://souka.io",
   timeout: 3000,
   headers: {
+    REFERER: "https://souka.io",
     Accept: "application/json",
     "Content-Type": "application/json"
   },
-  xsrfCookieName: "csrftoken",
-  xsrfHeaderName: "X-CSRFToken",
   transformResponse: [(data) => {
     console.log("fetch data --> ", JSON.parse(data));
     return JSON.parse(data);
@@ -33,55 +34,8 @@ instance.interceptors.response.use((response) => {
     // Do something with response error
    Promise.reject(error));
 
-// let csrfToken = null;
-// if (!csrfToken) {
-//   CookieManager.getAll((err, res) => {
-//     console.log("get cookies", err, res);
-//     csrfToken = res.csrftoken.value;
-//   });
-// }
-//
-// function isFunction(functionToCheck) {
-//   const getType = {};
-//   return functionToCheck && getType.toString.call(functionToCheck) === "[object Function]";
-// }
-//
-// function request(method, url, body, callback) {
-//   let payload = null;
-//   let fn = null;
-//
-//   if (isFunction(body)) {
-//     fn = body;
-//   } else {
-//     payload = body;
-//     fn = callback;
-//   }
-//
-//   console.log(method, url, payload, fn);
-//   fetch(url, {
-//     method,
-//     referrer: "https://souka.io",
-//     headers: {
-//       Accept: "application/json",
-//       "Content-Type": "application/json",
-//       "X-CSRFToken": csrfToken
-//     },
-//     body: payload && JSON.stringify(payload)
-//   })
-//   .then(response => response.json())
-//   .then((data) => {
-//     console.log("fetch data: ", data);
-//     if (fn) {
-//       fn(data);
-//     }
-//   })
-//   .catch((error) => {
-//     console.warn(error);
-//   });
-// }
-//
-// const methods = {};
-// ["delete", "get", "post", "put"].forEach((method) => {
-//   methods[method] = (url, body, callback) => request(method.toUpperCase(), url, body, callback);
-// });
+CookieManager.getAll((err, res) => {
+  console.log("get all cookies: ", res, err);
+  instance.defaults.headers.common["X-CSRFToken"] = res.csrftoken.value;
+});
 export default instance;
