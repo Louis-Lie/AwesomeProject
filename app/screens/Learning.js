@@ -7,9 +7,8 @@ import {
 } from "react-native";
 import store from "react-native-simple-store";
 import Icon from "react-native-vector-icons/FontAwesome";
+import SwipeCards from "react-native-swipe-cards";
 
-
-import SwipeCards from "../components/SwipeCards";
 import Entry from "../components/Entry";
 import ProgressBar from "../components/ProgressBar";
 import { colors, } from "../styles/common";
@@ -45,14 +44,13 @@ class LearningScreen extends Component {
     const course = this.props.navigation.state.params.course;
     this.state = {
       task: {},
+      index: 0,
       entries: [],
       course,
       isLoading: true,
       learning_type: "",
       right_ids: [],
-      wrong_ids: [],
-      current_tasks: [],
-      current_index: 0,
+      wrong_ids: []
     };
 
     this.handleYup = this.handleYup.bind(this);
@@ -71,21 +69,24 @@ class LearningScreen extends Component {
 
   prepareTask() {
     const task = this.state.task;
-    let taskIds = null;
+    const taskIds = [].concat.apply([], [task["0"], task["1"], task["2"], task["3"]]);
+    const numToday = taskIds.length;
+    let index = 0;
     let learningType = null;
     if (task["0"].length) {
       learningType = "memory";
-      taskIds = task["0"];
+      index = numToday - task["0"].length;
     } else if (task["1"].length) {
       learningType = "dictation";
-      taskIds = task["1"];
+      index = numToday - task["1"].length;
     } else {
       learningType = "review";
-      taskIds = task["2"];
+      index = numToday - task["2"].length;
     }
 
     this.setState({
       learningType,
+      index
     });
     const title = {
       memory: "预习",
@@ -93,6 +94,7 @@ class LearningScreen extends Component {
       review: "复习",
     }[learningType];
     this.props.navigation.setParams({ title, });
+
     store.get("entries").then((entries) => {
       const storedEntries = entries || [];
       console.log("get stored entries: ", storedEntries);
@@ -109,32 +111,32 @@ class LearningScreen extends Component {
       fetcher.get(url).then((res) => {
         const data = res.data;
         store.save("entries", storedEntries.concat(data));
-        this.setState({ current_tasks: entries.concat(data), isLoading: false });
+        this.setState({ entries: entries.concat(data), isLoading: false });
       });
     } else {
-      this.setState({ current_tasks: entries, isLoading: false, });
+      this.setState({ entries, isLoading: false, });
     }
   }
 
   prevTask() {
     console.log("prevTask");
-    if (this.state.current_index === 0) {
+    if (this.state.index === 0) {
       return;
     }
-    const index = this.state.current_index - 1;
-    this.setState({ current_index: index, });
+    const index = this.state.index - 1;
+    this.setState({ index, });
   }
 
   nextTask() {
     console.log("nextTask");
-    const index = this.state.current_index + 1;
-    if (index === this.state.current_tasks.length) {
+    if (this.state.index === this.state.entries.length - 1) {
       console.log("finished");
     } else {
-      const taskUrl = `https://souka.io/course/courses/${this.state.course.id}/task/`;
-      const entry = this.state.current_tasks[this.state.current_index];
+      const entry = this.state.entries[this.state.index];
+      const taskUrl = `/course/courses/${this.state.course.id}/task/`;
       fetcher.put(taskUrl, { 1: [entry.id] });
-      this.setState({ current_index: index, });
+      const index = this.state.index + 1;
+      this.setState({ index, });
     }
   }
 
@@ -151,7 +153,7 @@ class LearningScreen extends Component {
   handleMaybe(card) {
     console.log(this, this.state);
     this.setState({
-      current_index: this.state.current_tasks.length - 2
+      current_index: this.state.entries.length - 2
     });
   }
 
@@ -163,18 +165,21 @@ class LearningScreen extends Component {
         </View>
       );
     }
-    const tasks = this.state.current_tasks;
+    const entries = this.state.entries;
+    const task = this.state.task;
+    const numToday = (task && task["0"].length + task["1"].length + task["2"].length) || 0;
 
     return (
       <View style={styles.container}>
         <ProgressBar
-          index={this.state.current_index}
-          length={this.state.current_tasks.length}
+          index={this.state.index}
+          length={numToday}
         />
 
         <SwipeCards
           style={{ flex: 1, }}
-          cards={tasks}
+          cards={entries}
+          initial_index={this.state.index}
           renderCard={cardData => <Entry entry={cardData} />}
           renderNoMoreCards={() => <NoMoreCards />}
           handleYup={this.handleYup}
