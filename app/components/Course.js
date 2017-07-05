@@ -6,10 +6,11 @@ import {
   StyleSheet,
   View
 } from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
 import { Button, Card } from "react-native-elements";
 import * as Progress from "react-native-progress";
 
-import { colors } from "../styles/common";
+import { colors, window } from "../styles/common";
 import fetcher from "../utils/fetcher";
 
 class Course extends Component {
@@ -50,7 +51,7 @@ class Course extends Component {
 
     const task = this.state.task;
     const numToday = (task && task["0"].length + task["1"].length + task["2"].length) || 0;
-    const Preview = null;
+    let Preview = null;
     let numLearned = 0;
     let taskTitle = "";
     if (task) {
@@ -59,6 +60,10 @@ class Course extends Component {
         taskTitle = "今日任务：";
       } else if (task["1"].length) {
         // TODO add a header display finished
+        Preview = (<View style={styles.preview}>
+          <Text style={{ color: colors.textColor }}>预习完成</Text>
+          <Icon name="star" size={16} color="#FCE38A" />
+        </View>);
         numLearned = numToday - task["1"].length;
         taskTitle = "听写：";
       }
@@ -82,6 +87,8 @@ class Course extends Component {
         <Card
           title={(course && course.name) || "こんにちは"}
         >
+
+          {Preview}
           <View style={styles.center}>
             <Text style={styles.taskTitle}>
               {taskTitle} {numLearned} / {numToday}
@@ -116,6 +123,9 @@ const styles = StyleSheet.create({
   taskTitle: {
     color: "#757A79",
     fontSize: 18
+  },
+  preview: {
+    flexDirection: "row",
   },
   circle: {
     marginTop: 20,
