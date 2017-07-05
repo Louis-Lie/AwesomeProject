@@ -2,7 +2,6 @@ import React, { Component } from "react";
 
 import {
   ActivityIndicator,
-  Image,
   Text,
   StyleSheet,
   View
@@ -64,13 +63,14 @@ class Course extends Component {
         taskTitle = "听写：";
       }
     }
+    console.log(numLearned, numToday);
     // const coverUrl = (course && course.cover) || "";
     let button = null;
     if (this.state.isLoading) {
       button = <View><ActivityIndicator /></View>;
     } else {
       button = (<Button
-        backgroundColor={colors.primaryColor}
+        backgroundColor={colors.buttonColor}
         buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
         onPress={this.startLearning}
         title="开始学习"
@@ -88,10 +88,10 @@ class Course extends Component {
             </Text>
             <Progress.Circle
               style={styles.circle}
-              size={120}
-              color={colors.tintColor}
+              size={140}
+              color={"#FFCA61"}
               thickness={6}
-              progress={1}
+              progress={(numToday && numLearned / numToday) || 0}
               animated={false}
               showsText
               textStyle={{ fontSize: 20, color: "#537780" }}

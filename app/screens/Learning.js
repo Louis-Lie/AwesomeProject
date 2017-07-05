@@ -10,6 +10,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import SwipeCards from "react-native-swipe-cards";
 
 import Entry from "../components/Entry";
+import TaskFinished from "../components/TaskFinished";
 import ProgressBar from "../components/ProgressBar";
 import { colors, } from "../styles/common";
 import fetcher from "../utils/fetcher";
@@ -129,7 +130,7 @@ class LearningScreen extends Component {
 
   nextTask() {
     console.log("nextTask");
-    if (this.state.index === this.state.entries.length - 1) {
+    if (this.state.index === this.state.entries.length) {
       console.log("finished");
     } else {
       const entry = this.state.entries[this.state.index];
@@ -181,7 +182,7 @@ class LearningScreen extends Component {
           cards={entries}
           initial_index={this.state.index}
           renderCard={cardData => <Entry entry={cardData} />}
-          renderNoMoreCards={() => <NoMoreCards />}
+          renderNoMoreCards={() => <TaskFinished navigation={this.props.navigation} />}
           handleYup={this.handleYup}
           handleNope={this.handleNope}
           handleMaybe={this.handleMaybe}

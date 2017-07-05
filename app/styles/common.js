@@ -1,18 +1,14 @@
-import { Dimensions, StyleSheet } from "react-native";
+import { Dimensions } from "react-native";
 
-let iconSize = 24;
+const iconSize = 24;
 
-let colors = {
-  primaryColor: '#0E91A1',
-  backgroundColor: '#F2F1ED',
-  tintColor: '#6BCFDF',
-}
-let window = Dimensions.get("window");
+const colors = {
+  primaryColor: "#00ADB5", // "#3EC1D3",
+  buttonColor: "#3FC1C9", // "#0E91A1",
+  backgroundColor: "#F2F1ED",
+  tintColor: "#3FC1C9",
+  textColor: "#757A79"
+};
+
+const window = Dimensions.get("window");
 export { colors, window };
-export default StyleSheet.create({
- icon: {
-   height: iconSize,
-   width: iconSize,
-   borderRadius: iconSize / 2 //make this a circle
- }
-});
