@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
   },
   preview: {
     flexDirection: "row",
+    alignItems: "center"
   },
   circle: {
     marginTop: 20,

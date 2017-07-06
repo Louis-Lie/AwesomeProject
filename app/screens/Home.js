@@ -17,6 +17,7 @@ import { colors } from "../styles/common";
 import fetcher from "../utils/fetcher";
 import SearchResult from "../components/SearchResult";
 import Course from "../components/Course";
+import Quote from "../components/Quote";
 import LearningScreen from "./Learning";
 
 
@@ -89,6 +90,7 @@ class HomeScreen extends Component {
         />
         <SearchResult dataSource={this.state.searchResult} />
         <Course startLearning={this.startLearning} />
+        <Quote />
       </View>
     );
   }
