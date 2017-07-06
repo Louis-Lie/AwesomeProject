@@ -3,11 +3,10 @@ import React, { Component } from "react";
 import {
   Text,
   StyleSheet,
-  View
 } from "react-native";
 
 import { Card } from "react-native-elements";
-import { colors, window } from "../styles/common";
+import { colors } from "../styles/common";
 import fetcher from "../utils/fetcher";
 
 class Quote extends Component {
@@ -38,7 +37,7 @@ class Quote extends Component {
 
 const styles = StyleSheet.create({
   content: {
-    fontSize: 13,
+    fontSize: 12,
     color: colors.textColor,
     marginBottom: 8
   },
@@ -48,7 +47,7 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   source: {
-    fontSize: 13,
+    fontSize: 12,
     color: colors.textColor
   }
 });

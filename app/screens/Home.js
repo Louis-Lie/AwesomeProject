@@ -68,9 +68,9 @@ class HomeScreen extends Component {
     this.setState({ searching: false });
   }
 
-  startLearning(course) {
+  startLearning(course, task) {
     console.log("start learning course: ", this);
-    this.props.navigation.navigate("Learning", { course });
+    this.props.navigation.navigate("Learning", { course, task });
   }
 
   render() {

@@ -41,7 +41,7 @@ class Course extends Component {
   }
 
   startLearning() {
-    this.props.startLearning(this.state.userCourse.course);
+    this.props.startLearning(this.state.userCourse.course, this.state.task);
   }
 
 

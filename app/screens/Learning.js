@@ -43,11 +43,12 @@ class LearningScreen extends Component {
   constructor(props) {
     super(props);
     const course = this.props.navigation.state.params.course;
+    const task = this.props.navigation.state.params.task;
     this.state = {
-      task: {},
+      task,
+      course,
       index: 0,
       entries: [],
-      course,
       isLoading: true,
       learning_type: "",
       right_ids: [],
@@ -60,14 +61,8 @@ class LearningScreen extends Component {
   }
 
   componentWillMount() {
-    const taskUrl = `/course/courses/${this.state.course.id}/task/`;
-    fetcher.get(taskUrl).then((res) => {
-      const task = res.data;
-      this.setState({ task });
-      this.prepareTask();
-    });
+    this.prepareTask();
   }
-
   prepareTask() {
     const task = this.state.task;
     const taskIds = [].concat.apply([], [task["0"], task["1"], task["2"], task["3"]]);
