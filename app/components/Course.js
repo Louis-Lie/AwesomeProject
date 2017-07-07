@@ -10,7 +10,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { Button, Card } from "react-native-elements";
 import * as Progress from "react-native-progress";
 
-import { colors, window } from "../styles/common";
+import { colors } from "../styles/common";
 import fetcher from "../utils/fetcher";
 
 class Course extends Component {
@@ -59,10 +59,9 @@ class Course extends Component {
         numLearned = numToday - task["0"].length;
         taskTitle = "今日任务：";
       } else if (task["1"].length) {
-        // TODO add a header display finished
         Preview = (<View style={styles.preview}>
-          <Text style={{ color: colors.textColor }}>预习完成</Text>
-          <Icon name="star" size={16} color="#FCE38A" />
+          <Text style={styles.taskTitle}>预习完成</Text>
+          <Icon name="star" size={18} color="#FCE38A" style={{ marginLeft: 5 }} />
         </View>);
         numLearned = numToday - task["1"].length;
         taskTitle = "听写：";
@@ -116,21 +115,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  inlineTask: {
-    flexDirection: "row",
-    marginBottom: 20,
-  },
-  taskTitle: {
-    color: "#757A79",
-    fontSize: 18
-  },
   preview: {
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 15,
+  },
+  taskTitle: {
+    color: colors.textColor,
+    fontSize: 18
   },
   circle: {
-    marginTop: 20,
-    marginBottom: 25
+    marginTop: 15,
+    marginBottom: 20
   }
 });
 export default Course;
