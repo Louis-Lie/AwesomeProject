@@ -51,7 +51,7 @@ class Course extends Component {
 
     const task = this.state.task;
     const numToday = (task && task["0"].length + task["1"].length + task["2"].length) || 0;
-    let Preview = null;
+    let PreviewHeader = null;
     let numLearned = 0;
     let taskTitle = "";
     if (task) {
@@ -59,7 +59,7 @@ class Course extends Component {
         numLearned = numToday - task["0"].length;
         taskTitle = "今日任务：";
       } else if (task["1"].length) {
-        Preview = (<View style={styles.preview}>
+        PreviewHeader = (<View style={styles.preview}>
           <Text style={styles.taskTitle}>预习完成</Text>
           <Icon name="star" size={18} color="#FCE38A" style={{ marginLeft: 5 }} />
         </View>);
@@ -87,7 +87,7 @@ class Course extends Component {
           title={(course && course.name) || "こんにちは"}
         >
 
-          {Preview}
+          {PreviewHeader}
           <View style={styles.center}>
             <Text style={styles.taskTitle}>
               {taskTitle} {numLearned} / {numToday}

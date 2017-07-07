@@ -12,7 +12,7 @@ import playSound, { sounds } from "../utils/soundPlayer";
 import Volume from "../components/Volume";
 
 
-class Entry extends Component {
+class Dicttion extends Component {
   static onFlipStart(isFlipped) {
     if (!isFlipped) {
       sounds.chord_nice.play();
@@ -150,4 +150,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Entry;
+export default Dicttion;

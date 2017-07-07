@@ -9,7 +9,9 @@ import store from "react-native-simple-store";
 import Icon from "react-native-vector-icons/FontAwesome";
 import SwipeCards from "react-native-swipe-cards";
 
-import Entry from "../components/Entry";
+import Preview from "../components/Preview";
+import Dictation from "../components/Dictation";
+import Review from "../components/Review";
 import TaskFinished from "../components/TaskFinished";
 import ProgressBar from "../components/ProgressBar";
 import { colors, } from "../styles/common";
@@ -70,7 +72,7 @@ class LearningScreen extends Component {
     let index = 0;
     let learningType = null;
     if (task["0"].length) {
-      learningType = "memory";
+      learningType = "preview";
       index = numToday - task["0"].length;
     } else if (task["1"].length) {
       learningType = "dictation";
@@ -85,7 +87,7 @@ class LearningScreen extends Component {
       index
     });
     const title = {
-      memory: "预习",
+      preview: "预习",
       dictation: "听写",
       review: "复习",
     }[learningType];
@@ -165,6 +167,12 @@ class LearningScreen extends Component {
     const task = this.state.task;
     const numToday = (task && task["0"].length + task["1"].length + task["2"].length) || 0;
 
+    const LearningMode = {
+      preview: Preview,
+      dictation: Dictation,
+      review: Review,
+    }[this.state.learningType];
+
     return (
       <View style={styles.container}>
         <ProgressBar
@@ -176,7 +184,7 @@ class LearningScreen extends Component {
           style={{ flex: 1, }}
           cards={entries}
           initial_index={this.state.index}
-          renderCard={cardData => <Entry entry={cardData} />}
+          renderCard={cardData => <LearningMode entry={cardData} />}
           renderNoMoreCards={() => <TaskFinished navigation={this.props.navigation} />}
           handleYup={this.handleYup}
           handleNope={this.handleNope}
