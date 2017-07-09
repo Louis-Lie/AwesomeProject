@@ -1,153 +1,54 @@
 import React, { Component } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
 
-import FlipCard from "react-native-flip-card";
+import SwipeCards from "react-native-swipe-cards";
 
-import { window } from "../styles/common";
-import playSound, { sounds } from "../utils/soundPlayer";
-import Volume from "../components/Volume";
+import Entry from "../components/Entry";
+import TaskFinished from "../components/TaskFinished";
 
 
-class Dicttion extends Component {
-  static onFlipStart(isFlipped) {
-    if (!isFlipped) {
-      sounds.chord_nice.play();
-    }
+class Review extends Component {
+  constructor(props) {
+    super(props);
+
+    this.handleYup = this.handleYup.bind(this);
+    this.handleNope = this.handleNope.bind(this);
+    this.handleMaybe = this.handleMaybe.bind(this);
   }
 
-  componentDidMount() {
-    this.playAudio();
+  handleYup(card) {
+    console.log("yup", card);
+    this.props.prevTask();
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return (this.props.entry.id !== nextProps.entry.id);
+  handleNope(card) {
+    console.log("nope", card);
+    this.props.nextTask();
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    this.playAudio();
-  }
-
-  playAudio() {
-    const audioUrl = `https://souka.io/${this.props.entry.audio_url}.mp3`;
-    playSound(audioUrl);
+  handleMaybe(card) {
+    console.log("maybe", card);
+    console.log(this, this.state);
   }
 
   render() {
-    const entry = this.props.entry;
-    const audioUrl = `https://souka.io/${entry.audio_url}.mp3`;
-    const frontText = entry.word || entry.kana;
-    const backText = entry.kana;
-    const roman = entry.roman;
-    const firstDefinition = entry.first_definition;
-    const examples = entry.examples.slice(0, 3).map((e, index) =>
-      (<View style={styles.example} key={e.id}>
-        <Text style={styles.exampleContent}>{index + 1}. {e.content}</Text>
-        <Text style={styles.exampleTran}>{`    ${e.translation}`}</Text>
-      </View>)
-    );
-    const examplesView = (examples.length && <View>
-      <Text style={styles.examplesHeader}>例句：</Text>
-      {examples}
-    </View>) || null;
+    const entries = this.props.entries;
 
     return (
-      <FlipCard
-        style={styles.flipCard}
-        friction={20}
-        perspective={1000}
-        flipHorizontal
-        flipVertical={false}
-        flip={false}
-        clickable
-        onFlipStart={this.constructor.onFlipStart}
-      >
-        {/* Face Side */}
-        <View style={styles.face}>
-          <Text style={styles.frontText}>{frontText}</Text>
-          <Volume audioUrl={audioUrl} style={styles.volumeIcon} />
-        </View>
-
-        {/* Back Side */}
-        <View style={styles.back}>
-          <Text style={styles.backText}>{backText}</Text>
-          <Text style={styles.roman}>{roman}</Text>
-          <Text style={styles.firstDefinition}>{firstDefinition}</Text>
-          {examplesView}
-        </View>
-      </FlipCard>
+      <SwipeCards
+        style={{ flex: 1, }}
+        cards={entries}
+        initial_index={this.props.index}
+        renderCard={cardData => <Entry entry={cardData} />}
+        renderNoMoreCards={() => <TaskFinished goBack={this.props.goBack} title="已完成所有复习任务" />}
+        handleYup={this.handleYup}
+        handleNope={this.handleNope}
+        handleMaybe={this.handleMaybe}
+        hasMaybeAction
+        yupText="上一个"
+        nopeText="下一个"
+      />
     );
   }
 }
 
-const styles = StyleSheet.create({
-  flipCard: {
-    flex: 0,
-    height: window.height * 0.618,
-    width: window.width * 0.8,
-    backgroundColor: "white",
-    borderWidth: 1,
-    borderColor: "#e1e8ee",
-    padding: 15,
-  },
-  face: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  back: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  frontText: {
-    fontSize: 48,
-    color: "#546576"
-  },
-  backText: {
-    fontSize: 48,
-    color: "#546576",
-    marginBottom: 5
-  },
-  word: {
-    fontSize: 20,
-    color: "#87939f",
-    marginBottom: 5,
-  },
-  roman: {
-    fontSize: 18,
-    color: "#87939f",
-    marginBottom: 5,
-  },
-  firstDefinition: {
-    fontSize: 18,
-    color: "#87939f",
-    marginBottom: 15
-  },
-  examplesHeader: {
-    color: "#999",
-    fontSize: 13,
-    marginBottom: 5
-  },
-  exampleContent: {
-    fontSize: 14,
-    color: "#546576",
-    marginBottom: 5
-  },
-  exampleTran: {
-    color: "#777",
-    fontSize: 14,
-    marginBottom: 10
-  },
-  volumeIcon: {
-    padding: 12,
-    position: "absolute",
-    bottom: 5,
-    right: 5
-  }
-});
-
-export default Dicttion;
+export default Review;

@@ -3,7 +3,6 @@ import {
   StyleSheet,
   View,
   Keyboard,
-  ScrollView,
   StatusBar,
   TouchableWithoutFeedback
 } from "react-native";
@@ -46,8 +45,13 @@ class HomeScreen extends Component {
     this.setSearchText = this.setSearchText.bind(this);
     this.searchStart = this.searchStart.bind(this);
     this.searchEnd = this.searchEnd.bind(this);
+    this.onGoBack = this.onGoBack.bind(this);
   }
 
+  onGoBack() {
+    console.log("on go back", this);
+    this.courseView.updateTasks();
+  }
 
   setSearchText(query) {
     console.log("search: ", query);
@@ -76,9 +80,7 @@ class HomeScreen extends Component {
       onGoBack: this.onGoBack
     });
   }
-  onGoBack(){
-    console.log('on go back');
-  }
+
 
   render() {
     let searchResult = null;
@@ -102,7 +104,7 @@ class HomeScreen extends Component {
             onBlur={this.searchEnd}
           />
           {searchResult}
-          <Course startLearning={this.startLearning} />
+          <Course ref={(c) => { this.courseView = c; }} startLearning={this.startLearning} />
           <Quote />
         </View>
       </TouchableWithoutFeedback>

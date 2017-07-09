@@ -61,15 +61,15 @@ class LearningScreen extends Component {
     this.nextTask = this.nextTask.bind(this);
   }
 
-
   componentWillMount() {
     this.prepareTask();
   }
 
   goBack() {
     this.props.navigation.state.params.onGoBack();
-    this.props.navigatin.goBack();
+    this.props.navigation.goBack();
   }
+
   prepareTask() {
     const task = this.state.task;
     const taskIds = [].concat.apply([], [task["0"], task["1"], task["2"], task["3"]]);
@@ -95,7 +95,7 @@ class LearningScreen extends Component {
     const nextStatus = {
       preview: 1,
       dictation: 2,
-      revie2: 3
+      review: 3
     }[learningType];
 
     this.props.navigation.setParams({ title });
@@ -139,7 +139,7 @@ class LearningScreen extends Component {
 
   nextTask() {
     console.log("nextTask", this);
-    if (this.state.index === this.state.entries.length - 1) {
+    if (this.state.index === this.state.entries.length) {
       console.log("finished");
     } else {
       const entry = this.state.entries[this.state.index];

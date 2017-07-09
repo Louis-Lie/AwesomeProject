@@ -4,6 +4,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableHighlight,
   View,
 } from "react-native";
 import KeyboardSpacer from "react-native-keyboard-spacer";
@@ -15,7 +16,7 @@ import TaskFinished from "../components/TaskFinished";
 import Volume from "../components/Volume";
 import Choice from "../components/Choice";
 
-class Dicttion extends Component {
+class Dictation extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -61,7 +62,7 @@ class Dicttion extends Component {
     if (this.state.freeze) { return; }
     const answer = this.state.answer + text;
     this.textInput.setNativeProps({ text: answer });
-    this.setState({ answer }, () => this.checkAnswer(false));
+    this.setState({ answer, }, () => this.checkAnswer(false));
   }
 
   checkAnswer(checkWrong = true) {
@@ -89,14 +90,15 @@ class Dicttion extends Component {
   }
 
   render() {
-    if (this.props.index === this.props.entries.length - 1) {
+    const entry = this.props.entries[this.props.index];
+    if (!this.entry) {
       return (<TaskFinished
         goBack={this.props.goBack}
         title="已完成所有听写任务"
       />);
     }
+
     const entries = this.props.entries;
-    const entry = this.props.entries[this.props.index];
     const audioUrl = `https://souka.io/${entry.audio_url}.mp3`;
     const rightAnswer = (this.state.showAnswer && <View style={styles.rightAnswer}>
       <Text style={styles.rightLabel}>正确答案</Text>
@@ -136,6 +138,9 @@ class Dicttion extends Component {
           onPress={this.checkAnswer}
           title="检查"
         />
+        <TouchableHighlight style={styles.audioFeedback} onPress={this.props.nextTask}>
+          <Text style={{ color: "#aaa" }}>音频有问题</Text>
+        </TouchableHighlight>
       </View>
     );
   }
@@ -180,7 +185,12 @@ const styles = StyleSheet.create({
   },
   volumeIcon: {
     padding: 12,
+  },
+  audioFeedback: {
+    position: "absolute",
+    bottom: 20,
+    right: 20
   }
 });
 
-export default Dicttion;
+export default Dictation;

@@ -38,6 +38,17 @@ class Course extends Component {
     });
 
     this.startLearning = this.startLearning.bind(this);
+    this.updateTasks = this.updateTasks.bind(this);
+  }
+
+  updateTasks() {
+    this.setState({ isLoading: true });
+    const course = this.state.userCourse.course;
+    const taskUrl = `/course/courses/${course.id}/task/`;
+    fetcher.get(taskUrl).then((res) => {
+      const data = res.data;
+      this.setState({ task: data, isLoading: false });
+    });
   }
 
   startLearning() {
@@ -50,32 +61,124 @@ class Course extends Component {
 
     const task = this.state.task;
     const numToday = (task && task["0"].length + task["1"].length + task["2"].length) || 0;
-    let PreviewHeader = null;
     let numLearned = 0;
-    let taskTitle = "";
+    let taskTitle = "今日任务";
+    let buttonColor = colors.buttonColor;
+    let buttonTitle = "开始学习";
+    let PreviewHeader = null;
+    let LearningProgress = null;
+    let reviewFinished = false;
     if (task) {
       if (task["0"].length) {
         numLearned = numToday - task["0"].length;
-        taskTitle = "今日任务：";
+        LearningProgress = (<View style={styles.center}>
+          <Text style={styles.taskTitle}>
+            {taskTitle} {numLearned} / {numToday}
+          </Text>
+          <Progress.Circle
+            style={styles.circle}
+            size={140}
+            color={"#FFCA61"}
+            thickness={6}
+            progress={(numToday && numLearned / numToday) || 0}
+            animated={false}
+            showsText
+            textStyle={{ fontSize: 20, color: "#537780" }}
+          />
+        </View>);
       } else if (task["1"].length) {
+        numLearned = numToday - task["1"].length;
+        taskTitle = "听写：";
+
         PreviewHeader = (<View style={styles.preview}>
           <Text style={styles.taskTitle}>预习完成</Text>
           <Icon name="star" size={18} color={colors.yellow} style={{ marginLeft: 5 }} />
         </View>);
-        numLearned = numToday - task["1"].length;
-        taskTitle = "听写：";
+
+        LearningProgress = (<View style={styles.center}>
+          <Text style={styles.taskTitle}>
+            {taskTitle} {numLearned} / {numToday}
+          </Text>
+          <Progress.Circle
+            style={styles.circle}
+            size={140}
+            color={"#FFCA61"}
+            thickness={6}
+            progress={(numToday && numLearned / numToday) || 0}
+            animated={false}
+            showsText
+            textStyle={{ fontSize: 20, color: "#537780" }}
+          />
+        </View>);
+      } else if (task["2"].length) {
+        buttonTitle = "复习一下";
+        buttonColor = "#3D84A8";
+        PreviewHeader = (
+          <View>
+            <View style={styles.preview}>
+              <Text style={styles.taskTitle}>预习完成</Text>
+              <Icon name="star" size={18} color={colors.yellow} style={{ marginLeft: 5 }} />
+            </View>
+            <View style={styles.preview}>
+              <Text style={styles.taskTitle}>听写完成</Text>
+              <Icon name="star" size={18} color={colors.yellow} style={{ marginLeft: 5 }} />
+            </View>
+          </View>);
+        LearningProgress = (<View style={styles.center}>
+          <Progress.Circle
+            style={styles.circle}
+            size={140}
+            color={"#FFCA61"}
+            thickness={6}
+            progress={1}
+            animated={false}
+            showsText
+            textStyle={{ fontSize: 20, color: "#537780" }}
+          />
+        </View>);
+      }
+
+      if (task["2"].length === task["2"].length) {
+        reviewFinished = true;
+        PreviewHeader = (
+          <View>
+            <View style={styles.preview}>
+              <Text style={styles.taskTitle}>预习完成</Text>
+              <Icon name="star" size={18} color={colors.yellow} style={{ marginLeft: 5 }} />
+            </View>
+            <View style={styles.preview}>
+              <Text style={styles.taskTitle}>听写完成</Text>
+              <Icon name="star" size={18} color={colors.yellow} style={{ marginLeft: 5 }} />
+            </View>
+            <View style={styles.preview}>
+              <Text style={styles.taskTitle}>复习完成</Text>
+              <Icon name="star" size={18} color={colors.yellow} style={{ marginLeft: 5 }} />
+            </View>
+          </View>);
+        LearningProgress = (<View style={styles.center}>
+          <Progress.Circle
+            style={styles.circle}
+            size={140}
+            color={"#FFCA61"}
+            thickness={6}
+            progress={1}
+            animated={false}
+            showsText
+            textStyle={{ fontSize: 20, color: "#537780" }}
+          />
+        </View>);
       }
     }
 
     let button = null;
     if (this.state.isLoading) {
       button = <View><ActivityIndicator /></View>;
-    } else {
+    } else if (!reviewFinished) {
       button = (<Button
-        backgroundColor={colors.buttonColor}
+        backgroundColor={buttonColor}
         buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
         onPress={this.startLearning}
-        title="开始学习"
+        title={buttonTitle}
       />);
     }
 
@@ -84,23 +187,8 @@ class Course extends Component {
         <Card
           title={(course && course.name) || "こんにちは"}
         >
-
           {PreviewHeader}
-          <View style={styles.center}>
-            <Text style={styles.taskTitle}>
-              {taskTitle} {numLearned} / {numToday}
-            </Text>
-            <Progress.Circle
-              style={styles.circle}
-              size={140}
-              color={"#FFCA61"}
-              thickness={6}
-              progress={(numToday && numLearned / numToday) || 0}
-              animated={false}
-              showsText
-              textStyle={{ fontSize: 20, color: "#537780" }}
-            />
-          </View>
+          {LearningProgress}
           {button}
         </Card>
       </View>
@@ -117,7 +205,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 15,
+    marginBottom: 10,
   },
   taskTitle: {
     color: colors.textColor,

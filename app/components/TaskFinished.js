@@ -10,17 +10,6 @@ import { Button, Card } from "react-native-elements";
 import { colors, window } from "../styles/common";
 
 class TaskFinished extends Component {
-  constructor(props) {
-    super(props);
-
-    this.goHome = this.goHome.bind(this);
-  }
-
-  goHome() {
-    console.log(this, this.props);
-    this.props.navigation.goBack();
-  }
-
   render() {
     console.log(this, this.props);
     return (
@@ -28,7 +17,7 @@ class TaskFinished extends Component {
         <Card>
           <View style={{ alignItems: "center", padding: 10, width: window.width * 0.618 }}>
             <Icon name="trophy" size={48} color="#FCE38A" />
-            <Text style={styles.text}>已完成所有预习任务</Text>
+            <Text style={styles.text}>{this.props.title}</Text>
           </View>
 
         </Card>
@@ -36,7 +25,7 @@ class TaskFinished extends Component {
           style={styles.button}
           backgroundColor="#3D84A8"
           buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
-          onPress={this.goHome}
+          onPress={this.props.goBack}
           title="休息一会"
         />
       </View>
