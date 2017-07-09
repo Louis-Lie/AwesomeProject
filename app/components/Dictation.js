@@ -71,7 +71,7 @@ class Dicttion extends Component {
     if (answer === rightAnswer) {
       this.setState({ freeze: true, hintColor: colors.primaryColor, showAnswer: true });
       sounds.right_answer.play();
-      setTimeout(() => { this.clearInput(); this.props.nextTask(); }, 1000);
+      setTimeout(() => { this.clearInput(); this.props.nextTask(); }, 600);
     } else if (checkWrong) {
       this.setState({ hintColor: colors.red, showAnswer: true });
       sounds.wrong_answer.play();
@@ -104,6 +104,7 @@ class Dicttion extends Component {
           <View style={[styles.inputWrap, { borderColor: this.state.hintColor }]}>
             <TextInput
               ref={(component) => { this.textInput = component; }}
+              placeholder="回想听到的单词"
               style={styles.input}
               maxLength={40}
               autoFocus

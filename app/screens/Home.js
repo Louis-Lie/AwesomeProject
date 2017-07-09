@@ -70,20 +70,14 @@ class HomeScreen extends Component {
   }
 
   startLearning(course, task) {
-    console.log("start learning course: ", this);
     this.props.navigation.navigate("Learning", { course, task });
   }
 
 
   render() {
-    let main = null;
+    let searchResult = null;
     if (this.state.searching) {
-      main = <SearchResult dataSource={this.state.searchResult} />;
-    } else {
-      main = (<View>
-        <Course startLearning={this.startLearning} />
-        <Quote />
-      </View>);
+      searchResult = <SearchResult dataSource={this.state.searchResult} />;
     }
 
     return (
@@ -92,9 +86,6 @@ class HomeScreen extends Component {
           <StatusBar
             barStyle="light-content"
           />
-          {/* <ScrollView
-          scrollEnabled={false}
-        >
           <SearchBar
             round
             lightTheme
@@ -104,17 +95,9 @@ class HomeScreen extends Component {
             onFocus={this.searchStart}
             onBlur={this.searchEnd}
           />
-        </ScrollView>*/}
-          <SearchBar
-            round
-            lightTheme
-            placeholder="搜索日语单词"
-            onChangeText={this.setSearchText}
-            clearButtonMode="while-editing"
-            onFocus={this.searchStart}
-            onBlur={this.searchEnd}
-          />
-          {main}
+          {searchResult}
+          <Course startLearning={this.startLearning} />
+          <Quote />
         </View>
       </TouchableWithoutFeedback>
     );

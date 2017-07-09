@@ -40,6 +40,11 @@ class Course extends Component {
     this.startLearning = this.startLearning.bind(this);
   }
 
+  shouldCompoentUpdae(nextProps, nextState) {
+    // never update
+    return this.state.task === null;
+  }
+
   startLearning() {
     this.props.startLearning(this.state.userCourse.course, this.state.task);
   }

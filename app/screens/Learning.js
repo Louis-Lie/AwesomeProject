@@ -45,6 +45,7 @@ class LearningScreen extends Component {
     const course = this.props.navigation.state.params.course;
     const task = this.props.navigation.state.params.task;
     this.state = {
+      nextStatus: null,
       task,
       course,
       index: 0,
@@ -78,16 +79,23 @@ class LearningScreen extends Component {
       index = numToday - task["2"].length;
     }
 
-    this.setState({
-      learningType,
-      index
-    });
     const title = {
       preview: "预习",
       dictation: "听写",
       review: "复习",
     }[learningType];
-    this.props.navigation.setParams({ title, });
+    const nextStatus = {
+      preview: 1,
+      dictation: 2,
+      revie2: 3
+    }[learningType];
+
+    this.props.navigation.setParams({ title });
+    this.setState({
+      learningType,
+      index,
+      nextStatus
+    });
 
     store.get("entries").then((entries) => {
       const storedEntries = entries || [];
@@ -128,7 +136,10 @@ class LearningScreen extends Component {
     } else {
       const entry = this.state.entries[this.state.index];
       const taskUrl = `/course/courses/${this.state.course.id}/task/`;
-      fetcher.put(taskUrl, { 1: [entry.id] });
+      const nextStatus = this.state.nextStatus;
+      const data = {};
+      data[nextStatus] = [entry.id];
+      fetcher.put(taskUrl, data);
       const index = this.state.index + 1;
       this.setState({ index, });
     }

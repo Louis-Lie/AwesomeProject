@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import {
   StyleSheet
 } from "react-native";
-
-
 import { List, ListItem } from "react-native-elements";
+
+import { window } from "../styles/common";
 
 
 class SearchResult extends Component {
@@ -41,7 +41,8 @@ class SearchResult extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    // override default style
+    flex: 0,
+    height: window.height
   }
 });
 
