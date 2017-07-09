@@ -3,7 +3,9 @@ import {
   StyleSheet,
   View,
   Keyboard,
-  StatusBar
+  ScrollView,
+  StatusBar,
+  TouchableWithoutFeedback
 } from "react-native";
 
 import {
@@ -64,7 +66,6 @@ class HomeScreen extends Component {
   }
 
   searchEnd() {
-    Keyboard.dismiss;
     this.setState({ searching: false });
   }
 
@@ -73,25 +74,49 @@ class HomeScreen extends Component {
     this.props.navigation.navigate("Learning", { course, task });
   }
 
+
   render() {
-    return (
-      <View style={styles.container}>
-        <StatusBar
-          barStyle="light-content"
-        />
-        <SearchBar
-          round
-          lightTheme
-          placeholder="搜索日语单词"
-          onChangeText={this.setSearchText}
-          clearButtonMode="while-editing"
-          onFocus={this.searchStart}
-          onBlur={this.searchEnd}
-        />
-        <SearchResult dataSource={this.state.searchResult} />
+    let main = null;
+    if (this.state.searching) {
+      main = <SearchResult dataSource={this.state.searchResult} />;
+    } else {
+      main = (<View>
         <Course startLearning={this.startLearning} />
         <Quote />
-      </View>
+      </View>);
+    }
+
+    return (
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          <StatusBar
+            barStyle="light-content"
+          />
+          {/* <ScrollView
+          scrollEnabled={false}
+        >
+          <SearchBar
+            round
+            lightTheme
+            placeholder="搜索日语单词"
+            onChangeText={this.setSearchText}
+            clearButtonMode="while-editing"
+            onFocus={this.searchStart}
+            onBlur={this.searchEnd}
+          />
+        </ScrollView>*/}
+          <SearchBar
+            round
+            lightTheme
+            placeholder="搜索日语单词"
+            onChangeText={this.setSearchText}
+            clearButtonMode="while-editing"
+            onFocus={this.searchStart}
+            onBlur={this.searchEnd}
+          />
+          {main}
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 }

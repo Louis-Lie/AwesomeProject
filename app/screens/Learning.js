@@ -7,12 +7,10 @@ import {
 } from "react-native";
 import store from "react-native-simple-store";
 import Icon from "react-native-vector-icons/FontAwesome";
-import SwipeCards from "react-native-swipe-cards";
 
 import Preview from "../components/Preview";
 import Dictation from "../components/Dictation";
 import Review from "../components/Review";
-import TaskFinished from "../components/TaskFinished";
 import ProgressBar from "../components/ProgressBar";
 import { colors, } from "../styles/common";
 import fetcher from "../utils/fetcher";
@@ -56,10 +54,8 @@ class LearningScreen extends Component {
       right_ids: [],
       wrong_ids: []
     };
-
-    this.handleYup = this.handleYup.bind(this);
-    this.handleNope = this.handleNope.bind(this);
-    this.handleMaybe = this.handleMaybe.bind(this);
+    this.prevTask = this.prevTask.bind(this);
+    this.nextTask = this.nextTask.bind(this);
   }
 
   componentWillMount() {
@@ -126,7 +122,7 @@ class LearningScreen extends Component {
   }
 
   nextTask() {
-    console.log("nextTask");
+    console.log("nextTask", this);
     if (this.state.index === this.state.entries.length) {
       console.log("finished");
     } else {
@@ -138,23 +134,6 @@ class LearningScreen extends Component {
     }
   }
 
-  handleYup(card) {
-    console.log("yup", card);
-    this.prevTask();
-  }
-
-  handleNope(card) {
-    console.log("nope", card);
-    this.nextTask();
-  }
-
-  handleMaybe(card) {
-    console.log(this, this.state);
-    this.setState({
-      current_index: this.state.entries.length - 2
-    });
-  }
-
   render() {
     if (this.state.isLoading) {
       return (
@@ -163,9 +142,6 @@ class LearningScreen extends Component {
         </View>
       );
     }
-    const entries = this.state.entries;
-    const task = this.state.task;
-    const numToday = (task && task["0"].length + task["1"].length + task["2"].length) || 0;
 
     const LearningMode = {
       preview: Preview,
@@ -173,25 +149,21 @@ class LearningScreen extends Component {
       review: Review,
     }[this.state.learningType];
 
+    const task = this.state.task;
+    const numToday = (task && task["0"].length + task["1"].length + task["2"].length) || 0;
+
     return (
       <View style={styles.container}>
         <ProgressBar
           index={this.state.index}
           length={numToday}
         />
-
-        <SwipeCards
-          style={{ flex: 1, }}
-          cards={entries}
-          initial_index={this.state.index}
-          renderCard={cardData => <LearningMode entry={cardData} />}
-          renderNoMoreCards={() => <TaskFinished navigation={this.props.navigation} />}
-          handleYup={this.handleYup}
-          handleNope={this.handleNope}
-          handleMaybe={this.handleMaybe}
-          hasMaybeAction
-          yupText="上一个"
-          nopeText="下一个"
+        <LearningMode
+          navigation={this.props.navigation}
+          index={this.state.index}
+          entries={this.state.entries}
+          prevTask={this.prevTask}
+          nextTask={this.nextTask}
         />
       </View>
     );

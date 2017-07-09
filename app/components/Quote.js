@@ -27,9 +27,9 @@ class Quote extends Component {
 
     return (
       <Card>
-        <Text style={styles.content}>{quote.content}</Text>
-        <Text style={styles.translation}>{quote.translation}</Text>
-        <Text style={styles.source}>― {source}</Text>
+        <Text style={styles.content} selectable>{quote.content}</Text>
+        <Text style={styles.translation} selectable>{quote.translation}</Text>
+        <Text style={styles.source} selectable>― {source}</Text>
       </Card>
     );
   }

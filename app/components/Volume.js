@@ -19,8 +19,8 @@ class Volume extends Component {
   render() {
     return (
       <TouchableHighlight
+        underlayColor="transparent"
         style={this.props.style}
-        underlayColor="white"
         onPress={this.play}
       >
         <Icon name="volume-up" size={24} style={{ color: "#546576" }} />
