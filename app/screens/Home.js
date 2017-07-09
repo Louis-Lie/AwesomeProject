@@ -20,6 +20,7 @@ import SearchResult from "../components/SearchResult";
 import Course from "../components/Course";
 import Quote from "../components/Quote";
 import LearningScreen from "./Learning";
+import EntryScreen from "./Entry";
 
 
 class HomeScreen extends Component {
@@ -46,11 +47,16 @@ class HomeScreen extends Component {
     this.searchStart = this.searchStart.bind(this);
     this.searchEnd = this.searchEnd.bind(this);
     this.onGoBack = this.onGoBack.bind(this);
+    this.onBackSearch = this.onBackSearch.bind(this);
   }
 
   onGoBack() {
     console.log("on go back", this);
     this.courseView.updateTasks();
+  }
+
+  onBackSearch() {
+    console.log("back from search", this.searchBar);
   }
 
   setSearchText(query) {
@@ -81,11 +87,14 @@ class HomeScreen extends Component {
     });
   }
 
-
   render() {
     let searchResult = null;
     if (this.state.searching) {
-      searchResult = <SearchResult dataSource={this.state.searchResult} />;
+      searchResult = (<SearchResult
+        dataSource={this.state.searchResult}
+        navigation={this.props.navigation}
+        onGoBack={this.onBackSearch}
+      />);
     }
 
     return (
@@ -95,6 +104,7 @@ class HomeScreen extends Component {
             barStyle="light-content"
           />
           <SearchBar
+            ref={(c) => { this.searchBar = c; }}
             round
             lightTheme
             placeholder="搜索日语单词"
@@ -114,7 +124,8 @@ class HomeScreen extends Component {
 
 const HomeStack = StackNavigator({
   Home: { screen: HomeScreen },
-  Learning: { screen: LearningScreen }
+  Learning: { screen: LearningScreen },
+  Entry: { screen: EntryScreen }
 },
   {
     mode: "modal"
