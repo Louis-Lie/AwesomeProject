@@ -40,15 +40,9 @@ class Course extends Component {
     this.startLearning = this.startLearning.bind(this);
   }
 
-  shouldCompoentUpdae(nextProps, nextState) {
-    // never update
-    return this.state.task === null;
-  }
-
   startLearning() {
     this.props.startLearning(this.state.userCourse.course, this.state.task);
   }
-
 
   render() {
     const userCourse = this.state.userCourse;
@@ -66,14 +60,13 @@ class Course extends Component {
       } else if (task["1"].length) {
         PreviewHeader = (<View style={styles.preview}>
           <Text style={styles.taskTitle}>预习完成</Text>
-          <Icon name="star" size={18} color="#FCE38A" style={{ marginLeft: 5 }} />
+          <Icon name="star" size={18} color={colors.yellow} style={{ marginLeft: 5 }} />
         </View>);
         numLearned = numToday - task["1"].length;
         taskTitle = "听写：";
       }
     }
-    console.log(numLearned, numToday);
-    // const coverUrl = (course && course.cover) || "";
+
     let button = null;
     if (this.state.isLoading) {
       button = <View><ActivityIndicator /></View>;

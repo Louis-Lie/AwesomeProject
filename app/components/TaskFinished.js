@@ -39,14 +39,6 @@ class TaskFinished extends Component {
           onPress={this.goHome}
           title="休息一会"
         />
-        <Button
-          style={styles.button}
-          backgroundColor="#3FC1C9"
-          buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
-          onPress={this.props.startDictation}
-          title="继续听写"
-        />
-
       </View>
     );
   }

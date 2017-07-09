@@ -11,6 +11,7 @@ import { Button } from "react-native-elements";
 
 import { colors, window } from "../styles/common";
 import playSound, { sounds } from "../utils/soundPlayer";
+import TaskFinished from "../components/TaskFinished";
 import Volume from "../components/Volume";
 import Choice from "../components/Choice";
 
@@ -88,6 +89,12 @@ class Dicttion extends Component {
   }
 
   render() {
+    if (this.props.index === this.props.entries.length - 1) {
+      return (<TaskFinished
+        goBack={this.props.goBack}
+        title="已完成所有听写任务"
+      />);
+    }
     const entries = this.props.entries;
     const entry = this.props.entries[this.props.index];
     const audioUrl = `https://souka.io/${entry.audio_url}.mp3`;

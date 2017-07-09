@@ -70,9 +70,15 @@ class HomeScreen extends Component {
   }
 
   startLearning(course, task) {
-    this.props.navigation.navigate("Learning", { course, task });
+    this.props.navigation.navigate("Learning", {
+      course,
+      task,
+      onGoBack: this.onGoBack
+    });
   }
-
+  onGoBack(){
+    console.log('on go back');
+  }
 
   render() {
     let searchResult = null;

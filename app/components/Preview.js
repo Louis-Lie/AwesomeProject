@@ -39,7 +39,7 @@ class Preview extends Component {
         cards={entries}
         initial_index={this.props.index}
         renderCard={cardData => <Entry entry={cardData} />}
-        renderNoMoreCards={() => <TaskFinished navigation={this.props.navigation} />}
+        renderNoMoreCards={() => <TaskFinished goBack={this.props.goBack} title="已完成所有预习任务" />}
         handleYup={this.handleYup}
         handleNope={this.handleNope}
         handleMaybe={this.handleMaybe}

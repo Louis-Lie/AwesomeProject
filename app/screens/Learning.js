@@ -33,7 +33,7 @@ class LearningScreen extends Component {
       <TouchableHighlight
         style={{ padding: 10, }}
         underlayColor={colors.primaryColor}
-        onPress={() => { navigation.goBack(); }}
+        onPress={() => { navigation.state.params.onGoBack(); navigation.goBack(); }}
       >
         <Icon name="close" size={20} color="white" />
       </TouchableHighlight>
@@ -55,12 +55,20 @@ class LearningScreen extends Component {
       right_ids: [],
       wrong_ids: []
     };
+
+    this.goBack = this.goBack.bind(this);
     this.prevTask = this.prevTask.bind(this);
     this.nextTask = this.nextTask.bind(this);
   }
 
+
   componentWillMount() {
     this.prepareTask();
+  }
+
+  goBack() {
+    this.props.navigation.state.params.onGoBack();
+    this.props.navigatin.goBack();
   }
   prepareTask() {
     const task = this.state.task;
@@ -170,7 +178,7 @@ class LearningScreen extends Component {
           length={numToday}
         />
         <LearningMode
-          navigation={this.props.navigation}
+          goBack={this.goBack}
           index={this.state.index}
           entries={this.state.entries}
           prevTask={this.prevTask}
