@@ -17,8 +17,11 @@ class Choice extends Component {
     this.renderChoice = this.renderChoice.bind(this);
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.props.rightAnswer.id !== nextProps.rightAnswer.id;
+  }
+
   renderChoice(item) {
-    console.log(this, this.props);
     return (
       <TouchableHighlight
         key={item}
@@ -53,10 +56,10 @@ class Choice extends Component {
     return (
       <View style={styles.choicesBox}>
         {
-        choices.map(item => (
-          this.renderChoice(item)
-        ))
-      }
+          choices.map(item => (
+            this.renderChoice(item)
+          ))
+        }
         <TouchableHighlight
           underlayColor="transparent"
           onPress={this.props.clearAnswer}

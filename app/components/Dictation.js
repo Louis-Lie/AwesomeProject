@@ -7,6 +7,7 @@ import {
   View,
 } from "react-native";
 import KeyboardSpacer from "react-native-keyboard-spacer";
+import { Button } from "react-native-elements";
 
 import { colors, window } from "../styles/common";
 import playSound, { sounds } from "../utils/soundPlayer";
@@ -18,10 +19,13 @@ class Dicttion extends Component {
     super(props);
     this.state = {
       answer: "",
-      hintColor: "#FFCA61"
+      hintColor: colors.yellow,
+      freeze: false,
+      showAnswer: false
     };
 
     this.updateAnswer = this.updateAnswer.bind(this);
+    this.checkAnswer = this.checkAnswer.bind(this);
     this.clearAnswer = this.clearAnswer.bind(this);
   }
 
@@ -30,43 +34,47 @@ class Dicttion extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return (this.props.index !== nextProps.index);
-  }
-  componentDidUpdate(prevProps, prevState) {
-    this.playAudio();
-    const answer = "";
-    this.setState({ answer });
-    this.textInput.setNativeProps({ text: answer });
+    if (this.props.index !== nextProps.index) {
+      this.playAudio(1);
+    }
+    return true;
   }
 
-  playAudio() {
-    const entry = this.props.entries[this.props.index];
+  playAudio(next = 0) {
+    const entry = this.props.entries[this.props.index + next];
     const audioUrl = `https://souka.io/${entry.audio_url}.mp3`;
     playSound(audioUrl);
   }
+
+  clearInput() {
+    const answer = "";
+    this.setState({ answer,
+      showAnswer: false,
+      freeze: false,
+      hintColor: colors.yellow });
+    this.textInput.setNativeProps({ text: answer });
+  }
+
   updateAnswer(text) {
     console.log("udpate answer: ", text);
+    if (this.state.freeze) { return; }
     const answer = this.state.answer + text;
-    this.setState({ answer });
     this.textInput.setNativeProps({ text: answer });
-
-    const entry = this.props.entries[this.props.index];
-    const rightAnswer = entry.word || entry.kana;
-    if (answer === rightAnswer) {
-      sounds.right_answer.play();
-      setTimeout(() => this.props.nextTask(), 500);
-    }
+    this.setState({ answer }, () => this.checkAnswer(false));
   }
-  checkAnswer() {
+
+  checkAnswer(checkWrong = true) {
+    console.log("check answer state: ", this.state);
     const answer = this.state.answer;
     const entry = this.props.entries[this.props.index];
     const rightAnswer = entry.word || entry.kana;
     if (answer === rightAnswer) {
-      this.showRight();
+      this.setState({ freeze: true, hintColor: colors.primaryColor, showAnswer: true });
       sounds.right_answer.play();
-      setTimeout(() => this.props.nextTask(), 500);
-    } else {
-      this.showWrong();
+      setTimeout(() => { this.clearInput(); this.props.nextTask(); }, 1000);
+    } else if (checkWrong) {
+      this.setState({ hintColor: colors.red, showAnswer: true });
+      sounds.wrong_answer.play();
     }
   }
 
@@ -74,7 +82,7 @@ class Dicttion extends Component {
     console.log("clear answer");
     if (this.state.answer.length > 0) {
       const answer = this.state.answer.slice(0, this.state.answer.length - 1);
-      this.setState({ answer });
+      this.setState({ answer, hintColor: colors.yellow, showAnswer: false });
       this.textInput.setNativeProps({ text: answer });
     }
   }
@@ -83,11 +91,17 @@ class Dicttion extends Component {
     const entries = this.props.entries;
     const entry = this.props.entries[this.props.index];
     const audioUrl = `https://souka.io/${entry.audio_url}.mp3`;
+    const rightAnswer = (this.state.showAnswer && <View style={styles.rightAnswer}>
+      <Text style={styles.rightLabel}>正确答案</Text>
+      <Text style={styles.rightText}>{entry.word || entry.kana}</Text>
+      <Text style={styles.rightText}>{entry.first_definition}</Text>
+    </View>) || null;
 
     return (
       <View style={styles.container}>
+        {rightAnswer}
         <View style={styles.box}>
-          <View style={styles.inputWrap}>
+          <View style={[styles.inputWrap, { borderColor: this.state.hintColor }]}>
             <TextInput
               ref={(component) => { this.textInput = component; }}
               style={styles.input}
@@ -107,6 +121,13 @@ class Dicttion extends Component {
           updateAnswer={this.updateAnswer}
           clearAnswer={this.clearAnswer}
         />
+        <Button
+          style={{ width: window.width * 0.618, marginTop: 20 }}
+          backgroundColor={colors.primaryColor}
+          buttonStyle={{ borderRadius: 2 }}
+          onPress={this.checkAnswer}
+          title="检查"
+        />
       </View>
     );
   }
@@ -118,6 +139,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
 
+  },
+  rightAnswer: {
+    alignItems: "center",
+    position: "absolute",
+    top: 40
+  },
+  rightLabel: {
+    color: colors.textColor,
+    marginBottom: 5
+  },
+  rightText: {
+    color: colors.primaryColor,
+    marginBottom: 10
   },
   box: {
     flexDirection: "row",

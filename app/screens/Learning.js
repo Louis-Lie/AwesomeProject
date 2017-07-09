@@ -123,7 +123,7 @@ class LearningScreen extends Component {
 
   nextTask() {
     console.log("nextTask", this);
-    if (this.state.index === this.state.entries.length) {
+    if (this.state.index === this.state.entries.length - 1) {
       console.log("finished");
     } else {
       const entry = this.state.entries[this.state.index];
