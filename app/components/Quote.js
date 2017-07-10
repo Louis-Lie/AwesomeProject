@@ -37,17 +37,17 @@ class Quote extends Component {
 
 const styles = StyleSheet.create({
   content: {
-    fontSize: 12,
+    fontSize: 13,
     color: colors.textColor,
     marginBottom: 8
   },
   translation: {
-    fontSize: 12,
+    fontSize: 13,
     color: "#aaa",
     marginBottom: 10
   },
   source: {
-    fontSize: 12,
+    fontSize: 13,
     color: colors.textColor
   }
 });

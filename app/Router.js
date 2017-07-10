@@ -9,7 +9,7 @@ import CookieManager from "react-native-cookies";
 import { colors } from "./styles/common";
 import AuthLogin from "./screens/AuthLogin";
 import HomeStack from "./screens/Home";
-import ReadScreen from "./screens/Read";
+// import ReadScreen from "./screens/Read";
 import ForumScreen from "./screens/Forum";
 import ProfileScreen from "./screens/Profile";
 
@@ -19,9 +19,9 @@ const App = TabNavigator({
   Home: {
     screen: HomeStack,
   },
-  Read: {
-    screen: ReadScreen,
-  },
+  // Read: {
+  //   screen: ReadScreen,
+  // },
   Forum: {
     screen: ForumScreen,
   },

@@ -40,7 +40,7 @@ class HomeScreen extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { searching: false, searchResult: [] };
+    this.state = { searching: false, searchResult: [], isOpen: false };
 
     this.startLearning = this.startLearning.bind(this);
     this.setSearchText = this.setSearchText.bind(this);
