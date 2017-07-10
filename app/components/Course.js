@@ -136,37 +136,37 @@ class Course extends Component {
             textStyle={{ fontSize: 20, color: "#537780" }}
           />
         </View>);
-      }
 
-      if (task["2"].length === task["2"].length) {
-        reviewFinished = true;
-        PreviewHeader = (
-          <View>
-            <View style={styles.preview}>
-              <Text style={styles.taskTitle}>预习完成</Text>
-              <Icon name="star" size={18} color={colors.yellow} style={{ marginLeft: 5 }} />
-            </View>
-            <View style={styles.preview}>
-              <Text style={styles.taskTitle}>听写完成</Text>
-              <Icon name="star" size={18} color={colors.yellow} style={{ marginLeft: 5 }} />
-            </View>
-            <View style={styles.preview}>
-              <Text style={styles.taskTitle}>复习完成</Text>
-              <Icon name="star" size={18} color={colors.yellow} style={{ marginLeft: 5 }} />
-            </View>
+        if (task["2"].length === task["2"].length) {
+          reviewFinished = true;
+          PreviewHeader = (
+            <View>
+              <View style={styles.preview}>
+                <Text style={styles.taskTitle}>预习完成</Text>
+                <Icon name="star" size={18} color={colors.yellow} style={{ marginLeft: 5 }} />
+              </View>
+              <View style={styles.preview}>
+                <Text style={styles.taskTitle}>听写完成</Text>
+                <Icon name="star" size={18} color={colors.yellow} style={{ marginLeft: 5 }} />
+              </View>
+              <View style={styles.preview}>
+                <Text style={styles.taskTitle}>复习完成</Text>
+                <Icon name="star" size={18} color={colors.yellow} style={{ marginLeft: 5 }} />
+              </View>
+            </View>);
+          LearningProgress = (<View style={styles.center}>
+            <Progress.Circle
+              style={styles.circle}
+              size={140}
+              color={"#FFCA61"}
+              thickness={6}
+              progress={1}
+              animated={false}
+              showsText
+              textStyle={{ fontSize: 20, color: "#537780" }}
+            />
           </View>);
-        LearningProgress = (<View style={styles.center}>
-          <Progress.Circle
-            style={styles.circle}
-            size={140}
-            color={"#FFCA61"}
-            thickness={6}
-            progress={1}
-            animated={false}
-            showsText
-            textStyle={{ fontSize: 20, color: "#537780" }}
-          />
-        </View>);
+        }
       }
     }
 
