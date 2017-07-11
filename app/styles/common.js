@@ -7,6 +7,7 @@ const colors = {
   backgroundColor: "#F2F1ED",
   tintColor: "#3FC1C9",
   textColor: "#757A79",
+  mute: "#b5b2b1",
   yellow: "#FFCA61",
   red: "#F38181"
 };

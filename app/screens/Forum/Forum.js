@@ -57,11 +57,13 @@ class ForumScreen extends Component {
     }
 
     return (
-      <FlatList
-        data={this.state.topics}
-        renderItem={({ item }) => <TopicItem topic={item} />}
-        keyExtractor={(item, index) => item.id}
-      />
+      <View style={styles.container}>
+        <FlatList
+          data={this.state.topics}
+          renderItem={({ item }) => <TopicItem topic={item} />}
+          keyExtractor={(item, index) => item.id}
+        />
+      </View>
     );
   }
 }
@@ -75,8 +77,8 @@ const ForumStack = StackNavigator({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    backgroundColor: colors.backgroundColor,
   },
 });
 export default ForumStack;

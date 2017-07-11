@@ -29,6 +29,7 @@ const App = TabNavigator({
     screen: ProfileStack,
   }
 }, {
+  lazy: true,
   tabBarOptions: {
     activeTintColor: colors.tintColor,
   }

@@ -107,7 +107,6 @@ class LearningScreen extends Component {
 
     store.get("entries").then((entries) => {
       const storedEntries = entries || [];
-      console.log("get stored entries: ", storedEntries);
       this.fetchEntries(storedEntries, taskIds);
     });
   }
