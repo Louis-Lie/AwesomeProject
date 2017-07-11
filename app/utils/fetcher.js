@@ -5,7 +5,7 @@ const axios = require("axios");
 
 const instance = axios.create({
   baseURL: "https://souka.io",
-  timeout: 3000,
+  timeout: 5000,
   headers: {
     REFERER: "https://souka.io",
     Accept: "application/json",
@@ -19,7 +19,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use((config) => {
     // Do something before request is sent
-  console.log("axios config: ", config);
+  console.log("axios config: ", config.url, config);
   return config;
 }, (error) => {
     // Do something with request error
@@ -27,10 +27,7 @@ instance.interceptors.request.use((config) => {
   return Promise.reject(error);
 });
 
-instance.interceptors.response.use((response) => {
-  console.log("axios response --> ", response);
-  return response;
-}, error =>
+instance.interceptors.response.use(response => response, error =>
     // Do something with response error
    Promise.reject(error));
 

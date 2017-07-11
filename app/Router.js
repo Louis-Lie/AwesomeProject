@@ -8,10 +8,10 @@ import CookieManager from "react-native-cookies";
 
 import { colors } from "./styles/common";
 import AuthLogin from "./screens/AuthLogin";
-import HomeStack from "./screens/Home";
+import HomeStack from "./screens/Home/Home";
 // import ReadScreen from "./screens/Read";
-import ForumScreen from "./screens/Forum";
-import ProfileScreen from "./screens/Profile";
+import ForumStack from "./screens/Forum/Forum";
+import ProfileStack from "./screens/Profile/Profile";
 
 const HOME_URL = "https://souka.io/";
 
@@ -23,10 +23,10 @@ const App = TabNavigator({
   //   screen: ReadScreen,
   // },
   Forum: {
-    screen: ForumScreen,
+    screen: ForumStack,
   },
   Profile: {
-    screen: ProfileScreen,
+    screen: ProfileStack,
   }
 }, {
   tabBarOptions: {

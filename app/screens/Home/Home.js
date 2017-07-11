@@ -14,11 +14,12 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome";
 import { SearchBar } from "react-native-elements";
 
-import { colors } from "../styles/common";
-import fetcher from "../utils/fetcher";
-import SearchResult from "../components/SearchResult";
-import Course from "../components/Course";
-import Quote from "../components/Quote";
+import { colors } from "styles/common";
+import fetcher from "utils/fetcher";
+import SearchResult from "components/SearchResult";
+import Course from "components/Course";
+import Quote from "components/Quote";
+
 import LearningScreen from "./Learning";
 import EntryScreen from "./Entry";
 

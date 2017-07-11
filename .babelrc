@@ -1,5 +1,17 @@
 {
     "presets": ["react-native"],
+    "plugins": [
+        ["module-resolver", {
+            "root": ["./app"],
+            "alias": {
+                "components": "./components",
+                "utils": "./utils",
+                "sounds": "./sounds",
+                "images": "./images",
+                "styles": "./styles",
+            }
+        }]
+    ],
     "env": {
         "production": {
             "plugins": ["transform-remove-console"]

@@ -3,8 +3,14 @@
   "extends": "airbnb",
   "parser": "babel-eslint",
   "plugins": [
-    "react"
+    "react",
+    "import"
   ],
+  "settings": {
+      "import/resolver": {
+          "babel-module": {}
+      }
+  },
   "rules": {
     // enable additional rules
     "indent": ["error", 2],

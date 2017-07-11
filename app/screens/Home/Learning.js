@@ -8,12 +8,12 @@ import {
 import store from "react-native-simple-store";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-import Preview from "../components/Preview";
-import Dictation from "../components/Dictation";
-import Review from "../components/Review";
-import ProgressBar from "../components/ProgressBar";
-import { colors, } from "../styles/common";
-import fetcher from "../utils/fetcher";
+import Preview from "components/Preview";
+import Dictation from "components/Dictation";
+import Review from "components/Review";
+import ProgressBar from "components/ProgressBar";
+import { colors, } from "styles/common";
+import fetcher from "utils/fetcher";
 
 
 class LearningScreen extends Component {

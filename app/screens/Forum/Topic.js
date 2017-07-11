@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
-  AppRegistry,
   StyleSheet,
   Text,
   View,
   Button,
-} from 'react-native';
+} from "react-native";
 
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from "react-native-vector-icons/FontAwesome";
 
-class ForumScreen extends React.Component {
+class TopicScreen extends Component {
   static navigationOptions = {
-    tabBarLabel: '社区',
+    title: "社区",
+    tabBarLabel: "社区",
     tabBarIcon: ({ tintColor }) => (
       <Icon name="comments-o" size={24} color={tintColor} />
     ),
@@ -27,4 +27,4 @@ class ForumScreen extends React.Component {
   }
 }
 
-export default ForumScreen;
+export default TopicScreen;

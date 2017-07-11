@@ -8,9 +8,9 @@ import {
 import FlipCard from "react-native-flip-card";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-import { colors } from "../styles/common";
-import playSound from "../utils/soundPlayer";
-import Volume from "../components/Volume";
+import { colors } from "styles/common";
+import playSound from "utils/soundPlayer";
+import Volume from "components/Volume";
 
 
 class EntryScreen extends Component {
