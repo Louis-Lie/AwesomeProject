@@ -37,7 +37,7 @@ class ForumScreen extends Component {
       <TouchableHighlight
         style={{ padding: 10, }}
         underlayColor={colors.primaryColor}
-        onPress={() => { navigation.navigate("CreateTopic", { node: this.state.page }); }}
+        onPress={() => { navigation.navigate("CreateTopic", { node: navigation.state.params.node }); }}
       >
         <Icon name="edit" size={20} color="white" />
       </TouchableHighlight>
@@ -47,6 +47,7 @@ class ForumScreen extends Component {
   constructor(props) {
     super(props);
     this.state = { topics: [], isLoading: true, page: "全部" };
+    this.props.navigation.setParams({ node: "全部" });
   }
 
   componentWillMount() {
@@ -85,7 +86,7 @@ class ForumScreen extends Component {
           selected={this.state.page}
           style={{ backgroundColor: "white" }}
           selectedStyle={{ color: "#F6416C" }}
-          onSelect={el => this.setState({ page: el.props.name })}
+          onSelect={(el) => { this.props.navigation.setParams({ node: el.props.name }); this.setState({ page: el.props.name }); }}
         >
           <Text style={styles.node} name="全部">全部</Text>
           <Text style={styles.node} name="学习">学习</Text>
