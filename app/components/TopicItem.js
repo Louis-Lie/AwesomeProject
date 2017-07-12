@@ -8,8 +8,6 @@ import {
   View
 } from "react-native";
 import moment from "moment";
-import Icon from "react-native-vector-icons/FontAwesome";
-import { Badge } from "react-native-elements";
 
 import { colors } from "../styles/common";
 
