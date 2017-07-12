@@ -17,6 +17,8 @@ import Tabs from "components/Tabs";
 import fetcher from "utils/fetcher";
 import { colors } from "styles/common";
 import TopicScreen from "./Topic";
+import CreateTopicScreen from "./CreateTopic";
+
 
 class ForumScreen extends Component {
   static navigationOptions = ({ navigation, screenProps }) => ({
@@ -35,7 +37,7 @@ class ForumScreen extends Component {
       <TouchableHighlight
         style={{ padding: 10, }}
         underlayColor={colors.primaryColor}
-        onPress={() => { navigation.goBack(); }}
+        onPress={() => { navigation.navigate("CreateTopic", { node: this.state.page }); }}
       >
         <Icon name="edit" size={20} color="white" />
       </TouchableHighlight>
@@ -85,16 +87,16 @@ class ForumScreen extends Component {
           selectedStyle={{ color: "#F6416C" }}
           onSelect={el => this.setState({ page: el.props.name })}
         >
-          <Text name="全部">全部</Text>
-          <Text name="学习">学习</Text>
-          <Text name="动漫">动漫</Text>
-          <Text name="游戏">游戏</Text>
-          <Text name="小说">小说</Text>
+          <Text style={styles.node} name="全部">全部</Text>
+          <Text style={styles.node} name="学习">学习</Text>
+          <Text style={styles.node} name="动漫">动漫</Text>
+          <Text style={styles.node} name="游戏">游戏</Text>
+          <Text style={styles.node} name="小说">小说</Text>
         </Tabs>
 
         <FlatList
           data={this.state.topics}
-          renderItem={({ item }) => <TopicItem topic={item} />}
+          renderItem={({ item }) => <TopicItem topic={item} navigation={this.props.navigation} />}
           keyExtractor={(item, index) => item.id}
         />
       </View>
@@ -105,6 +107,7 @@ class ForumScreen extends Component {
 const ForumStack = StackNavigator({
   Forum: { screen: ForumScreen },
   Topic: { screen: TopicScreen },
+  CreateTopic: { screen: CreateTopicScreen },
 }
 );
 
@@ -113,19 +116,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     backgroundColor: colors.backgroundColor,
-  },
-  absolute: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-  },
-  nodes: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    backgroundColor: "white",
-    borderColor: "#ccc"
   },
   node: {
     color: colors.textColor,

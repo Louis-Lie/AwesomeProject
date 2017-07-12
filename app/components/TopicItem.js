@@ -22,7 +22,9 @@ class TopicItem extends Component {
     this.renderTopic = this.renderTopic.bind(this);
   }
   renderTopic() {
+    const { navigate } = this.props.navigation;
     console.log("render topic: ", this.props.topic);
+    navigate("Topic", { topic: this.props.topic });
   }
 
   render() {
