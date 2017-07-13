@@ -41,9 +41,8 @@ class TopicHeader extends Component {
 
 const styles = StyleSheet.create({
   topicHeader: {
+    backgroundColor: "#fbfbfb",
     padding: 15,
-    borderBottomWidth: 1,
-    borderColor: "white"
   },
   topic: {
     flexDirection: "row",

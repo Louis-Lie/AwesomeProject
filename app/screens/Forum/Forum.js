@@ -91,6 +91,7 @@ class ForumScreen extends Component {
               onRefresh={this.fetchTopics}
             />
           }
+          removeClippedSubviews={false}
           data={this.state.topics}
           renderItem={({ item }) => <TopicItem topic={item} navigation={this.props.navigation} />}
           keyExtractor={(item, index) => item.id}

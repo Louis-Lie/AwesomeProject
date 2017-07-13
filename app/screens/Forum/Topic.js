@@ -67,56 +67,7 @@ class TopicScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fafafa",
-    flexWrap: "wrap",
+    backgroundColor: "white",
   },
-  topicHeader: {
-    padding: 15,
-    borderBottomWidth: 1,
-    borderColor: "white"
-  },
-  topic: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    marginBottom: 20
-  },
-  title: {
-    fontSize: 18,
-    color: colors.textColor,
-    marginBottom: 5,
-  },
-  content: {
-    color: colors.textColor,
-    marginBottom: 20
-  },
-  avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 5,
-    marginRight: 15
-  },
-  meta: {
-    flexDirection: "row",
-  },
-  author: {
-    color: colors.mute,
-    fontSize: 12
-  },
-  sep: {
-    color: colors.mute,
-    fontSize: 12
-  },
-  timestamp: {
-    color: colors.mute,
-    fontSize: 12
-  },
-  postHeader: {
-    fontSize: 12,
-    color: colors.mute
-  },
-  posts: {
-    backgroundColor: "white"
-  }
 });
 export default TopicScreen;
