@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {
   ActivityIndicator,
   FlatList,
+  RefreshControl,
   StyleSheet,
   Text,
   TouchableHighlight,
@@ -46,8 +47,10 @@ class ForumScreen extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { topics: [], isLoading: true, page: "全部" };
+    this.state = { topics: [], refreshing: true, page: "全部" };
     this.props.navigation.setParams({ node: "全部" });
+
+    this.fetchTopics = this.fetchTopics.bind(this);
   }
 
   componentWillMount() {
@@ -63,23 +66,14 @@ class ForumScreen extends Component {
   fetchTopics(page) {
     const nodeName = page || this.state.page;
     const topicUrl = `/forum/topics/?node=${nodeName}`;
-    this.setState({ isLoading: true });
+    this.setState({ refreshing: true });
     fetcher.get(topicUrl).then((res) => {
       const topics = res.data.results;
-      this.setState({ topics, isLoading: false });
+      this.setState({ topics, refreshing: false });
     });
   }
 
   render() {
-    console.log(this, this.state);
-    if (this.state.isLoading) {
-      return (
-        <View style={styles.container}>
-          <ActivityIndicator />
-        </View>
-      );
-    }
-
     return (
       <View style={styles.container}>
         <Tabs
@@ -90,12 +84,19 @@ class ForumScreen extends Component {
         >
           <Text style={styles.node} name="全部">全部</Text>
           <Text style={styles.node} name="学习">学习</Text>
+          <Text style={styles.node} name="日剧">日剧</Text>
           <Text style={styles.node} name="动漫">动漫</Text>
           <Text style={styles.node} name="游戏">游戏</Text>
           <Text style={styles.node} name="小说">小说</Text>
         </Tabs>
 
         <FlatList
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.fetchTopics}
+            />
+          }
           data={this.state.topics}
           renderItem={({ item }) => <TopicItem topic={item} navigation={this.props.navigation} />}
           keyExtractor={(item, index) => item.id}
