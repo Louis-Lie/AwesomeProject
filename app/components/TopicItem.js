@@ -37,7 +37,7 @@ class TopicItem extends Component {
       >
         <View style={styles.topic}>
           <Image style={styles.avatar} source={{ uri: avatarUrl }} />
-          <View>
+          <View style={{ flex: 1 }}>
             <Text style={styles.title}>{topic.title}</Text>
             <View style={styles.meta}>
               <Text style={styles.author}>{topic.author.name}</Text>
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 15,
     borderBottomWidth: 1,
-    borderColor: "#ddd"
+    borderColor: "#eee"
   },
   avatar: {
     width: 32,

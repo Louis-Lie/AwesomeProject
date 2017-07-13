@@ -1,13 +1,22 @@
 import React, { Component } from "react";
 import {
+  FlatList,
+  Image,
   StyleSheet,
   Text,
-  View,
-  Button,
+  View
 } from "react-native";
+import moment from "moment";
 
 import Icon from "react-native-vector-icons/FontAwesome";
 import { colors } from "styles/common";
+import TopicHeader from "components/TopicHeader";
+import PostItem from "components/PostItem";
+import fetcher from "utils/fetcher";
+
+const zhLocale = require("moment/locale/zh-cn");
+
+moment.locale("zh-cn", zhLocale);
 
 class TopicScreen extends Component {
   static navigationOptions = ({ navigation, screenProps }) => ({
@@ -22,14 +31,92 @@ class TopicScreen extends Component {
     },
   })
 
+  constructor(props) {
+    super(props);
+    this.state = { posts: [] };
+    this.fetchPosts();
+    this.fetchPosts = this.fetchPosts.bind(this);
+  }
+
+  fetchPosts() {
+    const topic = this.props.navigation.state.params.topic;
+    const postUrl = `/forum/topics/${topic.id}/posts/`;
+    fetcher.get(postUrl).then((res) => {
+      const posts = res.data.results;
+      this.setState({ posts });
+    });
+  }
   render() {
+    const topic = this.props.navigation.state.params.topic;
+    const data = [topic].concat(this.state.posts);
+
     return (
-      <Button
-        onPress={() => this.props.navigation.goBack()}
-        title="回主页"
-      />
+      <View style={styles.container}>
+        <FlatList
+          style={styles.posts}
+          removeClippedSubviews={false}
+          data={data}
+          renderItem={({ item }) => item.topic ? <PostItem post={item} /> : <TopicHeader topic={item} />}
+          keyExtractor={(item, index) => item.id}
+        />
+      </View>
     );
   }
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fafafa",
+    flexWrap: "wrap",
+  },
+  topicHeader: {
+    padding: 15,
+    borderBottomWidth: 1,
+    borderColor: "white"
+  },
+  topic: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    marginBottom: 20
+  },
+  title: {
+    fontSize: 18,
+    color: colors.textColor,
+    marginBottom: 5,
+  },
+  content: {
+    color: colors.textColor,
+    marginBottom: 20
+  },
+  avatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 5,
+    marginRight: 15
+  },
+  meta: {
+    flexDirection: "row",
+  },
+  author: {
+    color: colors.mute,
+    fontSize: 12
+  },
+  sep: {
+    color: colors.mute,
+    fontSize: 12
+  },
+  timestamp: {
+    color: colors.mute,
+    fontSize: 12
+  },
+  postHeader: {
+    fontSize: 12,
+    color: colors.mute
+  },
+  posts: {
+    backgroundColor: "white"
+  }
+});
 export default TopicScreen;

@@ -48,28 +48,22 @@ class ForumScreen extends Component {
   constructor(props) {
     super(props);
     this.state = { topics: [], refreshing: true, page: "全部" };
-    this.props.navigation.setParams({ node: "全部" });
 
-    this.fetchTopics = this.fetchTopics.bind(this);
+    this.changePage = this.changePage.bind(this);
   }
 
   componentWillMount() {
-    this.fetchTopics();
+    this.props.navigation.setParams({ node: this.state.page });
+    this.changePage();
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    if (this.state.page !== nextState.page) {
-      this.fetchTopics(nextState.page);
-    }
-  }
-
-  fetchTopics(page) {
+  changePage(page) {
     const nodeName = page || this.state.page;
     const topicUrl = `/forum/topics/?node=${nodeName}`;
     this.setState({ refreshing: true });
     fetcher.get(topicUrl).then((res) => {
       const topics = res.data.results;
-      this.setState({ topics, refreshing: false });
+      this.setState({ topics, refreshing: false, page });
     });
   }
 
@@ -78,9 +72,9 @@ class ForumScreen extends Component {
       <View style={styles.container}>
         <Tabs
           selected={this.state.page}
-          style={{ backgroundColor: "white" }}
+          style={{ backgroundColor: colors.backgroundColor }}
           selectedStyle={{ color: "#F6416C" }}
-          onSelect={(el) => { this.props.navigation.setParams({ node: el.props.name }); this.setState({ page: el.props.name }); }}
+          onSelect={(el) => { this.props.navigation.setParams({ node: el.props.name }); this.changePage(el.props.name); }}
         >
           <Text style={styles.node} name="全部">全部</Text>
           <Text style={styles.node} name="学习">学习</Text>
@@ -117,7 +111,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: "white",
   },
   node: {
     color: colors.textColor,
