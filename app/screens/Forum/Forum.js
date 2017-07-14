@@ -88,7 +88,7 @@ class ForumScreen extends Component {
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}
-              onRefresh={this.fetchTopics}
+              onRefresh={this.changePage}
             />
           }
           removeClippedSubviews={false}
