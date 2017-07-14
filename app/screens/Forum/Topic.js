@@ -49,6 +49,7 @@ class TopicScreen extends Component {
   }
   render() {
     const topic = this.props.navigation.state.params.topic;
+    let list = null;
     if (this.state.isLoading) {
       list = (
         <View style={styles.container}>
@@ -67,7 +68,7 @@ class TopicScreen extends Component {
         removeClippedSubviews={false}
         data={data}
         renderItem={({ item }) => item.topic ? <PostItem post={item} /> : item}
-        keyExtractor={(item, index) => item.id}
+        keyExtractor={(item, index) => item.index}
       />);
     }
 

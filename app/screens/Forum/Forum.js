@@ -59,7 +59,7 @@ class ForumScreen extends Component {
 
   changePage(page) {
     const nodeName = page || this.state.page;
-    const topicUrl = `/forum/topics/?node=${nodeName}`;
+    const topicUrl = `/forum/topics/?node=${nodeName}&ipp=100`;
     this.setState({ refreshing: true });
     fetcher.get(topicUrl).then((res) => {
       const topics = res.data.results;
