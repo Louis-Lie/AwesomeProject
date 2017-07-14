@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   StyleSheet,
@@ -33,7 +34,7 @@ class TopicScreen extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { posts: [] };
+    this.state = { posts: [], isLoading: true };
     this.fetchPosts();
     this.fetchPosts = this.fetchPosts.bind(this);
   }
@@ -43,22 +44,39 @@ class TopicScreen extends Component {
     const postUrl = `/forum/topics/${topic.id}/posts/`;
     fetcher.get(postUrl).then((res) => {
       const posts = res.data.results;
-      this.setState({ posts });
+      this.setState({ posts, isLoading: false });
     });
   }
   render() {
     const topic = this.props.navigation.state.params.topic;
-    const data = [topic].concat(this.state.posts);
+    if (this.state.isLoading) {
+      list = (
+        <View style={styles.container}>
+          <ActivityIndicator />
+        </View>
+      );
+    } else {
+      const content = (<View style={styles.topicHeader}>
+        <Text style={styles.content}>{topic.content}</Text>
+        <Text style={styles.postHeader}>{topic.num_posts}回复 | 最后更新{moment(topic.created_at).fromNow()}</Text>
+      </View>);
+      const data = [content].concat(this.state.posts);
+
+      list = (<FlatList
+        style={styles.posts}
+        removeClippedSubviews={false}
+        data={data}
+        renderItem={({ item }) => item.topic ? <PostItem post={item} /> : item}
+        keyExtractor={(item, index) => item.id}
+      />);
+    }
+
 
     return (
+
       <View style={styles.container}>
-        <FlatList
-          style={styles.posts}
-          removeClippedSubviews={false}
-          data={data}
-          renderItem={({ item }) => item.topic ? <PostItem post={item} /> : <TopicHeader topic={item} />}
-          keyExtractor={(item, index) => item.id}
-        />
+        <TopicHeader topic={topic} />
+        {list}
       </View>
     );
   }
@@ -69,5 +87,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
   },
+  topicHeader: {
+    backgroundColor: "#fbfbfb",
+    padding: 15,
+  },
+  content: {
+    color: colors.textColor,
+    marginBottom: 20
+  },
+  postHeader: {
+    fontSize: 12,
+    color: colors.mute
+  }
 });
 export default TopicScreen;

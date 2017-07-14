@@ -32,8 +32,7 @@ class TopicHeader extends Component {
           </View>
           <Image style={styles.avatar} source={{ uri: avatarUrl }} />
         </View>
-        <Text style={styles.content}>{topic.content}</Text>
-        <Text style={styles.postHeader}>{topic.num_posts}回复 | 最后更新{moment(topic.created_at).fromNow()}</Text>
+
       </View>
     );
   }
@@ -43,22 +42,19 @@ const styles = StyleSheet.create({
   topicHeader: {
     backgroundColor: "#fbfbfb",
     padding: 15,
+    paddingBottom: 5
   },
   topic: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    marginBottom: 20
   },
   title: {
     fontSize: 18,
     color: colors.textColor,
     marginBottom: 5,
   },
-  content: {
-    color: colors.textColor,
-    marginBottom: 20
-  },
+
   avatar: {
     width: 40,
     height: 40,
@@ -80,9 +76,5 @@ const styles = StyleSheet.create({
     color: colors.mute,
     fontSize: 12
   },
-  postHeader: {
-    fontSize: 12,
-    color: colors.mute
-  }
 });
 export default TopicHeader;
