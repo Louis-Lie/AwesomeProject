@@ -27,12 +27,18 @@ instance.interceptors.request.use((config) => {
   return Promise.reject(error);
 });
 
-instance.interceptors.response.use(response => response, error =>
+instance.interceptors.response.use(response => response, (error) => {
     // Do something with response error
-   Promise.reject(error));
-
-CookieManager.getAll((err, res) => {
-  console.log("get all cookies: ", res, err);
-  instance.defaults.headers.common["X-CSRFToken"] = res.csrftoken.value;
+  alert(error);
 });
+
+
+const updateCSRF = () => {
+  CookieManager.getAll((err, res) => {
+    console.log("get all cookies: ", res, err);
+    instance.defaults.headers.common["X-CSRFToken"] = res.csrftoken.value;
+  });
+};
+
+export { updateCSRF };
 export default instance;

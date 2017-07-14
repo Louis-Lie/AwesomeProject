@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, View, WebView } from "react-native";
 import { Actions, ActionConst } from "react-native-router-flux";
+import { updateCSRF } from "../utils/fetcher";
 
 // Change these to reflect
 const LOGIN_URL = "https://souka.io/accounts/login/";
@@ -13,7 +14,9 @@ class AuthLogin extends Component {
   }
 
   onNavigationStateChange(navState) {
-    if (navState.url === HOME_URL) {
+    console.log("nav state change: ---> ", navState);
+    if (navState.url === HOME_URL || navState.url === `${HOME_URL}main/`) {
+      updateCSRF();
       this.setState({
         loggedIn: true,
       });

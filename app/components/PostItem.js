@@ -24,7 +24,6 @@ class PostItem extends Component {
   }
 
   renderpost() {
-    const { navigate } = this.props.navigation;
     console.log("render post: ", this.props.post);
   }
 

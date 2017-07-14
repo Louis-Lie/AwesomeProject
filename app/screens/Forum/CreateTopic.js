@@ -43,6 +43,7 @@ class CreateTopicScreen extends Component {
     if (title.length && content.length) {
       const topicUrl = "/forum/topics/";
       fetcher.post(topicUrl, { title, content, node }).then((res) => {
+        this.props.navigation.state.params.onGoBack();
         this.props.navigation.goBack();
       });
     }

@@ -5,12 +5,14 @@ import {
   Image,
   StyleSheet,
   Text,
+  TextInput,
+  TouchableHighlight,
   View
 } from "react-native";
 import moment from "moment";
 
 import Icon from "react-native-vector-icons/FontAwesome";
-import { colors } from "styles/common";
+import { colors, window } from "styles/common";
 import TopicHeader from "components/TopicHeader";
 import PostItem from "components/PostItem";
 import fetcher from "utils/fetcher";
@@ -32,11 +34,16 @@ class TopicScreen extends Component {
     },
   })
 
+  static onNavigationStateChange(prevState, newState, action) {
+    console.log("nav change--> ", prevState, newState, action);
+  }
   constructor(props) {
     super(props);
-    this.state = { posts: [], isLoading: true };
+    this.state = { topic: this.props.navigation.state.params.topic, posts: [], isLoading: true };
     this.fetchPosts();
+
     this.fetchPosts = this.fetchPosts.bind(this);
+    this.createPost = this.createPost.bind(this);
   }
 
   fetchPosts() {
@@ -47,8 +54,14 @@ class TopicScreen extends Component {
       this.setState({ posts, isLoading: false });
     });
   }
+
+  createPost() {
+    const { navigate } = this.props.navigation;
+    navigate("CreatePost", { onGoBack: this.fetchPosts, topic: this.state.topic });
+    console.log("create post", navigate);
+  }
   render() {
-    const topic = this.props.navigation.state.params.topic;
+    const topic = this.state.topic;
     let list = null;
     if (this.state.isLoading) {
       list = (
@@ -68,16 +81,22 @@ class TopicScreen extends Component {
         removeClippedSubviews={false}
         data={data}
         renderItem={({ item }) => item.topic ? <PostItem post={item} /> : item}
-        keyExtractor={(item, index) => item.index}
+        keyExtractor={(item, index) => index}
       />);
     }
-
 
     return (
 
       <View style={styles.container}>
         <TopicHeader topic={topic} />
         {list}
+
+        <TouchableHighlight onPress={this.createPost}>
+          <View style={styles.inputBar}>
+            <TextInput style={styles.inputPlace} editable={false} placeholder="回复" />
+            <Icon name="paper-plane-o" size={24} color={colors.primaryColor} />
+          </View>
+        </TouchableHighlight>
       </View>
     );
   }
@@ -99,6 +118,23 @@ const styles = StyleSheet.create({
   postHeader: {
     fontSize: 12,
     color: colors.mute
+  },
+  inputBar: {
+    flexDirection: "row",
+    position: "absolute",
+    bottom: 0,
+    width: window.width,
+    height: 50,
+    backgroundColor: "#fefefe",
+    padding: 10,
+  },
+  inputPlace: {
+    flex: 1,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: "#eee",
+    borderRadius: 3,
+    marginRight: 10
   }
 });
 export default TopicScreen;

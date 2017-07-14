@@ -6,6 +6,7 @@ import {
 } from "react-navigation";
 import CookieManager from "react-native-cookies";
 
+import { updateCSRF } from "./utils/fetcher";
 import { colors } from "./styles/common";
 import AuthLogin from "./screens/AuthLogin";
 import HomeStack from "./screens/Home/Home";
@@ -49,6 +50,7 @@ class RouterComponent extends Component {
       let isAuthenticated;
       if (cookie && cookie.hasOwnProperty("sessionid")) {
         isAuthenticated = true;
+        updateCSRF();
       } else {
         isAuthenticated = false;
       }

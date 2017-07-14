@@ -5,6 +5,7 @@ import {
   RefreshControl,
   StyleSheet,
   Text,
+
   TouchableHighlight,
   View,
 } from "react-native";
@@ -19,6 +20,7 @@ import fetcher from "utils/fetcher";
 import { colors } from "styles/common";
 import TopicScreen from "./Topic";
 import CreateTopicScreen from "./CreateTopic";
+import CreatePostScreen from "./CreatePost";
 
 
 class ForumScreen extends Component {
@@ -38,7 +40,12 @@ class ForumScreen extends Component {
       <TouchableHighlight
         style={{ padding: 10, }}
         underlayColor={colors.primaryColor}
-        onPress={() => { navigation.navigate("CreateTopic", { node: navigation.state.params.node }); }}
+        onPress={() => {
+          navigation.navigate("CreateTopic", {
+            onGoBack: navigation.state.params.onGoBack,
+            node: navigation.state.params.node
+          });
+        }}
       >
         <Icon name="edit" size={20} color="white" />
       </TouchableHighlight>
@@ -53,7 +60,7 @@ class ForumScreen extends Component {
   }
 
   componentWillMount() {
-    this.props.navigation.setParams({ node: this.state.page });
+    this.props.navigation.setParams({ node: this.state.page, onGoBack: this.changePage });
     this.changePage();
   }
 
@@ -94,8 +101,9 @@ class ForumScreen extends Component {
           removeClippedSubviews={false}
           data={this.state.topics}
           renderItem={({ item }) => <TopicItem topic={item} navigation={this.props.navigation} />}
-          keyExtractor={(item, index) => item.id}
+          keyExtractor={(item, index) => index}
         />
+
       </View>
     );
   }
@@ -105,6 +113,7 @@ const ForumStack = StackNavigator({
   Forum: { screen: ForumScreen },
   Topic: { screen: TopicScreen },
   CreateTopic: { screen: CreateTopicScreen },
+  CreatePost: { screen: CreatePostScreen }
 }
 );
 
@@ -118,7 +127,8 @@ const styles = StyleSheet.create({
     color: colors.textColor,
     padding: 5,
     margin: 5
-  }
+  },
+
 });
 export default ForumStack;
 ForumStack;
