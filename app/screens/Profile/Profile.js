@@ -2,19 +2,24 @@ import React, { Component } from "react";
 import {
   ActivityIndicator,
   StyleSheet,
+  Text,
+  TouchableHighlight,
   View,
 } from "react-native";
 import {
   StackNavigator,
 } from "react-navigation";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { Actions } from "react-native-router-flux";
 
 import fetcher from "utils/fetcher";
 import { colors } from "styles/common";
 import ProfileSettings from "components/ProfileSettings";
 
+const axios = require("axios");
 
 const ACCOUNT_URL = "https://souka.io/accounts/setting/";
+const LOUGOUT_URL = "https://souka.io/accounts/logout/";
 
 
 class ProfileScreen extends Component {
@@ -27,9 +32,18 @@ class ProfileScreen extends Component {
     headerStyle: {
       backgroundColor: colors.primaryColor,
     },
-    headerTitleStyle: {
-      color: "white",
-    }
+    headerTintColor: "white",
+    headerRight: (
+      <TouchableHighlight
+        style={{ padding: 10, }}
+        underlayColor={colors.primaryColor}
+        onPress={() => {
+          axios.get(LOUGOUT_URL).then(() => Actions.login());
+        }}
+      >
+        <Text style={{ color: "white" }}>退出</Text>
+      </TouchableHighlight>
+     ),
   };
 
   constructor(props) {
@@ -58,7 +72,6 @@ class ProfileScreen extends Component {
         </View>
       );
     }
-
     return (
       <View style={styles.container}>
         <ProfileSettings user={this.state.profile} />
