@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import {
-  StyleSheet,
-  View,
   Keyboard,
+  StyleSheet,
   StatusBar,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  View,
 } from "react-native";
 
 import {
@@ -41,7 +41,7 @@ class HomeScreen extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { searching: false, searchResult: [], isOpen: false };
+    this.state = { searching: false, searchResult: [] };
 
     this.startLearning = this.startLearning.bind(this);
     this.setSearchText = this.setSearchText.bind(this);
@@ -50,6 +50,7 @@ class HomeScreen extends Component {
     this.onGoBack = this.onGoBack.bind(this);
     this.onBackSearch = this.onBackSearch.bind(this);
   }
+
 
   onGoBack() {
     console.log("on go back", this);
@@ -71,6 +72,7 @@ class HomeScreen extends Component {
       this.setState({ searchResult });
     });
   }
+
 
   searchStart() {
     this.setState({ searching: true });

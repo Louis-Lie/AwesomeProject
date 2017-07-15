@@ -1,16 +1,21 @@
 import React, { Component } from "react";
 import {
+  ActivityIndicator,
   StyleSheet,
-  Text,
   View,
-  Button,
 } from "react-native";
 import {
   StackNavigator,
 } from "react-navigation";
 import Icon from "react-native-vector-icons/FontAwesome";
 
+import fetcher from "utils/fetcher";
 import { colors } from "styles/common";
+import ProfileSettings from "components/ProfileSettings";
+
+
+const ACCOUNT_URL = "https://souka.io/accounts/setting/";
+
 
 class ProfileScreen extends Component {
   static navigationOptions = {
@@ -27,12 +32,37 @@ class ProfileScreen extends Component {
     }
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true,
+      profile: null,
+    };
+  }
+
+  componentWillMount() {
+    this.fetchProfile();
+  }
+  fetchProfile() {
+    fetcher.get(ACCOUNT_URL).then((res) => {
+      const profile = res.data.profile;
+      this.setState({ profile, isLoading: false });
+    });
+  }
+
   render() {
+    if (this.state.isLoading) {
+      return (
+        <View style={styles.container}>
+          <ActivityIndicator />
+        </View>
+      );
+    }
+
     return (
-      <Button
-        onPress={() => this.props.navigation.goBack()}
-        title="回主页"
-      />
+      <View style={styles.container}>
+        <ProfileSettings user={this.state.profile} />
+      </View>
     );
   }
 }
@@ -42,4 +72,11 @@ const ProfileStack = StackNavigator({
 }
 );
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 15,
+    backgroundColor: "white"
+  }
+});
 export default ProfileStack;

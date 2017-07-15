@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import {
   ActivityIndicator,
+  AppState,
   Text,
   StyleSheet,
   View
@@ -19,7 +20,8 @@ class Course extends Component {
     this.state = {
       userCourse: null,
       task: null,
-      isLoading: true
+      isLoading: true,
+      appState: AppState.currentState
     };
 
     fetcher.get("/course/user_courses/?active=1").then((res) => {
@@ -41,6 +43,13 @@ class Course extends Component {
     this.updateTasks = this.updateTasks.bind(this);
   }
 
+  componentDidMount() {
+    AppState.addEventListener("change", this.handleAppStateChange);
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener("change", this.handleAppStateChange);
+  }
   updateTasks() {
     this.setState({ isLoading: true });
     const course = this.state.userCourse.course;
@@ -55,6 +64,13 @@ class Course extends Component {
     this.props.startLearning(this.state.userCourse.course, this.state.task);
   }
 
+  handleAppStateChange = (nextAppState) => {
+    if (this.state.appState.match(/inactive|background/) && nextAppState === "active") {
+      console.log("App has come to the foreground!");
+    }
+    this.updateTasks();
+    this.setState({ appState: nextAppState });
+  }
   render() {
     const userCourse = this.state.userCourse;
     const course = userCourse && userCourse.course;
