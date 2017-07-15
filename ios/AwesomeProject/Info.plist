@@ -69,10 +69,10 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>授权后可使用照片</string>
+	<string>选一张收藏的图片</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSCameraUsageDescription</key>
-	<string>授权后可访问相机</string>
+	<string>拍一张漂亮的照片</string>
 </dict>
 </plist>
