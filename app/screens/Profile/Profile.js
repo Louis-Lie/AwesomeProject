@@ -19,6 +19,7 @@ import CourseScreen from "./Course";
 import VocabScreen from "./Vocab";
 import TopicScreen from "./Topic";
 import PostScreen from "./Post";
+import QuotaScreen from "./Quota";
 
 const axios = require("axios");
 
@@ -43,12 +44,13 @@ class ProfileScreen extends Component {
     super(props);
     this.state = {
       profile: {},
+      userCourse: {},
       vocabSize: " ",
       courseTitle: " ",
+      quota: " "
     };
 
     this.fetchData = this.fetchData.bind(this);
-    this.onNavigation = this.onNavigation.bind(this);
   }
 
   componentWillMount() {
@@ -66,8 +68,9 @@ class ProfileScreen extends Component {
     fetcher.get("/course/user_courses/?active=1").then((res) => {
       const data = res.data;
       if (data.results.length) {
-        const courseTitle = data.results[0].course.name;
-        this.setState({ courseTitle });
+        const userCourse = data.results[0];
+        const courseTitle = userCourse.course.name;
+        this.setState({ courseTitle, userCourse });
       }
     });
     fetcher.get("/vocab/user_test/").then((res) => {
@@ -75,10 +78,7 @@ class ProfileScreen extends Component {
       this.setState({ vocabSize });
     });
   }
-  onNavigation() {
-    console.log("onNavigation Profile");
-    this.fetchData();
-  }
+
   render() {
     const { navigate } = this.props.navigation;
     const user = this.state.profile;
@@ -104,9 +104,16 @@ class ProfileScreen extends Component {
           <ListItem
             leftIcon={{ name: "book" }}
             key="course"
-            title="课程"
+            title="我的课程"
             subtitle={this.state.courseTitle}
             onPress={() => navigate("Course", { user })}
+          />
+          <ListItem
+            leftIcon={{ name: "today" }}
+            key="quota"
+            title="每日任务"
+            subtitle={this.state.userCourse.quota || " "}
+            onPress={() => navigate("Quota", { userCourse: this.state.userCourse })}
           />
           <ListItem
             leftIcon={{ name: "trending-up" }}
@@ -169,7 +176,8 @@ const ProfileStack = StackNavigator({
   Course: { screen: CourseScreen },
   Vocab: { screen: VocabScreen },
   Topic: { screen: TopicScreen },
-  Post: { screen: PostScreen }
+  Post: { screen: PostScreen },
+  Quota: { screen: QuotaScreen }
 }
 );
 
