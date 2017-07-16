@@ -62,7 +62,7 @@ class App extends Component {
       console.log("currState: ", currentState);
       const stack = currentState.routes[currentState.index];
 
-      if (stack.index === 0) {
+      if (stack.index === 0 && stack.routeName !== "Forum") {
         const resetAction = NavigationActions.reset({
           index: 0,
           actions: [

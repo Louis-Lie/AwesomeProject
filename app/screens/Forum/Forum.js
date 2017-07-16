@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import {
+  ActivityIndicator,
   FlatList,
   RefreshControl,
   StyleSheet,
   Text,
-
   TouchableHighlight,
   View,
 } from "react-native";
@@ -53,36 +53,74 @@ class ForumScreen extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { topics: [], refreshing: true, page: "全部" };
+    this.state = {
+      topics: [],
+      node: "全部",
+      page: 1,
+      refreshing: true,
+      loading: false,
+      hasMore: true
+    };
 
-    this.changePage = this.changePage.bind(this);
+    this.changeNode = this.changeNode.bind(this);
+    this.loadMore = this.loadMore.bind(this);
   }
 
   componentWillMount() {
-    this.props.navigation.setParams({ node: this.state.page, onGoBack: this.changePage });
-    this.changePage();
+    this.props.navigation.setParams({ node: this.state.node, onGoBack: this.changeNode });
+    this.changeNode();
   }
 
-  changePage(page) {
-    const nodeName = page || this.state.page;
-    const topicUrl = `/forum/topics/?node=${nodeName}&ipp=100`;
+  changeNode(node) {
+    const nodeName = node || this.state.node;
+    const topicUrl = `/forum/topics/?node=${nodeName}&ipp=10`;
     this.setState({ refreshing: true });
     fetcher.get(topicUrl).then((res) => {
       const topics = res.data.results;
-      this.setState({ topics, refreshing: false, page });
+      this.setState({
+        topics,
+        node: nodeName,
+        page: 1,
+        refreshing: false,
+        hasMore: true
+      });
     });
   }
+  loadMore() {
+    if (!this.state.hasMore || this.state.loading) return;
 
+    this.setState({ loading: true });
+    const page = this.state.page + 1;
+    const nodeName = this.state.node;
+    const topicUrl = `/forum/topics/?node=${nodeName}&ipp=10&page=${page}`;
+    this.setState({ refreshing: true });
+    fetcher.get(topicUrl).then((res) => {
+      const newTopics = res.data.results;
+      const topics = this.state.topics.concat(newTopics);
+      this.setState({ topics, page, loading: false });
+    }).catch((error) => {
+      if (error.response.status === 404) {
+        this.setState({ hasMore: false, loading: false });
+      } else {
+        alert(error);
+      }
+    });
+  }
   render() {
+    let loading = null;
+    if (this.state.loading) {
+      loading = <ActivityIndicator />;
+    }
+
     return (
       <View style={styles.container}>
         <Tabs
-          selected={this.state.page}
+          selected={this.state.node}
           style={{ backgroundColor: colors.backgroundColor }}
           selectedStyle={{ color: "#F6416C" }}
           onSelect={(el) => {
             this.props.navigation.setParams({ node: el.props.name });
-            this.changePage(el.props.name);
+            this.changeNode(el.props.name);
           }}
         >
           <Text style={styles.node} name="全部">全部</Text>
@@ -97,15 +135,21 @@ class ForumScreen extends Component {
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}
-              onRefresh={this.changePage}
+              onRefresh={this.changeNode}
             />
           }
+          extraData={this.state}
           removeClippedSubviews={false}
           data={this.state.topics}
           renderItem={({ item }) => <TopicItem topic={item} navigation={this.props.navigation} />}
           keyExtractor={(item, index) => index}
+          onEndReachedThreshold={0}
+          onEndReached={({ distanceFromEnd }) => {
+            console.log("on end reached ", distanceFromEnd);
+            this.loadMore();
+          }}
         />
-
+        {loading}
       </View>
     );
   }

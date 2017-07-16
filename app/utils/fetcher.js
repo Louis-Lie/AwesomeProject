@@ -25,13 +25,14 @@ instance.interceptors.request.use((config) => {
   return config;
 }, (error) => {
     // Do something with request error
-  console.log("axios error: ", error);
+  console.log("axios request error: ", error);
   return Promise.reject(error);
 });
 
 instance.interceptors.response.use(response => response, (error) => {
     // Do something with response error
-  alert(error);
+  console.log("axios response error: ", error);
+  return Promise.reject(error);
 });
 
 

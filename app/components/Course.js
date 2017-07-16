@@ -184,7 +184,16 @@ class Course extends Component {
 
     let button = null;
     if (this.state.isLoading) {
-      button = <View><ActivityIndicator /></View>;
+      button = (<View style={{ alignItems: "center" }}>
+
+        <Progress.Circle
+          style={styles.circle}
+          size={140}
+          color={"#FFCA61"}
+          thickness={6}
+          indeterminate
+        />
+      </View>);
     } else if (!reviewFinished) {
       button = (<Button
         backgroundColor={buttonColor}
@@ -211,7 +220,7 @@ class Course extends Component {
 
 const styles = StyleSheet.create({
   card: {
-    borderWidth: 0
+    borderWidth: 0,
   },
   center: {
     alignItems: "center",

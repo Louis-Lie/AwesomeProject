@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
   ActivityIndicator,
   FlatList,
-  Image,
   StyleSheet,
   Text,
   TextInput,
@@ -39,16 +38,24 @@ class TopicScreen extends Component {
   }
   constructor(props) {
     super(props);
-    this.state = { topic: this.props.navigation.state.params.topic, posts: [], isLoading: true };
+    this.state = {
+      topic: this.props.navigation.state.params.topic,
+      posts: [],
+      page: 1,
+      isLoading: true,
+      hasMore: true,
+      loading: false
+    };
     this.fetchPosts();
 
     this.fetchPosts = this.fetchPosts.bind(this);
     this.createPost = this.createPost.bind(this);
+    this.loadMore = this.loadMore.bind(this);
   }
 
   fetchPosts() {
-    const topic = this.props.navigation.state.params.topic;
-    const postUrl = `/forum/topics/${topic.id}/posts/`;
+    const topic = this.state.topic;
+    const postUrl = `/forum/topics/${topic.id}/posts/?ipp=10`;
     fetcher.get(postUrl).then((res) => {
       const posts = res.data.results;
       this.setState({ posts, isLoading: false });
@@ -58,9 +65,35 @@ class TopicScreen extends Component {
   createPost() {
     const { navigate } = this.props.navigation;
     navigate("CreatePost", { onGoBack: this.fetchPosts, topic: this.state.topic });
-    console.log("create post", navigate);
   }
+
+  loadMore() {
+    if (!this.state.hasMore || this.state.loading) return;
+
+    this.setState({ loading: true });
+    const topic = this.state.topic;
+    const postUrl = `/forum/topics/${topic.id}/posts/?ipp=10`;
+    const page = this.state.page + 1;
+    this.setState({ refreshing: true });
+    fetcher.get(postUrl).then((res) => {
+      const newPosts = res.data.results;
+      const posts = this.state.posts.concat(newPosts);
+      this.setState({ posts, page, loading: false });
+    }).catch((error) => {
+      if (error.response.status === 404) {
+        this.setState({ hasMore: false, loading: false });
+      } else {
+        alert(error);
+      }
+    });
+  }
+
   render() {
+    let loading = null;
+    if (this.state.loading) {
+      loading = <ActivityIndicator />;
+    }
+
     const topic = this.state.topic;
     let list = null;
     if (this.state.isLoading) {
@@ -72,7 +105,9 @@ class TopicScreen extends Component {
     } else {
       const content = (<View style={styles.topicHeader}>
         <Text style={styles.content}>{topic.content}</Text>
-        <Text style={styles.postHeader}>{topic.num_posts}回复 | 最后更新{moment(topic.created_at).fromNow()}</Text>
+        <Text style={styles.postHeader}>
+          {topic.num_posts}回复 | 最后更新{moment(topic.created_at).fromNow()}
+        </Text>
       </View>);
       const data = [content].concat(this.state.posts);
 
@@ -82,6 +117,11 @@ class TopicScreen extends Component {
         data={data}
         renderItem={({ item }) => item.topic ? <PostItem post={item} /> : item}
         keyExtractor={(item, index) => index}
+        onEndReachedThreshold={0}
+        onEndReached={({ distanceFromEnd }) => {
+          console.log("on end reached ", distanceFromEnd);
+          this.loadMore();
+        }}
       />);
     }
 
@@ -90,7 +130,7 @@ class TopicScreen extends Component {
       <View style={styles.container}>
         <TopicHeader topic={topic} />
         {list}
-
+        {loading}
         <TouchableHighlight onPress={this.createPost}>
           <View style={styles.inputBar}>
             <TextInput style={styles.inputPlace} editable={false} placeholder="回复" />
@@ -114,6 +154,9 @@ const styles = StyleSheet.create({
   content: {
     color: colors.textColor,
     marginBottom: 20
+  },
+  posts: {
+    marginBottom: 50
   },
   postHeader: {
     fontSize: 12,
