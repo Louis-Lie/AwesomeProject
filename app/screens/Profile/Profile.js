@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {
   Alert,
-  ActivityIndicator,
   StyleSheet,
   View,
 } from "react-native";
@@ -44,7 +43,7 @@ class ProfileScreen extends Component {
     super(props);
     this.state = {
       isLoading: true,
-      profile: null,
+      profile: {},
       vocabSize: null,
       courseTitle: null,
     };
@@ -82,17 +81,10 @@ class ProfileScreen extends Component {
     this.fetchData();
   }
   render() {
-    if (this.state.isLoading) {
-      return (
-        <View style={styles.container}>
-          <ActivityIndicator />
-        </View>
-      );
-    }
     const { navigate } = this.props.navigation;
     const user = this.state.profile;
     const avatarUrl = `https://souka.io${user.avatar_url}`;
-    const subtitle = `用户名：${user.username}`;
+    const subtitle = `用户名：${user.username || " "}`;
     return (
       <View style={styles.container}>
         <List
@@ -104,7 +96,7 @@ class ProfileScreen extends Component {
             roundAvatar
             avatar={{ uri: avatarUrl }}
             key={user.id}
-            title={user.name}
+            title={user.name || " "}
             subtitle={subtitle}
             onPress={() => navigate("Setting", { user })}
           />
@@ -114,14 +106,14 @@ class ProfileScreen extends Component {
             leftIcon={{ name: "book" }}
             key="course"
             title="课程"
-            subtitle={this.state.courseTitle}
+            subtitle={this.state.courseTitle || " "}
             onPress={() => navigate("Course", { user })}
           />
           <ListItem
             leftIcon={{ name: "trending-up" }}
             key={user.id}
             title="词汇量"
-            subtitle={`${this.state.vocabSize}`}
+            subtitle={`${this.state.vocabSize || " "}`}
             onPress={() => navigate("Vocab", { user })}
           />
         </List>
