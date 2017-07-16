@@ -20,12 +20,11 @@ import { colors } from "styles/common";
 const axios = require("axios");
 
 const ACCOUNT_URL = "https://souka.io/accounts/setting/";
-const LOUGOUT_URL = "https://souka.io/accounts/logout/";
 
 
 class CourseScreen extends Component {
   static navigationOptions = {
-    title: "我",
+    title: "我的课程",
     tabBarLabel: "我",
     tabBarIcon: ({ tintColor }) => (
       <Icon name="user-o" size={24} color={tintColor} />
@@ -34,17 +33,6 @@ class CourseScreen extends Component {
       backgroundColor: colors.primaryColor,
     },
     headerTintColor: "white",
-    headerRight: (
-      <TouchableHighlight
-        style={{ padding: 10, }}
-        underlayColor={colors.primaryColor}
-        onPress={() => {
-          axios.get(LOUGOUT_URL).then(() => Actions.login());
-        }}
-      >
-        <Text style={{ color: "white" }}>退出</Text>
-      </TouchableHighlight>
-     ),
   };
 
   constructor(props) {
@@ -79,11 +67,6 @@ class CourseScreen extends Component {
   }
 }
 
-const ProfileStack = StackNavigator({
-  Profile: { screen: CourseScreen },
-}
-);
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -91,4 +74,5 @@ const styles = StyleSheet.create({
     backgroundColor: "white"
   }
 });
-export default ProfileStack;
+
+export default CourseScreen;

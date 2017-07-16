@@ -1,7 +1,9 @@
+import DeviceInfo from "react-native-device-info";
 import CookieManager from "react-native-cookies";
+import axios from "axios";
 
-const axios = require("axios");
-
+const UA = DeviceInfo.getUserAgent();
+console.log("GET UA: ", UA);
 
 const instance = axios.create({
   baseURL: "https://souka.io",

@@ -47,6 +47,8 @@ class ProfileScreen extends Component {
     this.state = {
       isLoading: true,
       profile: null,
+      vocabSize: null,
+      courseTitle: null,
     };
   }
 
@@ -93,19 +95,19 @@ class ProfileScreen extends Component {
             leftIcon={{ name: "book" }}
             key="course"
             title="我的课程"
-            subtitle="JLPT N5"
+            subtitle={this.state.courseTitle}
             onPress={() => navigate("Course", { user })}
           />
           <ListItem
             leftIcon={{ name: "trending-up" }}
             key={user.id}
             title="词汇量"
-            subtitle={subtitle}
+            subtitle={this.state.vocabSize}
             onPress={() => navigate("Vocab", { user })}
           />
         </List>
 
-        <List containerStyle={styles.list}>
+        {/* <List containerStyle={styles.list}>
           <ListItem
             leftIcon={{ name: "create" }}
             key="topic"
@@ -118,7 +120,7 @@ class ProfileScreen extends Component {
             title="我的回复"
             onPress={() => navigate("Post", { user })}
           />
-        </List>
+        </List>*/}
 
         <List containerStyle={styles.list}>
           <ListItem
