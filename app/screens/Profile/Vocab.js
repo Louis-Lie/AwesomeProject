@@ -1,15 +1,11 @@
 import React, { Component } from "react";
 import {
-  ActivityIndicator,
   StyleSheet,
-  Text,
-  TouchableHighlight,
   WebView,
   View,
 } from "react-native";
 
 import Icon from "react-native-vector-icons/FontAwesome";
-import { Actions } from "react-native-router-flux";
 
 import { colors } from "styles/common";
 
@@ -27,13 +23,6 @@ class VocabScreen extends Component {
     },
     headerTintColor: "white",
   };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoading: true,
-    };
-  }
 
   render() {
     return (
@@ -58,4 +47,5 @@ const styles = StyleSheet.create({
     backgroundColor: "white"
   }
 });
+
 export default VocabScreen;

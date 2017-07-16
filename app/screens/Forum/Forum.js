@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import {
-  ActivityIndicator,
   FlatList,
   RefreshControl,
   StyleSheet,
@@ -81,7 +80,10 @@ class ForumScreen extends Component {
           selected={this.state.page}
           style={{ backgroundColor: colors.backgroundColor }}
           selectedStyle={{ color: "#F6416C" }}
-          onSelect={(el) => { this.props.navigation.setParams({ node: el.props.name }); this.changePage(el.props.name); }}
+          onSelect={(el) => {
+            this.props.navigation.setParams({ node: el.props.name });
+            this.changePage(el.props.name);
+          }}
         >
           <Text style={styles.node} name="全部">全部</Text>
           <Text style={styles.node} name="学习">学习</Text>
@@ -130,5 +132,6 @@ const styles = StyleSheet.create({
   },
 
 });
+
+export { ForumScreen };
 export default ForumStack;
-ForumStack;

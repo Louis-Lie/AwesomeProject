@@ -8,33 +8,10 @@ import CookieManager from "react-native-cookies";
 
 import { updateCSRF } from "./utils/fetcher";
 import { colors } from "./styles/common";
+import App from "./screens/Index";
 import AuthLogin from "./screens/AuthLogin";
-import HomeStack from "./screens/Home/Home";
-// import ReadScreen from "./screens/Read";
-import ForumStack from "./screens/Forum/Forum";
-import ProfileStack from "./screens/Profile/Profile";
 
 const HOME_URL = "https://souka.io/";
-
-const App = TabNavigator({
-  Home: {
-    screen: HomeStack,
-  },
-  // Read: {
-  //   screen: ReadScreen,
-  // },
-  Forum: {
-    screen: ForumStack,
-  },
-  Profile: {
-    screen: ProfileStack,
-  }
-}, {
-  lazy: true,
-  tabBarOptions: {
-    activeTintColor: colors.tintColor,
-  }
-});
 
 class RouterComponent extends Component {
   constructor(props) {

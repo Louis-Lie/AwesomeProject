@@ -3,8 +3,6 @@ import {
   Alert,
   ActivityIndicator,
   StyleSheet,
-  Text,
-  TouchableHighlight,
   View,
 } from "react-native";
 import {
@@ -50,18 +48,39 @@ class ProfileScreen extends Component {
       vocabSize: null,
       courseTitle: null,
     };
+
+    this.fetchData = this.fetchData.bind(this);
+    this.onNavigation = this.onNavigation.bind(this);
   }
 
   componentWillMount() {
     this.fetchProfile();
   }
+
   fetchProfile() {
     fetcher.get(ACCOUNT_URL).then((res) => {
       const profile = res.data.profile;
       this.setState({ profile, isLoading: false });
     });
+    this.fetchData();
   }
-
+  fetchData() {
+    fetcher.get("/course/user_courses/?active=1").then((res) => {
+      const data = res.data;
+      if (data.results.length) {
+        const courseTitle = data.results[0].course.name;
+        this.setState({ courseTitle });
+      }
+    });
+    fetcher.get("/vocab/user_test/").then((res) => {
+      const vocabSize = res.data.last_score;
+      this.setState({ vocabSize });
+    });
+  }
+  onNavigation() {
+    console.log("onNavigation Profile");
+    this.fetchData();
+  }
   render() {
     if (this.state.isLoading) {
       return (
@@ -94,7 +113,7 @@ class ProfileScreen extends Component {
           <ListItem
             leftIcon={{ name: "book" }}
             key="course"
-            title="我的课程"
+            title="课程"
             subtitle={this.state.courseTitle}
             onPress={() => navigate("Course", { user })}
           />
@@ -102,7 +121,7 @@ class ProfileScreen extends Component {
             leftIcon={{ name: "trending-up" }}
             key={user.id}
             title="词汇量"
-            subtitle={this.state.vocabSize}
+            subtitle={`${this.state.vocabSize}`}
             onPress={() => navigate("Vocab", { user })}
           />
         </List>
@@ -183,4 +202,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0,
   },
 });
+
+export { ProfileScreen };
 export default ProfileStack;

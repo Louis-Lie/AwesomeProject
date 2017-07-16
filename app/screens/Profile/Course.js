@@ -1,30 +1,27 @@
 import React, { Component } from "react";
 import {
+  Alert,
   ActivityIndicator,
+  Image,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableHighlight,
   View,
 } from "react-native";
-import {
-  StackNavigator,
-} from "react-navigation";
-
 
 import Icon from "react-native-vector-icons/FontAwesome";
-import { Actions } from "react-native-router-flux";
 
 import fetcher from "utils/fetcher";
 import { colors } from "styles/common";
 
-const axios = require("axios");
 
-const ACCOUNT_URL = "https://souka.io/accounts/setting/";
+const COURSES_URL = "https://souka.io/course/courses/";
 
 
 class CourseScreen extends Component {
   static navigationOptions = {
-    title: "我的课程",
+    title: "课程",
     tabBarLabel: "我",
     tabBarIcon: ({ tintColor }) => (
       <Icon name="user-o" size={24} color={tintColor} />
@@ -39,17 +36,17 @@ class CourseScreen extends Component {
     super(props);
     this.state = {
       isLoading: true,
-      profile: null,
+      courses: [],
     };
   }
 
   componentWillMount() {
-    this.fetchProfile();
+    this.fetchCourses();
   }
-  fetchProfile() {
-    fetcher.get(ACCOUNT_URL).then((res) => {
-      const profile = res.data.profile;
-      this.setState({ profile, isLoading: false });
+  fetchCourses() {
+    fetcher.get(COURSES_URL).then((res) => {
+      const courses = res.data.results;
+      this.setState({ courses, isLoading: false });
     });
   }
 
@@ -61,8 +58,45 @@ class CourseScreen extends Component {
         </View>
       );
     }
+
     return (
-      <View style={styles.container} />
+      <ScrollView style={styles.container}>
+        {
+        this.state.courses.map((c, i) => (
+          <TouchableHighlight
+            key={c.id}
+            underlayColor="transparent"
+            onPress={() =>
+              Alert.alert(
+                c.name,
+                "切换正在学习的课程",
+                [
+                  { text: "确认",
+                    onPress: () => {
+                      fetcher.post("/course/user_courses/activate/", { course_id: c.id });
+                    }
+                  },
+                  { text: "取消", onPress: () => console.log("Cancel Pressed"), style: "cancel" },
+                ]
+              )
+            }
+          >
+            <View style={styles.course}>
+              <Image
+                style={styles.cover}
+                resizeMode="cover"
+                source={{ uri: c.cover }}
+              />
+              <View style={{ flexWrap: "wrap", flex: 1 }}>
+                <Text style={styles.name}>{c.name}</Text>
+                <Text style={styles.desc}>{c.desc}</Text>
+              </View>
+            </View>
+          </TouchableHighlight>
+          )
+        )
+      }
+      </ScrollView>
     );
   }
 }
@@ -70,8 +104,30 @@ class CourseScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "white",
     padding: 15,
-    backgroundColor: "white"
+  },
+  course: {
+    borderWidth: 0,
+    flexDirection: "row",
+    marginVertical: 10,
+    borderBottomWidth: 1,
+    borderColor: "#eee",
+    paddingBottom: 15
+  },
+  cover: {
+    width: 64,
+    height: 64,
+    marginRight: 15
+  },
+  name: {
+    color: colors.textColor,
+    marginBottom: 5,
+    fontSize: 16,
+  },
+  desc: {
+    color: "#999",
+    fontSize: 13
   }
 });
 
