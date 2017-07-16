@@ -42,10 +42,9 @@ class ProfileScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true,
       profile: {},
-      vocabSize: null,
-      courseTitle: null,
+      vocabSize: " ",
+      courseTitle: " ",
     };
 
     this.fetchData = this.fetchData.bind(this);
@@ -106,14 +105,14 @@ class ProfileScreen extends Component {
             leftIcon={{ name: "book" }}
             key="course"
             title="课程"
-            subtitle={this.state.courseTitle || " "}
+            subtitle={this.state.courseTitle}
             onPress={() => navigate("Course", { user })}
           />
           <ListItem
             leftIcon={{ name: "trending-up" }}
             key={user.id}
             title="词汇量"
-            subtitle={`${this.state.vocabSize || " "}`}
+            subtitle={`${this.state.vocabSize}`}
             onPress={() => navigate("Vocab", { user })}
           />
         </List>
