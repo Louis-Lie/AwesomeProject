@@ -27,12 +27,8 @@ class Course extends Component {
     fetcher.get("/course/user_courses/?active=1").then((res) => {
       const data = res.data;
       if (data.results.length) {
-        this.setState({ userCourse: data.results[0] });
-        const course = this.state.userCourse.course;
-        const taskUrl = `/course/courses/${course.id}/task/`;
-        fetcher.get(taskUrl).then((res2) => {
-          const data2 = res2.data;
-          this.setState({ task: data2, isLoading: false });
+        this.setState({ userCourse: data.results[0] }, () => {
+          this.updateTasks();
         });
       } else {
         // TODO: render no user course
@@ -67,8 +63,8 @@ class Course extends Component {
   handleAppStateChange = (nextAppState) => {
     if (this.state.appState.match(/inactive|background/) && nextAppState === "active") {
       console.log("App has come to the foreground!");
+      this.updateTasks();
     }
-    this.updateTasks();
     this.setState({ appState: nextAppState });
   }
   render() {
@@ -202,6 +198,7 @@ class Course extends Component {
       <View>
         <Card
           title={(course && course.name) || "こんにちは"}
+          containerStyle={styles.card}
         >
           {PreviewHeader}
           {LearningProgress}
@@ -213,6 +210,9 @@ class Course extends Component {
 }
 
 const styles = StyleSheet.create({
+  card: {
+    borderWidth: 0
+  },
   center: {
     alignItems: "center",
     justifyContent: "center",

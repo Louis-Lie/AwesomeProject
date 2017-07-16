@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {
+  Alert,
   ActivityIndicator,
   StyleSheet,
   Text,
@@ -9,12 +10,18 @@ import {
 import {
   StackNavigator,
 } from "react-navigation";
+
+import { List, ListItem } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Actions } from "react-native-router-flux";
 
 import fetcher from "utils/fetcher";
 import { colors } from "styles/common";
-import ProfileSettings from "components/ProfileSettings";
+import SettingScreen from "./Setting";
+import CourseScreen from "./Course";
+import VocabScreen from "./Vocab";
+import TopicScreen from "./Topic";
+import PostScreen from "./Post";
 
 const axios = require("axios");
 
@@ -33,17 +40,6 @@ class ProfileScreen extends Component {
       backgroundColor: colors.primaryColor,
     },
     headerTintColor: "white",
-    headerRight: (
-      <TouchableHighlight
-        style={{ padding: 10, }}
-        underlayColor={colors.primaryColor}
-        onPress={() => {
-          axios.get(LOUGOUT_URL).then(() => Actions.login());
-        }}
-      >
-        <Text style={{ color: "white" }}>退出</Text>
-      </TouchableHighlight>
-     ),
   };
 
   constructor(props) {
@@ -72,9 +68,84 @@ class ProfileScreen extends Component {
         </View>
       );
     }
+    const { navigate } = this.props.navigation;
+    const user = this.state.profile;
+    const avatarUrl = `https://souka.io${user.avatar_url}`;
+    const subtitle = `用户名：${user.username}`;
     return (
       <View style={styles.container}>
-        <ProfileSettings user={this.state.profile} />
+        <List
+          containerStyle={[styles.list, styles.profileItem]}
+        >
+          <ListItem
+            style={styles.profileItem}
+            avatarStyle={styles.profileAvatar}
+            roundAvatar
+            avatar={{ uri: avatarUrl }}
+            key={user.id}
+            title={user.name}
+            subtitle={subtitle}
+            onPress={() => navigate("Setting", { user })}
+          />
+        </List>
+        <List containerStyle={styles.list}>
+          <ListItem
+            leftIcon={{ name: "book" }}
+            key="course"
+            title="我的课程"
+            subtitle="JLPT N5"
+            onPress={() => navigate("Course", { user })}
+          />
+          <ListItem
+            leftIcon={{ name: "trending-up" }}
+            key={user.id}
+            title="词汇量"
+            subtitle={subtitle}
+            onPress={() => navigate("Vocab", { user })}
+          />
+        </List>
+
+        <List containerStyle={styles.list}>
+          <ListItem
+            leftIcon={{ name: "create" }}
+            key="topic"
+            title="我创建的主题"
+            onPress={() => navigate("Topic", { user })}
+          />
+          <ListItem
+            leftIcon={{ name: "comment" }}
+            key="post"
+            title="我的回复"
+            onPress={() => navigate("Post", { user })}
+          />
+        </List>
+
+        <List containerStyle={styles.list}>
+          <ListItem
+            leftIcon={{ name: "stars" }}
+            key="version"
+            title="版本"
+            subtitle="1.0"
+            hideChevron
+          />
+        </List>
+        <List containerStyle={[styles.list]}>
+          <ListItem
+            titleContainerStyle={{ alignItems: "center", justifyContent: "center" }}
+            title="退出登录"
+            hideChevron
+            onPress={() => {
+              Alert.alert(
+                "退出登录",
+                "重新登录后可继续使用",
+                [
+                  { text: "退出", onPress: () => { axios.get(LOUGOUT_URL).then(() => Actions.login()); } },
+                  { text: "取消", onPress: () => console.log("Cancel Pressed"), style: "cancel" },
+                ]
+              );
+            }}
+          />
+        </List>
       </View>
     );
   }
@@ -82,14 +153,32 @@ class ProfileScreen extends Component {
 
 const ProfileStack = StackNavigator({
   Profile: { screen: ProfileScreen },
+  Setting: { screen: SettingScreen },
+  Course: { screen: CourseScreen },
+  Vocab: { screen: VocabScreen },
+  Topic: { screen: TopicScreen },
+  Post: { screen: PostScreen }
 }
 );
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 15,
-    backgroundColor: "white"
-  }
+    backgroundColor: "#f5f5f5"
+  },
+  profileItem: {
+    height: 72,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  profileAvatar: {
+    width: 54,
+    height: 54,
+    borderRadius: 27
+  },
+  list: {
+    borderTopWidth: 0,
+    borderBottomWidth: 0,
+  },
 });
 export default ProfileStack;

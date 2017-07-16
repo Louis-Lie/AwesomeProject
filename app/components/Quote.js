@@ -26,7 +26,7 @@ class Quote extends Component {
     const source = [quote.author, quote.source].join("，");
 
     return (
-      <Card>
+      <Card containerStyle={styles.card}>
         <Text style={styles.content} selectable>{quote.content}</Text>
         <Text style={styles.translation} selectable>{quote.translation}</Text>
         <Text style={styles.source} selectable>― {source}</Text>
@@ -40,6 +40,9 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: colors.textColor,
     marginBottom: 8
+  },
+  card: {
+    borderWidth: 0
   },
   translation: {
     fontSize: 13,

@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   avatar: {
     width: 32,
     height: 32,
-    borderRadius: 5,
+    borderRadius: 4,
     marginRight: 15
   },
   title: {
