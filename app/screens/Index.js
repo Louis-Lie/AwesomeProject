@@ -26,6 +26,7 @@ const RouteConfigs = {
 };
 const AppNavigator = TabNavigator(RouteConfigs, {
   lazy: true,
+
   tabBarOptions: {
     activeTintColor: colors.tintColor,
   }
@@ -64,7 +65,7 @@ class App extends Component {
         const resetAction = NavigationActions.reset({
           index: 0,
           actions: [
-            NavigationActions.navigate({ routeName: stack.routeName })
+            NavigationActions.navigate({ routeName: "Home" })
           ]
         });
         this.navigator._navigation.dispatch(resetAction);

@@ -45,7 +45,6 @@ class ProfileScreen extends Component {
     this.state = {
       profile: {},
       userCourse: {},
-      vocabSize: " ",
       quota: " "
     };
 
@@ -69,10 +68,6 @@ class ProfileScreen extends Component {
         const userCourse = data.results[0];
         this.setState({ userCourse });
       }
-    });
-    fetcher.get("/vocab/user_test/").then((res) => {
-      const vocabSize = res.data.last_score;
-      this.setState({ vocabSize });
     });
   }
 
@@ -127,8 +122,7 @@ class ProfileScreen extends Component {
           <ListItem
             leftIcon={{ name: "trending-up" }}
             key={user.id}
-            title="词汇量"
-            subtitle={`${this.state.vocabSize}`}
+            title="词汇量测试"
             onPress={() => navigate("Vocab", { user })}
           />
         </List>
