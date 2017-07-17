@@ -28,6 +28,7 @@ class VocabScreen extends Component {
     return (
       <View style={styles.container}>
         <WebView
+          userAgent="io.souka"
           automaticallyAdjustContentInsets={false}
           style={styles.webView}
           source={{ uri: VOCAB_URL }}
