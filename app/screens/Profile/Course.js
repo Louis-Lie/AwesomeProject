@@ -43,6 +43,7 @@ class CourseScreen extends Component {
   componentWillMount() {
     this.fetchCourses();
   }
+
   fetchCourses() {
     fetcher.get(COURSES_URL).then((res) => {
       const courses = res.data.results;
@@ -73,6 +74,10 @@ class CourseScreen extends Component {
                 [
                   { text: "确认",
                     onPress: () => {
+                      const userCourse = this.props.navigation.state.params.userCourse;
+                      userCourse.course.name = c.name;
+                      const setUserCourse = this.props.navigation.state.params.setUserCourse;
+                      setUserCourse(userCourse);
                       fetcher.post("/course/user_courses/activate/", { course_id: c.id });
                     }
                   },

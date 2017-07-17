@@ -27,22 +27,24 @@ class QuotaScreen extends Component {
     const userCourse = this.props.navigation.state.params.userCourse;
     this.state = {
       userCourse,
-      quota: userCourse.quota
     };
     this.onChange = this.onChange.bind(this);
   }
 
   onChange(quota, index) {
     console.log("change quota", this.state);
-    this.setState({ quota });
-    const uc = this.state.userCourse;
-    fetcher.put(`/course/user_courses/${uc.id}/`, { quota });
+    const userCourse = this.state.userCourse;
+    userCourse.quota = quota;
+    this.setState({ userCourse });
+    const setUserCourse = this.props.navigation.state.params.setUserCourse;
+    setUserCourse(userCourse);
+    fetcher.put(`/course/user_courses/${userCourse.id}/`, { quota });
   }
 
   render() {
     return (
       <Picker
-        selectedValue={`${this.state.quota}`}
+        selectedValue={`${this.state.userCourse.quota}`}
         onValueChange={(v, i) => this.onChange(v, i)}
       >
         {

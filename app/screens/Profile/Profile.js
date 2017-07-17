@@ -46,11 +46,11 @@ class ProfileScreen extends Component {
       profile: {},
       userCourse: {},
       vocabSize: " ",
-      courseTitle: " ",
       quota: " "
     };
 
-    this.fetchData = this.fetchData.bind(this);
+    this.setUserCourse = this.setUserCourse.bind(this);
+    this.setUser = this.setUser.bind(this);
   }
 
   componentWillMount() {
@@ -62,15 +62,12 @@ class ProfileScreen extends Component {
       const profile = res.data.profile;
       this.setState({ profile, isLoading: false });
     });
-    this.fetchData();
-  }
-  fetchData() {
+
     fetcher.get("/course/user_courses/?active=1").then((res) => {
       const data = res.data;
       if (data.results.length) {
         const userCourse = data.results[0];
-        const courseTitle = userCourse.course.name;
-        this.setState({ courseTitle, userCourse });
+        this.setState({ userCourse });
       }
     });
     fetcher.get("/vocab/user_test/").then((res) => {
@@ -79,9 +76,16 @@ class ProfileScreen extends Component {
     });
   }
 
+  setUserCourse(userCourse) {
+    this.setState({ userCourse });
+  }
+  setUser(profile) {
+    this.setState({ profile });
+  }
   render() {
     const { navigate } = this.props.navigation;
     const user = this.state.profile;
+    const course = this.state.userCourse.course;
     const avatarUrl = `https://souka.io${user.avatar_url}`;
     const subtitle = `用户名：${user.username || " "}`;
     return (
@@ -97,7 +101,7 @@ class ProfileScreen extends Component {
             key={user.id}
             title={user.name || " "}
             subtitle={subtitle}
-            onPress={() => navigate("Setting", { user })}
+            onPress={() => navigate("Setting", { user, setUser: this.setUser })}
           />
         </List>
         <List containerStyle={styles.list}>
@@ -105,15 +109,20 @@ class ProfileScreen extends Component {
             leftIcon={{ name: "book" }}
             key="course"
             title="我的课程"
-            subtitle={this.state.courseTitle}
-            onPress={() => navigate("Course", { user })}
+            subtitle={(course && course.name) || " "}
+            onPress={() => navigate("Course", {
+              userCourse: this.state.userCourse,
+              setUserCourse: this.setUserCourse })}
           />
           <ListItem
             leftIcon={{ name: "today" }}
             key="quota"
             title="每日任务"
             subtitle={this.state.userCourse.quota || " "}
-            onPress={() => navigate("Quota", { userCourse: this.state.userCourse })}
+            onPress={() => navigate("Quota", {
+              userCourse: this.state.userCourse,
+              setUserCourse: this.setUserCourse
+            })}
           />
           <ListItem
             leftIcon={{ name: "trending-up" }}

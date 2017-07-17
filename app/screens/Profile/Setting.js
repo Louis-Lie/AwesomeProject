@@ -67,6 +67,12 @@ class SettingScreen extends Component {
     fetcher.post(ACCOUNT_URL, data).then((res) => {
       Alert.alert("保存成功");
     });
+
+    const user = this.props.navigation.state.params.user;
+    const setUser = this.props.navigation.state.params.setUser;
+    user.username = this.state.username;
+    user.name = this.state.nickname || this.state.username;
+    setUser(user);
   }
   selectAvatar() {
     const options = {
@@ -106,6 +112,11 @@ class SettingScreen extends Component {
             Accept: "application/json",
           },
         });
+
+        const user = this.props.navigation.state.params.user;
+        const setUser = this.props.navigation.state.params.setUser;
+        user.avatar_url = reponse.uri;
+        setUser(user);
       }
     });
   }

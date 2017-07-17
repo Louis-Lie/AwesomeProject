@@ -60,9 +60,7 @@ class App extends Component {
       console.log("currScreen: ", currScreen);
       console.log("prevState: ", prevState);
       console.log("currState: ", currentState);
-      const stack = currentState.routes[currentState.index];
-
-      if (stack.index === 0 && stack.routeName !== "Forum") {
+      if (currentState.index === 0) {
         const resetAction = NavigationActions.reset({
           index: 0,
           actions: [
