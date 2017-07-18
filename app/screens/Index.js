@@ -61,11 +61,12 @@ class App extends Component {
       console.log("currScreen: ", currScreen);
       console.log("prevState: ", prevState);
       console.log("currState: ", currentState);
-      if (currentState.index === 0) {
+      const stack = currentState.routes[currentState.index];
+      if (prevState.index !== 0 && currentState.index === 0 && stack.index === 0) {
         const resetAction = NavigationActions.reset({
           index: 0,
           actions: [
-            NavigationActions.navigate({ routeName: "Home" })
+            NavigationActions.navigate({ routeName: stack.routeName })
           ]
         });
         this.navigator._navigation.dispatch(resetAction);
