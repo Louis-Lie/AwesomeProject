@@ -6,8 +6,11 @@ import {
 } from "react-native";
 
 import { Card } from "react-native-elements";
-import { colors } from "../styles/common";
-import fetcher from "../utils/fetcher";
+
+import RubyText from "components/RubyText";
+import { colors } from "styles/common";
+import fetcher from "utils/fetcher";
+
 
 class Quote extends Component {
   constructor(props) {
@@ -27,7 +30,13 @@ class Quote extends Component {
 
     return (
       <Card containerStyle={styles.card}>
-        <Text style={styles.content} selectable>{quote.content}</Text>
+        <RubyText
+          style={styles.content}
+          textStyle={styles.textContent}
+          childrenProps={{ selectable: true }}
+        >
+          {quote.ruby}
+        </RubyText>
         <Text style={styles.translation} selectable>{quote.translation}</Text>
         <Text style={styles.source} selectable>― {source}</Text>
       </Card>
@@ -36,18 +45,20 @@ class Quote extends Component {
 }
 
 const styles = StyleSheet.create({
-  content: {
-    fontSize: 13,
-    color: colors.textColor,
-    marginBottom: 8
-  },
   card: {
     borderWidth: 0
+  },
+  content: {
+    marginBottom: 10,
+  },
+  textContent: {
+    color: colors.textColor,
+    marginBottom: 3,
   },
   translation: {
     fontSize: 13,
     color: "#aaa",
-    marginBottom: 10
+    marginBottom: 12,
   },
   source: {
     fontSize: 13,
