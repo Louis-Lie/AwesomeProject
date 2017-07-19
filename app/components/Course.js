@@ -149,7 +149,7 @@ class Course extends Component {
           />
         </View>);
 
-        if (task["2"].length === task["2"].length) {
+        if (task["2"].length === task["3"].length) {
           reviewFinished = true;
           PreviewHeader = (
             <View>
