@@ -117,7 +117,7 @@ class LearningScreen extends Component {
   }
 
   fetchEntries(storedEntries, ids) {
-    let entries = storedEntries.filter(e => ids.includes(e.id)).sort((a, b) => ids.indexOf(a) < ids.indexOf(b));
+    let entries = storedEntries.filter(e => ids.includes(e.id)).sort((a, b) => ids.indexOf(a.id) > ids.indexOf(b.id) ? 1 : -1);
     const entryIds = entries.map(e => e.id);
     const missIds = ids.filter(i => !entryIds.includes(i));
     if (missIds.length) {
@@ -126,7 +126,7 @@ class LearningScreen extends Component {
         const data = res.data;
         store.save("entries", storedEntries.concat(data));
         entries = entries.concat(data);
-        entries.sort((a, b) => ids.indexOf(a) < ids.indexOf(b));
+        entries.sort((a, b) => ids.indexOf(a.id) > ids.indexOf(b.id) ? 1 : -1);
         this.setState({ entries, isLoading: false });
       });
     } else {

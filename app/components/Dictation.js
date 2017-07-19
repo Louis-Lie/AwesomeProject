@@ -44,8 +44,10 @@ class Dictation extends Component {
 
   playAudio(next = 0) {
     const entry = this.props.entries[this.props.index + next];
-    const audioUrl = `https://souka.io/${entry.audio_url}.mp3`;
-    playSound(audioUrl);
+    if (entry) {
+      const audioUrl = `https://souka.io/${entry.audio_url}.mp3`;
+      playSound(audioUrl);
+    }
   }
 
   clearInput() {
@@ -91,7 +93,7 @@ class Dictation extends Component {
 
   render() {
     const entry = this.props.entries[this.props.index];
-    if (!this.entry) {
+    if (!entry) {
       return (<TaskFinished
         goBack={this.props.goBack}
         title="已完成所有听写任务"
@@ -136,9 +138,13 @@ class Dictation extends Component {
           backgroundColor={colors.primaryColor}
           buttonStyle={{ borderRadius: 2 }}
           onPress={this.checkAnswer}
-          title="检查"
+          title="想不起来"
         />
-        <TouchableHighlight style={styles.audioFeedback} onPress={this.props.nextTask}>
+        <TouchableHighlight
+          underlayColor="transparent"
+          style={styles.audioFeedback}
+          onPress={this.props.nextTask}
+        >
           <Text style={{ color: "#aaa" }}>音频有问题</Text>
         </TouchableHighlight>
       </View>
