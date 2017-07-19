@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import {
-  Picker
+  Picker,
+  Text,
+  View,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { colors } from "styles/common";
 import fetcher from "utils/fetcher";
 
-const QUOTAS = ["20", "50", "100", "200", "300"];
+const QUOTAS = ["20", "50", "100", "200"];
 
 class QuotaScreen extends Component {
   static navigationOptions = {
@@ -43,15 +45,19 @@ class QuotaScreen extends Component {
 
   render() {
     return (
-      <Picker
-        selectedValue={`${this.state.userCourse.quota}`}
-        onValueChange={(v, i) => this.onChange(v, i)}
-      >
-        {
-          QUOTAS.map((q, i) => <Picker.Item key={q} label={q} value={q} />)
-        }
-      </Picker>
-
+      <View>
+        <Picker
+          selectedValue={`${this.state.userCourse.quota}`}
+          onValueChange={(v, i) => this.onChange(v, i)}
+        >
+          {
+            QUOTAS.map((q, i) => <Picker.Item key={q} label={q} value={q} />)
+          }
+        </Picker>
+        <View style={{ alignItems: "center" }}>
+          <Text style={{ color: "#aaa" }}>任务量往下调整需要到第二天才生效</Text>
+        </View>
+      </View>
     );
   }
 }

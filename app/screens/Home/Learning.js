@@ -72,19 +72,23 @@ class LearningScreen extends Component {
 
   prepareTask() {
     const task = this.state.task;
-    const taskIds = [].concat.apply([], [task["0"], task["1"], task["2"], task["3"]]);
-    const numToday = taskIds.length;
+    const allIds = [].concat.apply([], [task["1"], task["2"], task["3"], task["0"]]);
+    const numToday = allIds.length;
+    let taskIds = [];
     let index = 0;
     let learningType = null;
     if (task["0"].length) {
       learningType = "preview";
       index = numToday - task["0"].length;
+      taskIds = taskIds.concat.apply([], [task["1"], task["2"], task["3"], task["0"]]);
     } else if (task["1"].length) {
       learningType = "dictation";
       index = numToday - task["1"].length;
+      taskIds = taskIds.concat.apply([], [task["0"], task["2"], task["3"], task["1"]]);
     } else {
       learningType = "review";
       index = numToday - task["2"].length;
+      taskIds = taskIds.concat.apply([], [task["0"], task["1"], task["3"], task["2"]]);
     }
 
     const title = {
@@ -105,6 +109,7 @@ class LearningScreen extends Component {
       nextStatus
     });
 
+
     store.get("entries").then((entries) => {
       const storedEntries = entries || [];
       this.fetchEntries(storedEntries, taskIds);
@@ -112,7 +117,7 @@ class LearningScreen extends Component {
   }
 
   fetchEntries(storedEntries, ids) {
-    const entries = storedEntries.filter(e => ids.includes(e.id));
+    let entries = storedEntries.filter(e => ids.includes(e.id)).sort((a, b) => ids.indexOf(a) < ids.indexOf(b));
     const entryIds = entries.map(e => e.id);
     const missIds = ids.filter(i => !entryIds.includes(i));
     if (missIds.length) {
@@ -120,7 +125,9 @@ class LearningScreen extends Component {
       fetcher.get(url).then((res) => {
         const data = res.data;
         store.save("entries", storedEntries.concat(data));
-        this.setState({ entries: entries.concat(data), isLoading: false });
+        entries = entries.concat(data);
+        entries.sort((a, b) => ids.indexOf(a) < ids.indexOf(b));
+        this.setState({ entries, isLoading: false });
       });
     } else {
       this.setState({ entries, isLoading: false, });
