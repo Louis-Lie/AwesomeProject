@@ -7,9 +7,10 @@ import {
 
 import FlipCard from "react-native-flip-card";
 
-import { window } from "../styles/common";
-import playSound, { sounds } from "../utils/soundPlayer";
-import Volume from "../components/Volume";
+import RubyText from "components/RubyText";
+import Volume from "components/Volume";
+import { window } from "styles/common";
+import playSound, { sounds } from "utils/soundPlayer";
 
 
 class Entry extends Component {
@@ -43,11 +44,18 @@ class Entry extends Component {
     const backText = entry.kana;
     const roman = entry.roman;
     const firstDefinition = entry.first_definition;
-    const examples = entry.examples.slice(0, 3).map((e, index) =>
+    const examples = entry.examples.slice(0, 2).map((e, index) =>
       (<View style={styles.example} key={e.id}>
-        <Text style={styles.exampleContent}>{index + 1}. {e.content}</Text>
-        <Text style={styles.exampleTran}>{`    ${e.translation}`}</Text>
-      </View>)
+        <View style={styles.exampleLine} >
+          <Text style={styles.exampleIndex}>{index + 1}. </Text>
+          <RubyText textStyle={styles.exampleContent}>{e.ruby || e.content}</RubyText>
+        </View>
+        <View style={styles.exampleLine}>
+          <Text style={styles.placeholderText}>{index + 1}. </Text>
+          <Text style={styles.exampleTran}>{e.translation}</Text>
+        </View>
+      </View>
+    )
     );
     const examplesView = (examples.length && <View>
       <Text style={styles.examplesHeader}>例句：</Text>
@@ -95,11 +103,13 @@ const styles = StyleSheet.create({
   },
   face: {
     flex: 1,
+    padding: 15,
     alignItems: "center",
     justifyContent: "center"
   },
   back: {
     flex: 1,
+    padding: 15,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -108,7 +118,7 @@ const styles = StyleSheet.create({
     color: "#546576"
   },
   backText: {
-    fontSize: 48,
+    fontSize: 40,
     color: "#546576",
     marginBottom: 5
   },
@@ -132,15 +142,34 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginBottom: 5
   },
+  example: {
+    paddingVertical: 5,
+    marginBottom: 5
+
+  },
+  exampleLine: {
+    flexDirection: "row",
+    alignItems: "flex-end"
+  },
+  exampleIndex: {
+    color: "#ccc",
+    marginRight: 2,
+  },
+  placeholderText: {
+    color: "transparent",
+    marginRight: 2,
+  },
   exampleContent: {
     fontSize: 14,
     color: "#546576",
-    marginBottom: 5
+    marginBottom: 3,
+    letterSpacing: 2,
   },
   exampleTran: {
+    flexWrap: "wrap",
     color: "#777",
-    fontSize: 14,
-    marginBottom: 10
+    fontSize: 13,
+    marginTop: 3
   },
   volumeIcon: {
     padding: 12,

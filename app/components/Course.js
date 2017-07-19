@@ -11,8 +11,8 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { Button, Card } from "react-native-elements";
 import * as Progress from "react-native-progress";
 
-import { colors } from "../styles/common";
-import fetcher from "../utils/fetcher";
+import { colors } from "styles/common";
+import fetcher from "utils/fetcher";
 
 class Course extends Component {
   constructor(props) {
@@ -184,16 +184,20 @@ class Course extends Component {
 
     let button = null;
     if (this.state.isLoading) {
-      button = (<View style={{ alignItems: "center" }}>
+      if (task) {
+        button = <ActivityIndicator />;
+      } else {
+        button = (<View style={{ alignItems: "center" }}>
 
-        <Progress.Circle
-          style={styles.circle}
-          size={140}
-          color={"#FFCA61"}
-          thickness={6}
-          indeterminate
-        />
-      </View>);
+          <Progress.Circle
+            style={styles.circle}
+            size={140}
+            color={"#FFCA61"}
+            thickness={6}
+            indeterminate
+          />
+        </View>);
+      }
     } else if (!reviewFinished) {
       button = (<Button
         backgroundColor={buttonColor}

@@ -54,20 +54,26 @@ class RubyText extends React.Component {
           {...this.props.childrenProps}
         />);
       } else {
-        const rbFontSize = this.props.textStyle.fontSize || 14;
-        const rtFontSize = rbFontSize * 0.625;
+        const rbFontSize = (this.props.textStyle &&
+          this.props.textStyle.fontSize) || 14;
+        const rtFontSize = rbFontSize * 0.618;
+        let letterSpacing = 2;
+        if (part[1].length > 1) {
+          letterSpacing = Math.max(2, (rtFontSize * part[1].length - rbFontSize * part[0].length) / (part[0].length - 1));
+        }
+
         return (<ReactNative.View
           key={`RubyText-${index}`}
         >
           <ReactNative.Text
             key={`RtText-${index}`}
-            style={[{ fontSize: rtFontSize, }, this.props.rtStyle || this.props.textStyle]}
+            style={[this.props.rtStyle || this.props.textStyle, { fontSize: rtFontSize }]}
             children={part[1]}
             {...this.props.childrenProps}
           />
           <ReactNative.Text
             key={`RbText-${index}`}
-            style={[{ textAlign: "center" }, this.props.rbStyle || this.props.textStyle]}
+            style={[this.props.rbStyle || this.props.textStyle, { letterSpacing }]}
             children={part[0]}
             {...this.props.childrenProps}
           />
