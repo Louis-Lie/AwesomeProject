@@ -58,7 +58,7 @@ class RubyText extends React.Component {
           this.props.textStyle.fontSize) || 14;
         const rtFontSize = rbFontSize * 0.618;
         let letterSpacing = 2;
-        if (part[1].length > 1) {
+        if (part[0].length > 1) {
           letterSpacing = Math.max(2, (rtFontSize * part[1].length - rbFontSize * part[0].length) / (part[0].length - 1));
         }
 
