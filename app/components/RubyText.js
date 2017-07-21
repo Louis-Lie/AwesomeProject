@@ -102,4 +102,5 @@ const styles = ReactNative.StyleSheet.create({
   },
 
 });
+
 export default RubyText;
