@@ -48,8 +48,8 @@ class Choice extends Component {
     [1, 2, 3, 4].forEach((x) => {
       const rand1 = randWords[Math.floor(Math.random() * randWords.length)];
       const rand2 = randKanas[Math.floor(Math.random() * randKanas.length)];
-      choices.add(rand1.split("")[0]);
-      choices.add(rand2.split("")[0]);
+      if (rand1) choices.add(rand1.split("")[0]);
+      if (rand2) choices.add(rand2.split("")[0]);
     });
     choices = [...choices].sort(() => 0.5 - Math.random());
     console.log("choices: ", choices);
