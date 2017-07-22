@@ -4,7 +4,7 @@ import {
 } from "react-native";
 import { List, ListItem } from "react-native-elements";
 
-import { window } from "../styles/common";
+import { window } from "styles/common";
 
 
 class SearchResult extends Component {

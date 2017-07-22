@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 
-import { colors } from "../styles/common";
+import { colors } from "styles/common";
 
 class Choice extends Component {
   constructor(props) {

@@ -2,8 +2,8 @@ import React, { Component } from "react";
 
 import SwipeCards from "react-native-swipe-cards";
 
-import Entry from "../components/Entry";
-import TaskFinished from "../components/TaskFinished";
+import Entry from "components/Entry";
+import TaskFinished from "components/TaskFinished";
 
 
 class Review extends Component {

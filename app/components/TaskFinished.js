@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Button, Card } from "react-native-elements";
-import { colors, window } from "../styles/common";
+import { colors, window } from "styles/common";
 
 class TaskFinished extends Component {
   render() {

@@ -10,7 +10,7 @@ import {
 
 import { List, ListItem } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { Actions } from "react-native-router-flux";
+import { Actions, ActionConst } from "react-native-router-flux";
 
 import fetcher from "utils/fetcher";
 import { colors } from "styles/common";
@@ -161,7 +161,7 @@ class ProfileScreen extends Component {
                 "退出登录",
                 "重新登录后可继续使用",
                 [
-                  { text: "退出", onPress: () => { axios.get(LOUGOUT_URL).then(() => Actions.login()); } },
+                  { text: "退出", onPress: () => { axios.get(LOUGOUT_URL).then(() => Actions.login({ type: ActionConst.RESET })); } },
                   { text: "取消", onPress: () => console.log("Cancel Pressed"), style: "cancel" },
                 ]
               );

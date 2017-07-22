@@ -128,7 +128,7 @@ class HomeScreen extends Component {
 const HomeStack = StackNavigator({
   Home: { screen: HomeScreen },
   Learning: { screen: LearningScreen },
-  Entry: { screen: EntryScreen }
+  Entry: { screen: EntryScreen },
 },
   {
     mode: "modal"

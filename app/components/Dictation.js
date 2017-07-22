@@ -10,11 +10,11 @@ import {
 import KeyboardSpacer from "react-native-keyboard-spacer";
 import { Button } from "react-native-elements";
 
-import { colors, window } from "../styles/common";
-import playSound, { sounds } from "../utils/soundPlayer";
-import TaskFinished from "../components/TaskFinished";
-import Volume from "../components/Volume";
-import Choice from "../components/Choice";
+import { colors, window } from "styles/common";
+import playSound, { sounds } from "utils/soundPlayer";
+import TaskFinished from "components/TaskFinished";
+import Volume from "components/Volume";
+import Choice from "components/Choice";
 
 class Dictation extends Component {
   constructor(props) {
