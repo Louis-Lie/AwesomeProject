@@ -72,8 +72,8 @@ class TopicScreen extends Component {
 
     this.setState({ loading: true });
     const topic = this.state.topic;
-    const postUrl = `/forum/topics/${topic.id}/posts/?ipp=10&page=${page}`;
     const page = this.state.page + 1;
+    const postUrl = `/forum/topics/${topic.id}/posts/?ipp=10&page=${page}`;
     this.setState({ refreshing: true });
     fetcher.get(postUrl).then((res) => {
       const newPosts = res.data.results;
