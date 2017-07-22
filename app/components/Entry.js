@@ -144,12 +144,11 @@ const styles = StyleSheet.create({
   },
   example: {
     paddingVertical: 5,
-    marginBottom: 5
-
+    marginBottom: 5,
   },
   exampleLine: {
     flexDirection: "row",
-    alignItems: "flex-end"
+    alignItems: "flex-end",
   },
   exampleIndex: {
     color: "#ccc",

@@ -8,6 +8,7 @@ import {
   StackNavigator,
 } from "react-navigation";
 
+import store from "react-native-simple-store";
 import DeviceInfo from "react-native-device-info";
 import { List, ListItem } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -86,6 +87,18 @@ class ProfileScreen extends Component {
     const user = this.state.profile;
     const course = this.state.userCourse.course;
     const subtitle = `用户名：${user.username || " "}`;
+    let CleanCache = null;
+    if (__DEV__) {
+      CleanCache = (<List containerStyle={styles.list}>
+        <ListItem
+          leftIcon={{ name: "delete" }}
+          key="cache"
+          title="清除缓存"
+          onPress={() => store.delete("entries").then(() => Alert.alert("清除成功"))}
+        />
+      </List>);
+    }
+
     return (
       <View style={styles.container}>
         <List
@@ -154,6 +167,7 @@ class ProfileScreen extends Component {
             hideChevron
           />
         </List>
+        {CleanCache}
         <List containerStyle={[styles.list]}>
           <ListItem
             titleContainerStyle={{ alignItems: "center", justifyContent: "center" }}
