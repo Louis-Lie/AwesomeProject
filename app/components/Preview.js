@@ -35,7 +35,6 @@ class Preview extends Component {
 
     return (
       <SwipeCards
-        style={{ flex: 1, }}
         cards={entries}
         initial_index={this.props.index}
         renderCard={cardData => <Entry entry={cardData} />}
