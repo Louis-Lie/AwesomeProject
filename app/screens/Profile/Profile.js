@@ -95,6 +95,7 @@ class ProfileScreen extends Component {
           key="cache"
           title="清除缓存"
           onPress={() => store.delete("entries").then(() => Alert.alert("清除成功"))}
+          hideChevron
         />
       </List>);
     }
