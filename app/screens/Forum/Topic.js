@@ -106,7 +106,7 @@ class TopicScreen extends Component {
       const content = (<View style={styles.topicHeader}>
         <Text style={styles.content}>{topic.content}</Text>
         <Text style={styles.postHeader}>
-          {topic.num_posts}回复 | 最后更新{moment(topic.created_at).fromNow()}
+          {topic.num_posts}回复 | 最后更新{moment(topic.updated_at).fromNow()}
         </Text>
       </View>);
       const data = [content].concat(this.state.posts);

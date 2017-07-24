@@ -1,1 +1,1 @@
-react-native bundle --dev false --entry-file index.ios.js --bundle-output ios/main.jsbundle --platform ios
+react-native bundle --dev false --platform ios --entry-file index.ios.js --bundle-output ios/main.jsbundle --assets-dest ./ios

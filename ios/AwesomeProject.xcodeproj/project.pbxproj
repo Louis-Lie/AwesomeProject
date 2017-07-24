@@ -50,6 +50,8 @@
 		DB8C9DC550D144CF9CD994E7 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 85BF5B5664E644EC8A485845 /* libRNImagePicker.a */; };
 		DFB7A95C1F07C6560061FFE4 /* chord_nice.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DFB7A95A1F07C6560061FFE4 /* chord_nice.mp3 */; };
 		DFB7A95D1F07C6560061FFE4 /* chord_prompt.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DFB7A95B1F07C6560061FFE4 /* chord_prompt.mp3 */; };
+		DFC962101F25733600F62C10 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = DFC9620F1F25733600F62C10 /* main.jsbundle */; };
+		DFC962451F2618B200F62C10 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = DFC962441F2618B200F62C10 /* assets */; };
 		DFD1AD1F1EFAAECF00533B17 /* libART.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFD1AD1E1EFAAE9000533B17 /* libART.a */; };
 		DFE2572E1F122A00007CE1D9 /* right_answer.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DFE2572C1F122A00007CE1D9 /* right_answer.mp3 */; };
 		DFE2572F1F122A00007CE1D9 /* wrong_answer.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DFE2572D1F122A00007CE1D9 /* wrong_answer.mp3 */; };
@@ -308,7 +310,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTActionSheet.xcodeproj; path = "../node_modules/react-native/Libraries/ActionSheetIOS/RCTActionSheet.xcodeproj"; sourceTree = "<group>"; };
 		00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTGeolocation.xcodeproj; path = "../node_modules/react-native/Libraries/Geolocation/RCTGeolocation.xcodeproj"; sourceTree = "<group>"; };
 		00C302BB1ABCB91800DB3ED1 /* RCTImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTImage.xcodeproj; path = "../node_modules/react-native/Libraries/Image/RCTImage.xcodeproj"; sourceTree = "<group>"; };
@@ -355,6 +356,8 @@
 		D4BC3D27CE294EF2A41B1A1A /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		DFB7A95A1F07C6560061FFE4 /* chord_nice.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = chord_nice.mp3; path = ../app/sounds/chord_nice.mp3; sourceTree = "<group>"; };
 		DFB7A95B1F07C6560061FFE4 /* chord_prompt.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = chord_prompt.mp3; path = ../app/sounds/chord_prompt.mp3; sourceTree = "<group>"; };
+		DFC9620F1F25733600F62C10 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
+		DFC962441F2618B200F62C10 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		DFD1AD191EFAAE8F00533B17 /* ART.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ART.xcodeproj; path = "../node_modules/react-native/Libraries/ART/ART.xcodeproj"; sourceTree = "<group>"; };
 		DFE2572C1F122A00007CE1D9 /* right_answer.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = right_answer.mp3; path = ../app/sounds/right_answer.mp3; sourceTree = "<group>"; };
 		DFE2572D1F122A00007CE1D9 /* wrong_answer.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = wrong_answer.mp3; path = ../app/sounds/wrong_answer.mp3; sourceTree = "<group>"; };
@@ -500,7 +503,8 @@
 		13B07FAE1A68108700A75B9A /* AwesomeProject */ = {
 			isa = PBXGroup;
 			children = (
-				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
+				DFC962441F2618B200F62C10 /* assets */,
+				DFC9620F1F25733600F62C10 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -1130,6 +1134,7 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				DFB7A95D1F07C6560061FFE4 /* chord_prompt.mp3 in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				DFC962451F2618B200F62C10 /* assets in Resources */,
 				A8C2D0C7DCDC4571AABFD8D2 /* Entypo.ttf in Resources */,
 				F2A0CE0747E24110AC14C77F /* EvilIcons.ttf in Resources */,
 				DFB7A95C1F07C6560061FFE4 /* chord_nice.mp3 in Resources */,
@@ -1137,6 +1142,7 @@
 				E7A5CB6F2CDC47FF96588C54 /* Foundation.ttf in Resources */,
 				6BD79541E0094E45A7C517AA /* Ionicons.ttf in Resources */,
 				E5805BBB24474A9EBB5683B4 /* MaterialCommunityIcons.ttf in Resources */,
+				DFC962101F25733600F62C10 /* main.jsbundle in Resources */,
 				DFE2572F1F122A00007CE1D9 /* wrong_answer.mp3 in Resources */,
 				D2DE0C7D80B3442BBA2CD744 /* MaterialIcons.ttf in Resources */,
 				FA56099BFE6C419DA0173FB3 /* Octicons.ttf in Resources */,
