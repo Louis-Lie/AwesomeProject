@@ -3,6 +3,11 @@ An awesome project
 
 Demo for an awesome  project(an app of Japanese learning community)
 
+Download:
+
+[![](https://linkmaker.itunes.apple.com/assets/shared/badges/zh-cht/appstore-lrg-513dfa9cea2b10efb09cbf38d8cb834a3aec771e41d6dfc273199a448420b91c.svg)](https://itunes.apple.com/cn/app/souka/id1261643669)
+
+
 # Libraries used in this project
 - Navigation
   - [react-navigation](https://github.com/react-community/react-navigation) Main navigation
