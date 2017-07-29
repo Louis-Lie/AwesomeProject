@@ -38,7 +38,8 @@ instance.interceptors.response.use(response => response, (error) => {
 
 
 const updateCSRF = () => {
-  CookieManager.getAll((err, res) => {
+  const HOME_URL = "https://souka.io/";
+  CookieManager.get(HOME_URL, (err, res) => {
     console.log("get all cookies: ", res, err);
     instance.defaults.headers.common["X-CSRFToken"] = res.csrftoken.value;
   });
