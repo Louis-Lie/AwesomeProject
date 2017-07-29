@@ -17,7 +17,11 @@ export {
   sounds,
 };
 
+let isPlaying = false;
 export default function (audioUrl) {
+  if (isPlaying) return;
+
+  isPlaying = true;
   const sound = new Sound(audioUrl, "", (error) => {
     if (error) {
       console.log("Failed to load the sound", audioUrl, error);
@@ -25,5 +29,6 @@ export default function (audioUrl) {
       console.log("play sound file: ", audioUrl);
       sound.play();
     }
+    isPlaying = false;
   });
 }

@@ -117,7 +117,11 @@ class HomeScreen extends Component {
             onBlur={this.searchEnd}
           />
           {searchResult}
-          <Course ref={(c) => { this.courseView = c; }} startLearning={this.startLearning} />
+          <Course
+            ref={(c) => { this.courseView = c; }}
+            navigation={this.props.navigation}
+            startLearning={this.startLearning}
+          />
           <Quote />
         </View>
       </TouchableWithoutFeedback>
@@ -128,7 +132,7 @@ class HomeScreen extends Component {
 const HomeStack = StackNavigator({
   Home: { screen: HomeScreen },
   Learning: { screen: LearningScreen },
-  Entry: { screen: EntryScreen }
+  Entry: { screen: EntryScreen },
 },
   {
     mode: "modal"

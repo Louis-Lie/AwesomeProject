@@ -5,7 +5,7 @@ import {
   View,
 } from "react-native";
 
-import { window } from "../styles/common";
+import { window } from "styles/common";
 
 
 class ProgressBar extends Component {

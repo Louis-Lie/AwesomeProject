@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import moment from "moment";
 
-import { colors } from "../styles/common";
+import { colors } from "styles/common";
 
 const zhLocale = require("moment/locale/zh-cn");
 

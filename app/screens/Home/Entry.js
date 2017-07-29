@@ -11,7 +11,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { colors } from "styles/common";
 import playSound from "utils/soundPlayer";
 import Volume from "components/Volume";
-
+import RubyText from "components/RubyText";
 
 class EntryScreen extends Component {
   static navigationOptions = ({ navigation, screenProps }) => ({
@@ -59,10 +59,17 @@ class EntryScreen extends Component {
     const roman = entry.roman;
     const firstDefinition = entry.first_definition;
     const examples = entry.examples.slice(0, 3).map((e, index) =>
-      (<View style={styles.example} key={e.id}>
-        <Text style={styles.exampleContent}>{index + 1}. {e.content}</Text>
-        <Text style={styles.exampleTran}>{`    ${e.translation}`}</Text>
-      </View>)
+    (<View style={styles.example} key={e.id}>
+      <View style={styles.exampleLine} >
+        <Text style={styles.exampleIndex}>{index + 1}. </Text>
+        <RubyText textStyle={styles.exampleContent}>{e.ruby || e.content}</RubyText>
+      </View>
+      <View style={styles.exampleLine}>
+        <Text style={styles.placeholderText}>{index + 1}. </Text>
+        <Text style={styles.exampleTran}>{e.translation}</Text>
+      </View>
+    </View>
+  )
     );
     const examplesView = (examples.length && <View>
       <Text style={styles.examplesHeader}>例句：</Text>
@@ -127,10 +134,20 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 15
   },
+  example: {
+    marginVertical: 5
+  },
   examplesHeader: {
     color: "#999",
     fontSize: 13,
     marginBottom: 5
+  },
+  exampleLine: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+  },
+  placeholderText: {
+    color: "transparent"
   },
   exampleContent: {
     fontSize: 14,

@@ -8,9 +8,11 @@ import {
   StackNavigator,
 } from "react-navigation";
 
+import store from "react-native-simple-store";
+import DeviceInfo from "react-native-device-info";
 import { List, ListItem } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { Actions } from "react-native-router-flux";
+import { Actions, ActionConst } from "react-native-router-flux";
 
 import fetcher from "utils/fetcher";
 import { colors } from "styles/common";
@@ -42,6 +44,7 @@ class ProfileScreen extends Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       profile: {},
       userCourse: {},
@@ -59,6 +62,7 @@ class ProfileScreen extends Component {
   fetchProfile() {
     fetcher.get(ACCOUNT_URL).then((res) => {
       const profile = res.data.profile;
+      profile.avatarUrl = `https://souka.io${profile.avatar_url}`;
       this.setState({ profile, isLoading: false });
     });
 
@@ -77,12 +81,25 @@ class ProfileScreen extends Component {
   setUser(profile) {
     this.setState({ profile });
   }
+
   render() {
     const { navigate } = this.props.navigation;
     const user = this.state.profile;
     const course = this.state.userCourse.course;
-    const avatarUrl = `https://souka.io${user.avatar_url}`;
     const subtitle = `用户名：${user.username || " "}`;
+    let CleanCache = null;
+    if (__DEV__) {
+      CleanCache = (<List containerStyle={styles.list}>
+        <ListItem
+          leftIcon={{ name: "delete" }}
+          key="cache"
+          title="清除缓存"
+          onPress={() => store.delete("entries").then(() => Alert.alert("清除成功"))}
+          hideChevron
+        />
+      </List>);
+    }
+
     return (
       <View style={styles.container}>
         <List
@@ -92,7 +109,7 @@ class ProfileScreen extends Component {
             style={styles.profileItem}
             avatarStyle={styles.profileAvatar}
             roundAvatar
-            avatar={{ uri: avatarUrl }}
+            avatar={{ uri: this.state.profile.avatarUrl }}
             key={user.id}
             title={user.name || " "}
             subtitle={subtitle}
@@ -147,10 +164,11 @@ class ProfileScreen extends Component {
             leftIcon={{ name: "stars" }}
             key="version"
             title="版本"
-            subtitle="1.0"
+            subtitle={DeviceInfo.getVersion()}
             hideChevron
           />
         </List>
+        {CleanCache}
         <List containerStyle={[styles.list]}>
           <ListItem
             titleContainerStyle={{ alignItems: "center", justifyContent: "center" }}
@@ -161,7 +179,7 @@ class ProfileScreen extends Component {
                 "退出登录",
                 "重新登录后可继续使用",
                 [
-                  { text: "退出", onPress: () => { axios.get(LOUGOUT_URL).then(() => Actions.login()); } },
+                  { text: "退出", onPress: () => { axios.get(LOUGOUT_URL).then(() => Actions.login({ type: ActionConst.RESET })); } },
                   { text: "取消", onPress: () => console.log("Cancel Pressed"), style: "cancel" },
                 ]
               );

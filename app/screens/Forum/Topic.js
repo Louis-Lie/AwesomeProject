@@ -72,8 +72,8 @@ class TopicScreen extends Component {
 
     this.setState({ loading: true });
     const topic = this.state.topic;
-    const postUrl = `/forum/topics/${topic.id}/posts/?ipp=10`;
     const page = this.state.page + 1;
+    const postUrl = `/forum/topics/${topic.id}/posts/?ipp=10&page=${page}`;
     this.setState({ refreshing: true });
     fetcher.get(postUrl).then((res) => {
       const newPosts = res.data.results;
@@ -106,7 +106,7 @@ class TopicScreen extends Component {
       const content = (<View style={styles.topicHeader}>
         <Text style={styles.content}>{topic.content}</Text>
         <Text style={styles.postHeader}>
-          {topic.num_posts}回复 | 最后更新{moment(topic.created_at).fromNow()}
+          {topic.num_posts}回复 | 最后更新{moment(topic.updated_at).fromNow()}
         </Text>
       </View>);
       const data = [content].concat(this.state.posts);

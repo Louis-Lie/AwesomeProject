@@ -11,12 +11,13 @@ const instance = axios.create({
   headers: {
     REFERER: "https://souka.io",
     Accept: "application/json",
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    "User-Agent": UA
   },
   transformResponse: [(data) => {
     console.log("fetch data --> ", JSON.parse(data));
     return JSON.parse(data);
-  }],
+  }]
 });
 
 instance.interceptors.request.use((config) => {

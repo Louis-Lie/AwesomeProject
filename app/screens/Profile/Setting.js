@@ -43,9 +43,8 @@ class SettingScreen extends Component {
   constructor(props) {
     super(props);
     const user = this.props.navigation.state.params.user;
-    const avatarUrl = `https://souka.io${user.avatar_url}`;
     this.state = {
-      avatarSource: { uri: avatarUrl },
+      avatarSource: { uri: user.avatarUrl },
       username: user.username,
       nickname: user.nickname,
       email: user.email,
@@ -74,6 +73,7 @@ class SettingScreen extends Component {
     user.name = this.state.nickname || this.state.username;
     setUser(user);
   }
+
   selectAvatar() {
     const options = {
       title: "选择头像",
@@ -115,7 +115,7 @@ class SettingScreen extends Component {
 
         const user = this.props.navigation.state.params.user;
         const setUser = this.props.navigation.state.params.setUser;
-        user.avatar_url = reponse.uri;
+        user.avatarUrl = response.uri;
         setUser(user);
       }
     });
