@@ -41,7 +41,12 @@ const updateCSRF = () => {
   const HOME_URL = "https://souka.io/";
   CookieManager.get(HOME_URL, (err, res) => {
     console.log("get all cookies: ", res, err);
-    instance.defaults.headers.common["X-CSRFToken"] = res.csrftoken.value;
+    let csrftoken = res.csrftoken;
+    if (csrftoken.value) {
+      // android
+      csrftoken = csrftoken.value;
+    }
+    instance.defaults.headers.common["X-CSRFToken"] = csrftoken;
   });
 };
 
