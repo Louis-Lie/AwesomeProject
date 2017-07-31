@@ -26,9 +26,18 @@ const RouteConfigs = {
 };
 const AppNavigator = TabNavigator(RouteConfigs, {
   lazy: true,
-
+  tabBarPosition: "bottom",
+  swipeEnabled: false,
   tabBarOptions: {
+    showIcon: true,
     activeTintColor: colors.tintColor,
+    inactiveTintColor: "#929292",
+    style: {
+      backgroundColor: "#fafafa",
+    },
+    labelStyle: {
+      marginBottom: 1
+    },
   }
 });
 

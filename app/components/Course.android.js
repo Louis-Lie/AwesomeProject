@@ -99,8 +99,8 @@ class Course extends Component {
       <Text style={styles.taskTitle}>
         {taskTitle} {numLearned} / {numToday}
       </Text>
-      <Progress.Circle
-        style={styles.circle}
+      <Progress.Bar
+        style={styles.Bar}
         size={140}
         color={"#FFCA61"}
         thickness={6}
@@ -119,8 +119,8 @@ class Course extends Component {
       <Text style={styles.taskTitle}>
         听写 {numLearned} / {numToday}
       </Text>
-      <Progress.Circle
-        style={styles.circle}
+      <Progress.Bar
+        style={styles.Bar}
         size={140}
         color={colors.yellow}
         thickness={6}
@@ -134,8 +134,8 @@ class Course extends Component {
 
   renderReviewProgress() {
     return (<View style={styles.center}>
-      <Progress.Circle
-        style={styles.circle}
+      <Progress.Bar
+        style={styles.Bar}
         size={140}
         color={colors.yellow}
         thickness={6}
@@ -239,8 +239,8 @@ class Course extends Component {
         ButtonView = <ActivityIndicator />;
       } else {
         ButtonView = (<View style={{ alignItems: "center" }}>
-          <Progress.Circle
-            style={styles.circle}
+          <Progress.Bar
+            style={styles.Bar}
             size={140}
             color={colors.yellow}
             thickness={6}
@@ -306,8 +306,8 @@ const styles = StyleSheet.create({
     color: colors.textColor,
     fontSize: 18
   },
-  circle: {
-    marginVertical: 10
+  Bar: {
+    marginVertical: 20
   }
 });
 export default Course;

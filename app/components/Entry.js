@@ -99,17 +99,17 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderWidth: 1,
     borderColor: "#e1e8ee",
-    padding: 15,
+    padding: 5,
   },
   face: {
     flex: 1,
-    padding: 15,
+    padding: 20,
     alignItems: "center",
     justifyContent: "center"
   },
   back: {
     flex: 1,
-    padding: 15,
+    padding: 20,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -144,12 +144,11 @@ const styles = StyleSheet.create({
   },
   example: {
     paddingVertical: 5,
-    marginBottom: 5
-
+    marginBottom: 5,
   },
   exampleLine: {
     flexDirection: "row",
-    alignItems: "flex-end"
+    alignItems: "flex-end",
   },
   exampleIndex: {
     color: "#ccc",

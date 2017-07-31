@@ -20,7 +20,7 @@
   NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
   UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
   NSString *oldAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
-  NSString *newAgent = [oldAgent stringByAppendingString:@" io.souka - "];
+  NSString *newAgent = [oldAgent stringByAppendingString:@" io.souka/"];
   newAgent = [newAgent stringByAppendingString:version];
   NSDictionary *dictionnary = [[NSDictionary alloc] initWithObjectsAndKeys:newAgent, @"UserAgent", nil];
   [[NSUserDefaults standardUserDefaults] registerDefaults:dictionnary];

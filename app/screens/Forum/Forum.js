@@ -84,6 +84,9 @@ class ForumScreen extends Component {
         refreshing: false,
         hasMore: true
       });
+    }).catch((error) => {
+      console.log("handling error: ", error);
+      this.setState({ refreshing: false, hasMore: true });
     });
   }
   loadMore() {

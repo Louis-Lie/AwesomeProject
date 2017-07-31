@@ -10,11 +10,11 @@ import {
 import KeyboardSpacer from "react-native-keyboard-spacer";
 import { Button } from "react-native-elements";
 
-import { colors, window } from "../styles/common";
-import playSound, { sounds } from "../utils/soundPlayer";
-import TaskFinished from "../components/TaskFinished";
-import Volume from "../components/Volume";
-import Choice from "../components/Choice";
+import { colors, window } from "styles/common";
+import playSound, { sounds } from "utils/soundPlayer";
+import TaskFinished from "components/TaskFinished";
+import Volume from "components/Volume";
+import Choice from "components/Choice";
 
 class Dictation extends Component {
   constructor(props) {
@@ -118,7 +118,6 @@ class Dictation extends Component {
               placeholder="回想听到的单词"
               style={styles.input}
               maxLength={40}
-              autoFocus
               selectionColor={colors.textColor}
               returnKeyType="done"
               onFocus={Keyboard.dismiss}
@@ -143,7 +142,7 @@ class Dictation extends Component {
         <TouchableHighlight
           underlayColor="transparent"
           style={styles.audioFeedback}
-          onPress={this.props.nextTask}
+          onPress={() => { this.clearAnswer(); this.props.nextTask(); }}
         >
           <Text style={{ color: "#aaa" }}>音频有问题</Text>
         </TouchableHighlight>
@@ -185,8 +184,8 @@ const styles = StyleSheet.create({
     borderColor: "#FFCA61",
   },
   input: {
-    height: 40,
-    fontSize: 32,
+    height: 56,
+    fontSize: 28,
     color: "#546576",
   },
   volumeIcon: {

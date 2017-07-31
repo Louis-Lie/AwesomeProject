@@ -7,16 +7,17 @@ console.log("GET UA: ", UA);
 
 const instance = axios.create({
   baseURL: "https://souka.io",
-  timeout: 5000,
+  timeout: 3000,
   headers: {
     REFERER: "https://souka.io",
     Accept: "application/json",
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    "User-Agent": UA
   },
   transformResponse: [(data) => {
     console.log("fetch data --> ", JSON.parse(data));
     return JSON.parse(data);
-  }],
+  }]
 });
 
 instance.interceptors.request.use((config) => {
@@ -37,9 +38,15 @@ instance.interceptors.response.use(response => response, (error) => {
 
 
 const updateCSRF = () => {
-  CookieManager.getAll((err, res) => {
+  const HOME_URL = "https://souka.io/";
+  CookieManager.get(HOME_URL, (err, res) => {
     console.log("get all cookies: ", res, err);
-    instance.defaults.headers.common["X-CSRFToken"] = res.csrftoken.value;
+    let csrftoken = res.csrftoken;
+    if (csrftoken.value) {
+      // android
+      csrftoken = csrftoken.value;
+    }
+    instance.defaults.headers.common["X-CSRFToken"] = csrftoken;
   });
 };
 

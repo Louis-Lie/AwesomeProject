@@ -16,6 +16,7 @@ import * as Progress from "react-native-progress";
 import { colors } from "styles/common";
 import fetcher from "utils/fetcher";
 
+
 class Course extends Component {
   constructor(props) {
     super(props);
