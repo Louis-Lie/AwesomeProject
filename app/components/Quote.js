@@ -26,7 +26,12 @@ class Quote extends Component {
 
   render() {
     const quote = this.state.quote;
-    const source = [quote.author, quote.source].join("，");
+    let source = "";
+    if (quote.author && quote.source) {
+      source = [quote.author, quote.source].join("，");
+    } else {
+      source = quote.author || quote.source;
+    }
 
     return (
       <Card containerStyle={styles.card}>
