@@ -7,7 +7,7 @@ console.log("GET UA: ", UA);
 
 const instance = axios.create({
   baseURL: "https://souka.io",
-  timeout: 5000,
+  timeout: 3000,
   headers: {
     REFERER: "https://souka.io",
     Accept: "application/json",

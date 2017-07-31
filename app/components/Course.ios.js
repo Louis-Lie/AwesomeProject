@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import {
   ActivityIndicator,
   AppState,
-  Platform,
   Text,
   TouchableHighlight,
   StyleSheet,
@@ -17,10 +16,6 @@ import * as Progress from "react-native-progress";
 import { colors } from "styles/common";
 import fetcher from "utils/fetcher";
 
-const ProgressBar = Platform.select({
-  ios: () => Progress.Circle,
-  android: () => Progress.Bar
-})();
 
 class Course extends Component {
   constructor(props) {
@@ -105,7 +100,7 @@ class Course extends Component {
       <Text style={styles.taskTitle}>
         {taskTitle} {numLearned} / {numToday}
       </Text>
-      <ProgressBar
+      <Progress.Circle
         style={styles.circle}
         size={140}
         color={"#FFCA61"}
@@ -125,7 +120,7 @@ class Course extends Component {
       <Text style={styles.taskTitle}>
         听写 {numLearned} / {numToday}
       </Text>
-      <ProgressBar
+      <Progress.Circle
         style={styles.circle}
         size={140}
         color={colors.yellow}
@@ -140,7 +135,7 @@ class Course extends Component {
 
   renderReviewProgress() {
     return (<View style={styles.center}>
-      <ProgressBar
+      <Progress.Circle
         style={styles.circle}
         size={140}
         color={colors.yellow}
@@ -245,7 +240,7 @@ class Course extends Component {
         ButtonView = <ActivityIndicator />;
       } else {
         ButtonView = (<View style={{ alignItems: "center" }}>
-          <ProgressBar
+          <Progress.Circle
             style={styles.circle}
             size={140}
             color={colors.yellow}

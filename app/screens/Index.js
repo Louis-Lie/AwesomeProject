@@ -26,7 +26,8 @@ const RouteConfigs = {
 };
 const AppNavigator = TabNavigator(RouteConfigs, {
   lazy: true,
-
+  tabBarPosition: "bottom",
+  swipeEnabled: false,
   tabBarOptions: {
     activeTintColor: colors.tintColor,
   }
