@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   Bar: {
-    marginVertical: 10
+    marginVertical: 20
   }
 });
 export default Course;
