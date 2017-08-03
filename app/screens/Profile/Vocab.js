@@ -4,7 +4,7 @@ import {
   WebView,
   View,
 } from "react-native";
-
+import DeviceInfo from "react-native-device-info";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import { colors } from "styles/common";
@@ -28,7 +28,7 @@ class VocabScreen extends Component {
     return (
       <View style={styles.container}>
         <WebView
-          userAgent="io.souka"
+          userAgent={`${DeviceInfo.getUserAgent()}io.souka/${DeviceInfo.getVersion()}`}
           automaticallyAdjustContentInsets={false}
           style={styles.webView}
           source={{ uri: VOCAB_URL }}

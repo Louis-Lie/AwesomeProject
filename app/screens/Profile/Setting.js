@@ -143,6 +143,9 @@ class SettingScreen extends Component {
             </View>
             <View style={styles.row}>
               <RkTextInput
+                inputStyle={{
+                  height: 45
+                }}
                 label="用户名"
                 value={this.state.username}
                 rkType="right clear"
@@ -152,6 +155,9 @@ class SettingScreen extends Component {
             <View style={styles.row}>
               <RkTextInput
                 label="昵称"
+                inputStyle={{
+                  height: 45
+                }}
                 value={this.state.nickname}
                 onChangeText={text => this.setState({ nickname: text })}
                 rkType="right clear"
@@ -160,6 +166,9 @@ class SettingScreen extends Component {
             <View style={styles.row}>
               <RkTextInput
                 label="邮箱"
+                inputStyle={{
+                  height: 45
+                }}
                 value={this.state.email}
                 keyboardType="email-address"
                 onChangeText={text => this.setState({ email: text })}
