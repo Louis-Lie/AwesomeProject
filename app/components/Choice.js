@@ -24,7 +24,7 @@ class Choice extends Component {
   renderChoice(item) {
     return (
       <TouchableHighlight
-        key={item}
+        key={`${item}_${Date.now()}`}
         underlayColor="transparent"
         onPress={() => this.props.updateAnswer(item)}
       >
@@ -61,6 +61,7 @@ class Choice extends Component {
           ))
         }
         <TouchableHighlight
+          key={`back_${Date.now()}`}
           underlayColor="transparent"
           onPress={this.props.clearAnswer}
         >

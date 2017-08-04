@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {
+  Platform,
   StyleSheet,
   Text,
   View,
@@ -9,13 +10,18 @@ import { window } from "styles/common";
 
 
 class ProgressBar extends Component {
+
   render() {
     const index = this.props.index;
     const length = this.props.length;
     const width = `${(index * 100) / length}%`;
+    const zIndex = Platform.select({
+      ios: { zIndex: 100 },
+      android: { elevation: 0.1, }
+    });
 
     return (
-      <View style={styles.progressBar}>
+      <View style={[zIndex, styles.progressBar]}>
         <View style={[styles.progress, { width }]} />
         <Text style={styles.progressText}>
           {index}/{length}
@@ -30,7 +36,7 @@ const foregroundColor = "#FFCA61";
 
 const styles = StyleSheet.create({
   progressBar: {
-    zIndex: 1000,
+    flex: 0,
     alignItems: "center",
     justifyContent: "center",
     position: "absolute",

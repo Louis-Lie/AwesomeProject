@@ -75,7 +75,7 @@ class Dictation extends Component {
     if (answer === rightAnswer) {
       this.setState({ freeze: true, hintColor: colors.primaryColor, showAnswer: true });
       sounds.right_answer.play();
-      setTimeout(() => { this.clearInput(); this.props.nextTask(); }, 600);
+      setTimeout(() => { this.clearInput(); this.props.nextTask(); }, 800);
     } else if (checkWrong) {
       this.setState({ hintColor: colors.red, showAnswer: true });
       sounds.wrong_answer.play();
@@ -133,6 +133,7 @@ class Dictation extends Component {
           clearAnswer={this.clearAnswer}
         />
         <Button
+          key={`button_${Date.now()}`}
           style={{ width: window.width * 0.618, marginTop: 20 }}
           backgroundColor={colors.primaryColor}
           buttonStyle={{ borderRadius: 2 }}
@@ -140,6 +141,7 @@ class Dictation extends Component {
           title="想不起来"
         />
         <TouchableHighlight
+          key={`audioFeedback_${Date.now()}`}
           underlayColor="transparent"
           style={styles.audioFeedback}
           onPress={() => { this.clearAnswer(); this.props.nextTask(); }}

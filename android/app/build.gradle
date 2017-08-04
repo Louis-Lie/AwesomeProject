@@ -128,7 +128,6 @@ android {
 dependencies {
     compile project(':react-native-device-info')
     compile project(':react-native-image-picker')
-    compile project(':react-native-blur')
     compile project(':react-native-sound')
     compile project(':react-native-cookies')
     compile project(':react-native-vector-icons')

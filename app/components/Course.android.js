@@ -133,6 +133,8 @@ class Course extends Component {
   }
 
   renderReviewProgress() {
+    return null;
+    // android no cirle,
     return (<View style={styles.center}>
       <Progress.Bar
         style={styles.Bar}
