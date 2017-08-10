@@ -1,7 +1,5 @@
 # AwesomeProject
-An awesome project
-
-Demo for an awesome  project(an app of Japanese learning community)
+A simple demo react native project for a Japanese learning community.
 
 Download: 
 
