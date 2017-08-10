@@ -3,9 +3,11 @@ An awesome project
 
 Demo for an awesome  project(an app of Japanese learning community)
 
-Download:
+Download: 
 
-[![](https://linkmaker.itunes.apple.com/assets/shared/badges/zh-cht/appstore-lrg-513dfa9cea2b10efb09cbf38d8cb834a3aec771e41d6dfc273199a448420b91c.svg)](https://itunes.apple.com/cn/app/souka/id1261643669)
+[![](https://linkmaker.itunes.apple.com/assets/shared/badges/zh-cht/appstore-lrg-513dfa9cea2b10efb09cbf38d8cb834a3aec771e41d6dfc273199a448420b91c.svg)](https://itunes.apple.com/cn/app/souka/id1261643669) 
+
+<a href='https://play.google.com/store/apps/details?id=io.souka.tsubasa&hl=zh-cn&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='下载应用，请到 Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/zh-cn_badge_web_generic.png' height=60/></a>
 
 
 # Libraries used in this project
